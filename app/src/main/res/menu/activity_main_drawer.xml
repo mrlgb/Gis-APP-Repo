@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_collectsum"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="采集统计" />
+        <item
+            android:id="@+id/nav_pointsetting"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="点位设置" />
+        <item
+            android:id="@+id/nav_emptystorage"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="清理存储空间" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="建议反馈" />
+        <item
+            android:id="@+id/nav_switchuser"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="切换账号" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="关于" />
+    </group>
+
+    <item android:title="系统">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="分享" />
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_menu_send"
+                android:title="退出系统" />
+        </menu>
+    </item>
+
+</menu>

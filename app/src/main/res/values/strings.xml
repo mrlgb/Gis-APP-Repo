@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GisApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_search">Search</string>
+    <string name="sample_service_url">http://gis.ncgl.cn/arcgis/rest/services/201708251446JinAnQu/MapServer</string>
+    <string name="icon_user">点位采集</string>
+</resources>
