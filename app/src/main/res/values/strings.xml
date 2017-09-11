@@ -7,4 +7,8 @@
     <string name="action_search">Search</string>
     <string name="sample_service_url">http://gis.ncgl.cn/arcgis/rest/services/201708251446JinAnQu/MapServer</string>
     <string name="icon_user">点位采集</string>
+
+    <string name="load">加载中...</string>
+    <string name="version_name">GisAPP</string>
+    <string name="can_not_find_version_name">没找到当前版本号</string>
 </resources>

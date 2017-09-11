@@ -1,4 +1,4 @@
-package cn.edu.hfuu.gis.gisapp;
+package cn.edu.hfuu.gis.gisapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,12 +28,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.edu.hfuu.gis.gisapp.activity.SearchActivity;
+import cn.edu.hfuu.gis.gisapp.R;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
     private BottomSheetBehavior mBottomSheetBehavior;
     private View mBottomSheet;
     private GridView gv;
@@ -57,11 +57,14 @@ public class MainActivity extends AppCompatActivity
             "Water "
     };
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_main;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void initActivity(Bundle savedInstanceState) {
+        super.initActivity(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initToolBarAndSearchBar(toolbar);
@@ -105,9 +108,8 @@ public class MainActivity extends AppCompatActivity
 
         gv = (GridView) findViewById(R.id.gv);
         initBottomGridView();
-
-
     }
+
 
     private void initBottomGridView() {
         // Populate a List from Array elements
