@@ -43,19 +43,9 @@ public class MainActivity extends BaseActivity
     private MapView mMapView;
 
     private Button mSearchButton, add_button, del_button, hide_button;
-
-    private List<String> plantsList;
+    private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
-    private String[] plants = new String[]{
-            "Catalina",
-            "Cabinet ",
-            "Pale ",
-            "Pink ",
-            "Belle  ",
-            "Land ",
-            "Coast ",
-            "Water "
-    };
+
 
     @Override
     protected int getLayoutResId() {
@@ -113,11 +103,11 @@ public class MainActivity extends BaseActivity
 
     private void initBottomGridView() {
         // Populate a List from Array elements
-        plantsList = new ArrayList<String>(Arrays.asList(plants));
+        collectPointList = getApp().getCollectPointList();
 
         // Create a new ArrayAdapter
         gridViewArrayAdapter = new ArrayAdapter<String>
-                (this, R.layout.list_item_tag, plantsList);
+                (this, R.layout.list_item_tag, collectPointList);
 
         // Data bind GridView with ArrayAdapter (String Array elements)
         gv.setAdapter(gridViewArrayAdapter);
@@ -136,8 +126,8 @@ public class MainActivity extends BaseActivity
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemInGV(plantsList, gridViewArrayAdapter);
-                mBottomSheetBehavior.setPeekHeight(100 * (plantsList.size() / 3 + 1));
+                addItemInGV(collectPointList, gridViewArrayAdapter);
+                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
@@ -145,8 +135,8 @@ public class MainActivity extends BaseActivity
         del_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeItemInGV(plantsList, gridViewArrayAdapter);
-                mBottomSheetBehavior.setPeekHeight(100 * (plantsList.size() / 3 + 1));
+                removeItemInGV(collectPointList, gridViewArrayAdapter);
+                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });

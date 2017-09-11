@@ -23,6 +23,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class BaseActivity extends AppCompatActivity {
     protected   MainApplication app;
 
+    public MainApplication getApp() {
+        return app;
+    }
+
+    public void setApp(MainApplication app) {
+        this.app = app;
+    }
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int layoutResId = getLayoutResId();
