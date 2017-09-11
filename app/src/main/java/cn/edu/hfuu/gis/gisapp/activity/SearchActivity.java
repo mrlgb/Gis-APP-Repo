@@ -19,6 +19,7 @@ import cn.edu.hfuu.gis.gisapp.R;
 
 public class SearchActivity extends AppCompatActivity {
 
+    //add test commit
     private CoordinatorLayout mCoordinatorLayout;
     private LinearLayout mll_filter;
     private DrawerLayout mDrawer;
