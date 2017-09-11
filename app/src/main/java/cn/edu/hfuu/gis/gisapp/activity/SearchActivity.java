@@ -3,9 +3,14 @@ package cn.edu.hfuu.gis.gisapp.activity;
 import android.animation.Animator;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.widget.LinearLayout;
@@ -15,6 +20,8 @@ import cn.edu.hfuu.gis.gisapp.R;
 public class SearchActivity extends AppCompatActivity {
 
     private CoordinatorLayout mCoordinatorLayout;
+    private LinearLayout mll_filter;
+    private DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +29,8 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.container);
+        mDrawer = (DrawerLayout)findViewById(R.id.drawer_search);
+        mll_filter = (LinearLayout)findViewById(R.id.nav_right);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
         toolbar.setTitle("查询");
@@ -35,6 +44,13 @@ public class SearchActivity extends AppCompatActivity {
                 SearchActivity.this.onBackPressed();
             }
         });
+
+        //set size of slide right
+        DisplayMetrics dm=getResources().getDisplayMetrics();
+        int wd_width=dm.widthPixels;
+        DrawerLayout.LayoutParams layparams=(DrawerLayout.LayoutParams)mll_filter.getLayoutParams();
+        layparams.width=wd_width*3/4;
+        mll_filter.setLayoutParams(layparams);
     }
 
     /**
@@ -48,5 +64,26 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_query,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId=item.getItemId();
+
+        if(itemId==R.id.query_filter){
+            if(!mDrawer.isDrawerOpen(GravityCompat.END)){
+                mDrawer.openDrawer(GravityCompat.END);
+            }
+            return  true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
