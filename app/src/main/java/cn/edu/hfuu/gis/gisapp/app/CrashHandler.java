@@ -1,3 +1,5 @@
+package cn.edu.hfuu.gis.gisapp.app;
+
 import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
@@ -9,7 +11,7 @@ import cn.edu.hfuu.gis.gisapp.util.ToastUtil;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static CrashHandler INSTANCE = new CrashHandler();
-    public static final String TAG = "CrashHandler";
+    public static final String TAG = "cn.edu.hfuu.gis.gisapp.app.CrashHandler";
     private Context mContext;
     private Thread.UncaughtExceptionHandler mDefaultHandler;
 

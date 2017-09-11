@@ -18,7 +18,7 @@ public class MainApplication extends Application {
         super.onCreate();
         this.activityTaskManager = ActivityTaskManager.getInstance();
         this.httpMethods = HttpMethods.getInstance();
-//        CrashHandler.getInstance().init(this);
+//        cn.edu.hfuu.gis.gisapp.app.CrashHandler.getInstance().init(this);
     }
 
     public void managerActivity(Activity activity, boolean isFlag) {
