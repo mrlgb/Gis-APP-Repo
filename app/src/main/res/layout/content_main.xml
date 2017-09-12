@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="?attr/actionBarSize"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <!-- MapView -->
     <android.support.constraint.ConstraintLayout
@@ -61,6 +61,7 @@
             android:text="点位采集"
             android:textSize="16sp"
             android:textColor="#000000"
+            android:background="@android:color/background_light"
             android:drawableTop="@drawable/ic_menu_camera"
             style="@style/Widget.AppCompat.Button.Borderless"
             >
@@ -72,6 +73,7 @@
             android:text="路线采集"
             android:textSize="16sp"
             android:textColor="#000000"
+            android:background="@android:color/background_light"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_menu_gallery"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -84,6 +86,7 @@
             android:text="数据查询"
             android:textSize="16sp"
             android:textColor="#000000"
+            android:background="@android:color/background_light"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_menu_share"
             style="@style/Widget.AppCompat.Button.Borderless"

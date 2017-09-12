@@ -6,4 +6,8 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">96dp</dimen>
     <dimen name="x3">3dp</dimen>
+
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="micro_padding">4dp</dimen>
+    <dimen name="default_circle_size">250dp</dimen>
 </resources>

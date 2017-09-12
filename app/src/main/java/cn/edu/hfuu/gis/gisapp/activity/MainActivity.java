@@ -20,12 +20,11 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.edu.hfuu.gis.gisapp.R;
@@ -42,7 +41,8 @@ public class MainActivity extends BaseActivity
     private int count = 0;
     private MapView mMapView;
 
-    private Button mSearchButton, add_button, del_button, hide_button;
+    private Button mSearchButton;
+    private BootstrapButton showall_button, hide_button;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
 
@@ -88,9 +88,8 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.line_button_main).setOnClickListener(this);
         findViewById(R.id.query_button_main).setOnClickListener(this);
 //
-        add_button = (Button) findViewById(R.id.add_button);
-        del_button = (Button) findViewById(R.id.del_button);
-        hide_button = (Button) findViewById(R.id.hide_button);
+        showall_button = (BootstrapButton) findViewById(R.id.del_button);
+        hide_button = (BootstrapButton) findViewById(R.id.hide_button);
 
         mBottomSheet = findViewById(R.id.bottomSheet);
 
@@ -123,19 +122,19 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        add_button.setOnClickListener(new View.OnClickListener() {
+//        add_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addItemInGV(collectPointList, gridViewArrayAdapter);
+//                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
+//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            }
+//        });
+
+        showall_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addItemInGV(collectPointList, gridViewArrayAdapter);
-                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
-
-        del_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeItemInGV(collectPointList, gridViewArrayAdapter);
                 mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
