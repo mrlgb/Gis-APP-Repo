@@ -29,7 +29,14 @@
         <activity
             android:name=".activity.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.BridgeActivity"></activity>
+        <activity
+            android:name=".activity.BridgeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.Bridge2Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

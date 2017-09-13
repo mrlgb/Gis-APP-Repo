@@ -123,6 +123,10 @@ public class MainActivity extends BaseActivity
                     Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
                     startActivity(intent);
                 }
+                if(selectedItem.equals("隧道")){
+                    Intent intent = new Intent(MainActivity.this, Bridge2Activity.class);
+                    startActivity(intent);
+                }
             }
         });
 
