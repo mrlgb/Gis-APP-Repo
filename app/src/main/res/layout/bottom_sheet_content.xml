@@ -45,7 +45,7 @@
     </RelativeLayout>
     <View
         android:layout_width="fill_parent"
-        android:layout_height="20px"
+        android:layout_height="10px"
         android:id="@+id/spliter_view"
         android:layout_below="@id/relative_layout"
         android:background="@color/silver"  />
