@@ -22,7 +22,7 @@
             android:text="全部"
             app:bootstrapBrand="danger"
             app:roundedCorners="true"
-            android:id="@+id/del_button"
+            android:id="@+id/show_button"
 
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -32,7 +32,7 @@
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             style="@style/wrapping_button"
-            android:text="Hide"
+            android:text="x"
             app:bootstrapBrand="danger"
             app:roundedCorners="true"
             android:id="@+id/hide_button"

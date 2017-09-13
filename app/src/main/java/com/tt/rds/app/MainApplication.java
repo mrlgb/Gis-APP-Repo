@@ -17,7 +17,7 @@ public class MainApplication extends Application {
 
     private User user;
     private boolean useFilter = false;
-    private String[] plants = new String[]{
+    private String[] points_all = new String[]{
             "桥梁",
             "隧道",
             "渡口 ",
@@ -25,8 +25,17 @@ public class MainApplication extends Application {
             "交通标志",
             "公路收费站",
             "治超站点",
-            "广告排",
+            "广告牌",
             "道班"
+    };
+
+    private String[] points_normal = new String[]{
+            "桥梁",
+            "隧道",
+            "渡口 ",
+            "政界分界点 ",
+            "交通标志",
+            "公路收费站"
     };
 
     private List<String> collectPointList;
@@ -39,6 +48,21 @@ public class MainApplication extends Application {
         this.collectPointList = collectPointList;
     }
 
+    public void switchCollectPointList(boolean isAll){
+        this.collectPointList.clear();
+        if(isAll){
+            for(int i = 0;i < points_normal.length; i ++){
+                collectPointList.add(i,points_normal[i]);
+            }
+        }
+        else {
+            for(int i = 0; i < points_all.length; i ++){
+                collectPointList.add(i, points_all[i]);
+            }
+        }
+
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,7 +70,7 @@ public class MainApplication extends Application {
         this.httpMethods = HttpMethods.getInstance();
 //        CrashHandler.getInstance().init(this);
 
-        collectPointList = new ArrayList<String>(Arrays.asList(plants));
+        collectPointList = new ArrayList<String>(Arrays.asList(points_normal));
 
     }
 

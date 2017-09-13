@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.line_button_main).setOnClickListener(this);
         findViewById(R.id.query_button_main).setOnClickListener(this);
 //
-        showall_button = (BootstrapButton) findViewById(R.id.del_button);
+        showall_button = (BootstrapButton) findViewById(R.id.show_button);
         hide_button = (BootstrapButton) findViewById(R.id.hide_button);
 
         mBottomSheet = findViewById(R.id.bottomSheet);
@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity
         showall_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemInGV(collectPointList, gridViewArrayAdapter);
+                changeInGV(gridViewArrayAdapter);
                 mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
@@ -199,21 +199,23 @@ public class MainActivity extends BaseActivity
         mMapView.setMap(map);
     }
 
-    private void removeItemInGV(List<String> plantsList, ArrayAdapter<String> gridViewArrayAdapter) {
+    private void changeInGV( ArrayAdapter<String> gridViewArrayAdapter) {
         // Get the second item from ArrayAdapter
-        String secondItemText = plantsList.get(1);
-
-        // Remove/delete second item from ArrayAdapter
-        // Delete index position 1 item from ArrayAdapter
-        // ArrayAdapter is zero based index
-        plantsList.remove(1);
+        if(showall_button.getText().equals("全部")){
+            getApp().switchCollectPointList(false);
+            showall_button.setText("常用");
+        }else
+        {
+            showall_button.setText("全部");
+            getApp().switchCollectPointList(true);
+        }
 
         // Update the GridView
         gridViewArrayAdapter.notifyDataSetChanged();
 
         // Confirm the deletion
-        Toast.makeText(getApplicationContext(),
-                "Removed : " + secondItemText, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),
+//                "Removed : " + secondItemText, Toast.LENGTH_SHORT).show();
     }
 
     private void addItemInGV(List<String> plantsList, ArrayAdapter<String> gridViewArrayAdapter) {

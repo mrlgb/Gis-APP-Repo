@@ -2,9 +2,6 @@ package com.tt.rds.app.bean;
 
 import java.util.List;
 
-/**
- * Created by chenchen on 2017/8/3.
- */
 
 public class User {
 

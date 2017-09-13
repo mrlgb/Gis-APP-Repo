@@ -3,7 +3,7 @@ package com.tt.rds.app.bean;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by chenchen on 2017/8/3.
+ * Created by lgb on 2017/8/3.
  */
 
 public class UpdatPassword {
