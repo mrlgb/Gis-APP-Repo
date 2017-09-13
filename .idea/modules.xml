@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Gis-APP-Repro.iml" filepath="$PROJECT_DIR$/Gis-APP-Repro.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Gis-APP-Rero.iml" filepath="$PROJECT_DIR$/Gis-APP-Rero.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

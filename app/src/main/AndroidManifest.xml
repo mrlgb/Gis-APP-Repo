@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.edu.hfuu.gis.gisapp">
+    package="com.tt.rds.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,9 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".MainApplication">
+        android:name="com.tt.rds.app.MainApplication">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.tt.rds.app.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SearchActivity"
+            android:name="com.tt.rds.app.activity.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

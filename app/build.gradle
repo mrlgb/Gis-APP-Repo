@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "cn.edu.hfuu.gis.gisapp"
+        applicationId "com.tt.rds.app"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
