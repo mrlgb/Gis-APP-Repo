@@ -119,6 +119,10 @@ public class MainActivity extends BaseActivity
 
                 // Display the selected/clicked item text
                 Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+                if(selectedItem.equals("桥梁")){
+                    Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

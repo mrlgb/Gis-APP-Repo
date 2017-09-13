@@ -17,7 +17,6 @@ import com.tt.rds.app.R;
 
 public class SearchActivity extends AppCompatActivity {
 
-    //add test commit
     private CoordinatorLayout mCoordinatorLayout;
     private LinearLayout mll_filter;
     private DrawerLayout mDrawer;
@@ -32,9 +31,11 @@ public class SearchActivity extends AppCompatActivity {
         mll_filter = (LinearLayout)findViewById(R.id.nav_right);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
-        toolbar.setTitle("查询");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         // Handle Back Navigation :D
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
