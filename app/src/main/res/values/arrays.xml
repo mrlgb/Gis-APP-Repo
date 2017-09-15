@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_type">
+        <item>数据类型</item>
+        <item>基础路网</item>
+        <item>储备路网</item>
+
+    </string-array>
+    <string-array name="spinner_govern">
+        <item>行政等级</item>
+        <item>国道</item>
+        <item>省道</item>
+
+    </string-array>
+    <string-array name="spinner_country">
+        <item>所属乡镇</item>
+        <item>全部</item>
+        <item>木厂镇</item>
+
+    </string-array>
+</resources>

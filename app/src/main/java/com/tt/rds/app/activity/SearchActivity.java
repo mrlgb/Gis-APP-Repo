@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.tt.rds.app.R;
@@ -20,6 +21,7 @@ public class SearchActivity extends AppCompatActivity {
     private CoordinatorLayout mCoordinatorLayout;
     private LinearLayout mll_filter;
     private DrawerLayout mDrawer;
+    private Button bt_filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,8 @@ public class SearchActivity extends AppCompatActivity {
 
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.container);
         mDrawer = (DrawerLayout)findViewById(R.id.drawer_search);
-        mll_filter = (LinearLayout)findViewById(R.id.nav_right);
+        mll_filter = (LinearLayout)findViewById(R.id.ll_right_search);
+        bt_filter = (Button)findViewById(R.id.bt_filter_search);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
         toolbar.setTitle("");
@@ -51,6 +54,15 @@ public class SearchActivity extends AppCompatActivity {
         DrawerLayout.LayoutParams layparams=(DrawerLayout.LayoutParams)mll_filter.getLayoutParams();
         layparams.width=wd_width*3/4;
         mll_filter.setLayoutParams(layparams);
+
+        bt_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mDrawer.isDrawerOpen(GravityCompat.END)){
+                    mDrawer.openDrawer(GravityCompat.END);
+                }
+            }
+        });
     }
 
     /**
@@ -66,24 +78,5 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_query,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int itemId=item.getItemId();
-
-        if(itemId==R.id.query_filter){
-            if(!mDrawer.isDrawerOpen(GravityCompat.END)){
-                mDrawer.openDrawer(GravityCompat.END);
-            }
-            return  true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

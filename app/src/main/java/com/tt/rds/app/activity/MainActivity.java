@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity
     private int count = 0;
     private MapView mMapView;
 
-    private Button mSearchButton;
+    private Button mSearchButton,mDataQButton;
     private BootstrapButton showall_button, hide_button;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
@@ -78,6 +78,8 @@ public class MainActivity extends BaseActivity
 
             }
         });
+
+        mDataQButton = (Button) findViewById(R.id.query_button_main);
 
 
         initArcgisMap();
@@ -244,6 +246,9 @@ public class MainActivity extends BaseActivity
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
+            case R.id.query_button_main:
+                Intent intent = new Intent(MainActivity.this, DataQueryActivity.class);
+                startActivity(intent);
 //            case R.id.bottom_sheet_collapse:
 //                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 //                break;

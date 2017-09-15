@@ -11,4 +11,7 @@
     <string name="load">加载中...</string>
     <string name="version_name">GisAPP</string>
     <string name="can_not_find_version_name">没找到当前版本号</string>
+    <string name="title_activity_data_manage">DataManageActivity</string>
+    <string name="title_activity_data_query">DataQueryActivity</string>
+
 </resources>

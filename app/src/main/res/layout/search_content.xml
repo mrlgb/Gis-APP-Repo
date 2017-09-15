@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".activity.SearchActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/search_toolbar"
@@ -26,7 +27,66 @@
                 android:layout_gravity="center"
                 android:text="查询" />
         </android.support.v7.widget.Toolbar>
-    </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#aa000000" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.6"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:entries="@array/spinner_type"
+
+                >
+
+            </Spinner>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.6"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:entries="@array/spinner_govern"
+                >
+
+            </Spinner>
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.6"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:entries="@array/spinner_country">
+
+            </Spinner>
+            <Button
+                android:id="@+id/bt_filter_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:text="筛选"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+            </Button>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#aa000000" />
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
