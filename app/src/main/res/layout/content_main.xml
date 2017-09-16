@@ -30,16 +30,17 @@
 
         </com.esri.arcgisruntime.mapping.view.MapView>
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            style="@style/wrapping_button"
-            app:bootstrapBrand="secondary"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/buttonCancel"
+            android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:text="取消"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:text="取消"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="@+id/mapView"
@@ -47,68 +48,80 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            style="@style/wrapping_button"
-            app:bootstrapBrand="secondary"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/buttonSpliter"
+            android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
             android:text="分段"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="@+id/mapView"
             app:layout_constraintRight_toRightOf="@+id/mapView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.175" />
+            app:layout_constraintVertical_bias="0.2" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            style="@style/wrapping_button"
-            app:bootstrapBrand="secondary"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/buttonPause"
+            android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
             android:text="暂停"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="@+id/mapView"
             app:layout_constraintRight_toRightOf="@+id/mapView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintVertical_bias="0.3" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            style="@style/wrapping_button"
-            app:bootstrapBrand="secondary"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/buttonStop"
+            android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:text="结束"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:text="结束"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="@+id/mapView"
             app:layout_constraintRight_toRightOf="@+id/mapView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.325" />
+            app:layout_constraintVertical_bias="0.4" />
 
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/buttonClear"
+            android:theme="@style/OrangeButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="清除"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.901"
+            app:layout_constraintLeft_toLeftOf="@+id/mapView"
+            app:layout_constraintRight_toRightOf="@+id/mapView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.85"
+            tools:layout_editor_absoluteY="356dp" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            style="@style/wrapping_button"
-            app:bootstrapBrand="warning"
-            android:layout_width="86dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/buttonMyLocation"
+            android:theme="@style/OrangeButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
             android:text="我的位置"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
@@ -116,47 +129,6 @@
             app:layout_constraintRight_toRightOf="@+id/mapView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.95" />
-
-        <!--<com.beardedhen.androidbootstrap.BootstrapButton-->
-        <!--style="@style/wrapping_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:text="分段"-->
-        <!--android:textAlignment="center"-->
-        <!--app:layout_constraintVertical_bias="0.359"-->
-        <!--fancy:layout_constraintBottom_toBottomOf="parent"-->
-        <!--fancy:layout_constraintRight_toRightOf="@+id/mapView"-->
-        <!--fancy:layout_constraintTop_toTopOf="parent"-->
-        <!--fancy:layout_constraintVertical_bias="0.25"-->
-        <!--android:layout_marginRight="0dp" />-->
-
-        <!--<com.beardedhen.androidbootstrap.BootstrapButton-->
-        <!--style="@style/wrapping_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:text="暂停"-->
-        <!--android:textAlignment="center"-->
-        <!--app:layout_constraintVertical_bias="0.455"-->
-        <!--fancy:layout_constraintBottom_toBottomOf="parent"-->
-        <!--fancy:layout_constraintRight_toRightOf="@+id/mapView"-->
-        <!--fancy:layout_constraintTop_toTopOf="parent"-->
-        <!--fancy:layout_constraintVertical_bias="0.35"-->
-        <!--android:layout_marginRight="-11dp" />-->
-
-        <!--<com.beardedhen.androidbootstrap.BootstrapButton-->
-        <!--style="@style/wrapping_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:layout_marginRight="0dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:text="结束"-->
-        <!--android:textAlignment="center"-->
-        <!--app:layout_constraintVertical_bias="0.553"-->
-        <!--fancy:layout_constraintBottom_toBottomOf="parent"-->
-        <!--fancy:layout_constraintRight_toRightOf="@+id/mapView"-->
-        <!--fancy:layout_constraintTop_toTopOf="parent"-->
-        <!--fancy:layout_constraintVertical_bias="0.45" />-->
     </android.support.constraint.ConstraintLayout>
 
 
@@ -168,7 +140,7 @@
         android:layout_alignParentStart="true"
         android:orientation="horizontal">
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/collect_button_main"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
@@ -177,10 +149,10 @@
             android:background="@android:color/background_light"
             android:drawableTop="@drawable/ic_menu_camera"
             android:text="点位采集"
-            android:textColor="#000000"
-            android:textSize="16sp"></Button>
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/line_button_main"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
@@ -189,10 +161,10 @@
             android:background="@android:color/background_light"
             android:drawableTop="@drawable/ic_menu_gallery"
             android:text="路线采集"
-            android:textColor="#000000"
-            android:textSize="16sp"></Button>
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/query_button_main"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
@@ -201,8 +173,8 @@
             android:background="@android:color/background_light"
             android:drawableTop="@drawable/ic_menu_share"
             android:text="数据查询"
-            android:textColor="#000000"
-            android:textSize="16sp"></Button>
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
