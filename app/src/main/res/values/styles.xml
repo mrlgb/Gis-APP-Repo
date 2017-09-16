@@ -37,7 +37,7 @@
 
     <style name="OrangeButton" parent="AppTheme">
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
-        <item name="colorButtonNormal">@color/orangered</item>
+        <item name="colorButtonNormal">@color/orange</item>
     </style>
 
     <style name="SilverButton" parent="AppTheme">
