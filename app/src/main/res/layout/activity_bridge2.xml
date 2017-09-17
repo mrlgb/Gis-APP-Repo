@@ -68,12 +68,12 @@
                 android:gravity="center_vertical|end"
                 android:text="桥梁名称：" />
 
-            <EditText
+            <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_columnWeight="4"
                 android:gravity="center_vertical|start"
-                android:hint="请输入桥梁名称" />
+                />
 
             <TextView
                 android:layout_width="0dp"

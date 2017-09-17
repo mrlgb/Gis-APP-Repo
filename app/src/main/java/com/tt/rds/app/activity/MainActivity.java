@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -41,8 +40,8 @@ public class MainActivity extends BaseActivity
     private int count = 0;
     private MapView mMapView;
 
-    private Button mSearchButton,mDataQButton;
-    private BootstrapButton showall_button, hide_button;
+    private Button mSearchButton;
+    private Button showall_button, hide_button;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
 
@@ -79,8 +78,6 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        mDataQButton = (Button) findViewById(R.id.query_button_main);
-
 
         initArcgisMap();
 
@@ -90,8 +87,8 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.line_button_main).setOnClickListener(this);
         findViewById(R.id.query_button_main).setOnClickListener(this);
 //
-        showall_button = (BootstrapButton) findViewById(R.id.show_button);
-        hide_button = (BootstrapButton) findViewById(R.id.hide_button);
+        showall_button = (Button) findViewById(R.id.show_button);
+        hide_button = (Button) findViewById(R.id.hide_button);
 
         mBottomSheet = findViewById(R.id.bottomSheet);
 
@@ -245,10 +242,6 @@ public class MainActivity extends BaseActivity
                 Log.d(TAG, count + "");
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                break;
-            case R.id.query_button_main:
-                Intent intent = new Intent(MainActivity.this, DataQueryActivity.class);
-                startActivity(intent);
                 break;
 //            case R.id.bottom_sheet_collapse:
 //                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

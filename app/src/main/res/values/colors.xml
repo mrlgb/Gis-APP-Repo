@@ -6,7 +6,7 @@
 
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#c0c0c0</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4500</color>
 
     <color name="black">#000000</color><!--黑色 -->
     <color name="white">#FFFFFF</color><!--白色-->
