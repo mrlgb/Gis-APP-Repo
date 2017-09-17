@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_right_dq"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="match_parent"
     android:layout_gravity="right"
     android:fitsSystemWindows="true"
@@ -13,7 +13,96 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="过滤"
-        android:background="@android:color/darker_gray"
-        android:textSize="20sp"/>
+        android:text="筛选"
+        android:background="@color/whitesmoke"
+        android:textSize="16sp"
+        android:padding="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上报情况"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:padding="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <Button
+            android:id="@+id/bt_df_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已上报"
+            android:textSize="13sp"
+            android:layout_marginRight="10dp"
+            android:background="@color/whitesmoke"
+            />
+
+        <Button
+            android:id="@+id/bt_df_notcommit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未上报"
+            android:textSize="13sp"
+            android:background="@color/whitesmoke"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/darkgrey"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查询日期"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/whitesmoke"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="center">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:hint="上报时间"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/darkgrey" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:layout_marginLeft="15dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:hint="上报时间"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
 </LinearLayout>

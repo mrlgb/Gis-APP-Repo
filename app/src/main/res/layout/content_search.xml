@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_right_search"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="match_parent"
     android:layout_gravity="right"
     android:fitsSystemWindows="true"
@@ -13,7 +13,129 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="过滤"
-        android:background="@android:color/darker_gray"
-        android:textSize="20sp"/>
+        android:text="筛选"
+        android:background="@color/whitesmoke"
+        android:textSize="16sp"
+        android:padding="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="数据类型"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:padding="10dp"/>
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:columnCount="3"
+        app:rowCount="1">
+
+        <Button
+            android:id="@+id/bt_sf_nolimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不限"
+            android:textSize="13sp"
+            android:layout_marginRight="10dp"
+            android:background="@color/whitesmoke"
+            />
+        <Button
+            android:id="@+id/bt_sf_progm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="规划"
+            android:textSize="13sp"
+            android:layout_marginRight="10dp"
+            android:background="@color/whitesmoke"
+            />
+        <Button
+            android:id="@+id/bt_sf_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="计划"
+            android:textSize="13sp"
+            android:background="@color/whitesmoke"
+            />
+    </android.support.v7.widget.GridLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/darkgrey"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="路线/点位"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:padding="10dp"/>
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:columnCount="3"
+        app:rowCount="2"
+        >
+
+        <Button
+            android:id="@+id/bt_sf_road"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="路线"
+            android:textSize="13sp"
+            android:layout_margin="3dp"
+            android:background="@color/whitesmoke"
+
+            />
+        <Button
+            android:id="@+id/bt_sf_bridge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="桥梁"
+            android:textSize="13sp"
+            android:layout_margin="3dp"
+            android:background="@color/whitesmoke"
+            />
+        <Button
+            android:id="@+id/bt_sf_tunnel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="隧道"
+            android:textSize="13sp"
+            android:layout_margin="3dp"
+            android:background="@color/whitesmoke"
+            />
+        <Button
+            android:id="@+id/bt_sf_ferry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="渡口"
+            android:layout_margin="3dp"
+            android:background="@color/whitesmoke"
+            />
+        <Button
+            android:id="@+id/bt_sf_platform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="客运站点"
+            android:textSize="13sp"
+            android:layout_margin="3dp"
+            android:background="@color/whitesmoke"
+            />
+        <Button
+            android:id="@+id/bt_sf_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标志点"
+            android:textSize="13sp"
+            android:layout_margin="3dp"
+            android:background="@color/whitesmoke"
+            />
+    </android.support.v7.widget.GridLayout>
+
+
 </LinearLayout>
