@@ -141,7 +141,7 @@
         android:layout_alignParentStart="true">
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/collect_button_main"
+            android:id="@+id/BtnPointCollect_main"
             style="@style/SilverButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -153,7 +153,7 @@
             android:textSize="16sp"/>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/line_button_main"
+            android:id="@+id/BtnLineCollect_main"
             style="@style/SilverButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -165,7 +165,7 @@
             android:textSize="16sp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/query_button_main"
+            android:id="@+id/BtnQuery_main"
             style="@style/SilverButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

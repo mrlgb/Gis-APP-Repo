@@ -11,4 +11,21 @@
     <string name="load">加载中...</string>
     <string name="version_name">GisAPP</string>
     <string name="can_not_find_version_name">没找到当前版本号</string>
+
+
+
+    <!-- Exit confirmation -->
+    <string name="message_exit_confirmation">Do you really want to finish this track and close the app?</string>
+
+
+    <!-- Notification icon -->
+    <string name="notification_contenttext">is active</string>
+
+    <!-- Tracklist toasts and messagebox -->
+    <string name="card_message_delete_also_exported">Do you also want to delete all exported files of this track?</string>
+    <string name="card_message_delete_confirmation">Do you really want to delete this track?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="export_unable_to_write_file">Unable to write the file</string>
 </resources>
