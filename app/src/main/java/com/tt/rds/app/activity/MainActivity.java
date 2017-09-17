@@ -243,6 +243,11 @@ public class MainActivity extends BaseActivity
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
+            case R.id.query_button_main:
+                Log.d(TAG, "click data query button");
+                Intent intent=new Intent(MainActivity.this,DataQueryActivity.class);
+                startActivity(intent);
+                break;
 //            case R.id.bottom_sheet_collapse:
 //                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 //                break;
