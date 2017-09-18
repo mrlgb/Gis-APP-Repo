@@ -246,7 +246,7 @@ public class MainActivity extends BaseActivity
             case R.id.BtnQuery_main:
                 //
                 Log.d(TAG, "Click button query main");
-                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                Intent intent = new Intent(MainActivity.this,DataQueryActivity.class);
                 startActivity(intent);
                 break;
 //            case R.id.bottom_sheet_collapse:
@@ -269,7 +269,6 @@ public class MainActivity extends BaseActivity
 //            case R.id.hideall_button:
 //                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 //                break;
-
 
         }
     }
