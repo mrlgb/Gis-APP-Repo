@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import com.tt.rds.app.R;
 
 public class DataQueryActivity extends AppCompatActivity {
-
+    //add test commit
     private static final String TAG = DataQueryActivity.class.getSimpleName();
 
     Button bt_filter;
