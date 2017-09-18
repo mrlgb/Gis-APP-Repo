@@ -83,9 +83,9 @@ public class MainActivity extends BaseActivity
 
 
         //Implement click listeners
-        findViewById(R.id.collect_button_main).setOnClickListener(this);
-        findViewById(R.id.line_button_main).setOnClickListener(this);
-        findViewById(R.id.query_button_main).setOnClickListener(this);
+        findViewById(R.id.BtnPointCollect_main).setOnClickListener(this);
+        findViewById(R.id.BtnLineCollect_main).setOnClickListener(this);
+        findViewById(R.id.BtnQuery_main).setOnClickListener(this);
 //
         showall_button = (Button) findViewById(R.id.show_button);
         hide_button = (Button) findViewById(R.id.hide_button);
@@ -238,7 +238,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.collect_button_main:
+            case R.id.BtnLineCollect_main:
                 Log.d(TAG, count + "");
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
