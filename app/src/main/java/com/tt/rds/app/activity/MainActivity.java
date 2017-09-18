@@ -244,6 +244,7 @@ public class MainActivity extends BaseActivity
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.BtnQuery_main:
+                //
                 Log.d(TAG, "Click button query main");
                 Intent intent = new Intent(MainActivity.this,SearchActivity.class);
                 startActivity(intent);
