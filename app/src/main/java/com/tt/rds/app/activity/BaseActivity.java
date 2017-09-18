@@ -41,7 +41,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         applyKitKatTranslucency();
         ButterKnife.bind(this);
         app = (MainApplication) getApplication(); // 获得MainApplication对象
-        this.app.managerActivity(this, true);
         initActivity(savedInstanceState);
     }
 
@@ -105,7 +104,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (keyCode != 4) {
             return true;
         }
-        this.app.managerActivity(this, false);
         return false;
     }
 

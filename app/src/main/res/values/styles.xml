@@ -35,6 +35,12 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="StyledDialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="OrangeButton" parent="AppTheme">
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
         <item name="colorButtonNormal">@color/orange</item>

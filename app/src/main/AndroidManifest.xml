@@ -31,13 +31,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BridgeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".activity.Bridge2Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.DataQueryActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
