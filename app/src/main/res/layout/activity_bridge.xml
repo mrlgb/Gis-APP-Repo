@@ -46,6 +46,7 @@
 
             <EditText
                 android:layout_width="0dp"
+                android:id="@+id/Edt_BridgeName"
                 android:layout_height="wrap_content"
                 app:layout_columnWeight="4"
                 android:gravity="center_vertical|start"
@@ -75,10 +76,11 @@
 
             <EditText
                 android:layout_width="0dp"
+                android:id="@+id/Edt_BridgeNo"
                 android:layout_height="wrap_content"
                 app:layout_columnWeight="4"
                 android:gravity="center_vertical|start"
-                android:hint="请输入桥梁名称" />
+                android:hint="请输入桥梁编号" />
 
             <TextView
                 android:layout_width="0dp"

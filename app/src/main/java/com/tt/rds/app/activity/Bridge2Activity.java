@@ -36,19 +36,13 @@ public class Bridge2Activity extends BaseSaveActivity {
         });
     }
 
-
-    /**
-     * animate the views if we close the activity
-     */
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int itemId = item.getItemId();
 
         if (itemId == R.id.save_activity) {
-            ToastUtil.showToast(getApplicationContext(), TAG + "-save_activity");
+            ToastUtil.showToast(getApplicationContext(), TAG + "-save!");
             return true;
         }
 

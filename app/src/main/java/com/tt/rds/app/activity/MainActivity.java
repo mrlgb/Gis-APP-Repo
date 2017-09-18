@@ -238,7 +238,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.BtnLineCollect_main:
+            case R.id.BtnPointCollect_main:
                 Log.d(TAG, count + "");
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
