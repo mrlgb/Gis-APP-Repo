@@ -41,6 +41,12 @@
             android:name=".activity.Bridge2Activity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".activity.FerryActivity" />
+        <activity android:name=".activity.BoundaryPointActivity" />
+        <activity android:name=".activity.TunnelActivity" />
+        <activity android:name=".activity.SectionActivity" />
+        <activity android:name=".activity.BegincollectingActivity" />
+        <activity android:name=".activity.FinishcollectingActivity" />
     </application>
 
 </manifest>

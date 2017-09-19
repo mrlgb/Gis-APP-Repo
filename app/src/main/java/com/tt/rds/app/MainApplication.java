@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -52,6 +53,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MainApplication extends Application implements GpsStatus.Listener, LocationListener {
     //history
+    String[] normal ;
+    String[] all ;
     private HttpMethods httpMethods;
 
     private User user;
@@ -69,12 +72,12 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     public void switchCollectPointList(boolean isAll) {
         this.collectPointList.clear();
         if (isAll) {
-            for (int i = 0; i < ConstantValue.points_normal.length; i++) {
-                collectPointList.add(i, ConstantValue.points_normal[i]);
+            for (int i = 0; i < normal.length; i++) {
+                collectPointList.add(i, normal[i]);
             }
         } else {
-            for (int i = 0; i < ConstantValue.points_all.length; i++) {
-                collectPointList.add(i, ConstantValue.points_all[i]);
+            for (int i = 0; i < all.length; i++) {
+                collectPointList.add(i, all[i]);
             }
         }
 
@@ -305,8 +308,10 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        collectPointList = new ArrayList<String>(Arrays.asList(ConstantValue.points_normal));
+        Resources res = getResources();
+        normal = res.getStringArray(R.array.points_normal);
+        all = res.getStringArray(R.array.points_all);
+        collectPointList = new ArrayList<String>(Arrays.asList(normal));
 
         singleton = this;
 

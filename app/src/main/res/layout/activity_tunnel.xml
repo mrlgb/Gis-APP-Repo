@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TunnelActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tunner_toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="?attr/actionBarSize"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="隧道"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_below="@+id/tunner_toolbar">
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="1dip"
+            android:verticalSpacing="1dip"
+            app:columnCount="3"
+            app:rowCount="20">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="管理单位名称："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="3" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="例如：潜山县分局"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.5" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="隧道名称："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="3" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="被调查隧道的名称"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="隧道编号："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="以U开头，共5位，最后保留0"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="建成时间："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="隧道的建成时间（年份）"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="隧道长度："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="3" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="隧道进口处至出口处实际长度"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="隧道净高："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="隧道穹顶与路面间的实际距离"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="渡口类型："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="隧道内角间的实际距离"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="路线编码："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="路线邮编"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="路线序列号："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="2" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="001"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="所属乡镇："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <Spinner
+                android:id="@+id/spinnre3"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="经度："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="117.813971"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="纬度："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="31.5376067"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="采集人："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="例如：潜山县分局"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/star_color"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="采集单位："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="117.813971"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="采集时间："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="31.5376067"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="备注："
+
+                android:textSize="@dimen/info_text_size"
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=""
+                app:layout_columnWeight="0.25" />
+        </android.support.v7.widget.GridLayout>
+    </ScrollView>
+
+</RelativeLayout>

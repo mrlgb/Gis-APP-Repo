@@ -12,6 +12,27 @@
     <string name="version_name">GisAPP</string>
     <string name="can_not_find_version_name">没找到当前版本号</string>
 
+    <string-array name="points_normal">
+        <item>桥梁</item>
+        <item>隧道</item>
+        <item>渡口</item>
+        <item>政界分界点</item>
+        <item>交通标志</item>
+        <item>公路收费站</item>
+    </string-array>
+
+    <string-array name="points_all">
+        <item>桥梁</item>
+        <item>隧道</item>
+        <item>渡口</item>
+        <item>政界分界点</item>
+        <item>交通标志</item>
+        <item>公路收费站</item>
+        <item>治超站点</item>
+        <item>广告牌</item>
+        <item>道班</item>
+    </string-array>
+
 
 
     <!-- Exit confirmation -->

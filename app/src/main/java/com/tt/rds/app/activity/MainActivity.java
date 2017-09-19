@@ -123,9 +123,18 @@ public class MainActivity extends BaseActivity
                     startActivity(intent);
                 }
                 if(selectedItem.equals("隧道")){
-                    Intent intent = new Intent(MainActivity.this, Bridge2Activity.class);
+                    Intent intent = new Intent(MainActivity.this, TunnelActivity.class);
                     startActivity(intent);
                 }
+                if(selectedItem.equals("渡口")){
+                    Intent intent = new Intent(MainActivity.this, FerryActivity.class);
+                    startActivity(intent);
+                }
+                if(selectedItem.equals("政界分界点")){
+                    Intent intent = new Intent(MainActivity.this, BoundaryPointActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -243,11 +252,17 @@ public class MainActivity extends BaseActivity
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
+            case R.id.BtnLineCollect_main:
+                //
+                Log.d(TAG, "Click button Begin Line collect main");
+                Intent intent1 = new Intent(MainActivity.this,BegincollectingActivity.class);
+                startActivity(intent1);
+                break;
             case R.id.BtnQuery_main:
                 //
                 Log.d(TAG, "Click button query main");
-                Intent intent = new Intent(MainActivity.this,DataQueryActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(MainActivity.this,DataQueryActivity.class);
+                startActivity(intent2);
                 break;
 //            case R.id.bottom_sheet_collapse:
 //                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
