@@ -28,7 +28,7 @@ public class FinishcollectingActivity extends  BaseSaveActivity {
     protected void initActivity(Bundle savedInstanceState) {
         super.initActivity(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.ferryactivity_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.finishactivity_toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

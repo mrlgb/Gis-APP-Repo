@@ -31,7 +31,7 @@
         </com.esri.arcgisruntime.mapping.view.MapView>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/buttonCancel"
+            android:id="@+id/btnLineCancel"
             android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             app:layout_constraintVertical_bias="0.1" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/buttonSpliter"
+            android:id="@+id/btnAddspliter"
             android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             app:layout_constraintVertical_bias="0.2" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/buttonPause"
+            android:id="@+id/btnLinePause"
             android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
             app:layout_constraintVertical_bias="0.3" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/buttonStop"
+            android:id="@+id/btnLineStop"
             android:theme="@style/SilverButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
 
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/buttonClear"
+            android:id="@+id/btnLineClear"
             android:theme="@style/OrangeButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
             tools:layout_editor_absoluteY="356dp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/buttonMyLocation"
+            android:id="@+id/btnMyLocation"
             android:theme="@style/OrangeButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"

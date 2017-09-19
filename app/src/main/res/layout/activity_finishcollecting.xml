@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="开始采集"/>
+            android:text="结束采集"/>
     </android.support.v7.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:background="@color/white"
-        android:layout_below="@+id/ferryactivity_toolbar"
+        android:layout_below="@+id/finishactivity_toolbar"
         >
         <GridLayout
             android:layout_margin="10dp"
@@ -331,6 +331,14 @@
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center_horizontal|center_vertical"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/camera"
+                android:gravity="center_horizontal"
+                app:layout_column="0"
+                app:layout_columnSpan="3"
+                app:layout_gravity="center" />
         </GridLayout>
     </ScrollView>
 

@@ -791,7 +791,6 @@
                     android:text=" "
                     />
 
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
@@ -812,6 +811,14 @@
                     android:gravity="center_vertical|start"
                     android:text=" "
                     />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/camera"
+                    android:gravity="center_horizontal"
+                    app:layout_column="0"
+                    app:layout_columnSpan="3"
+                    app:layout_gravity="center" />
 
             </android.support.v7.widget.GridLayout>
 

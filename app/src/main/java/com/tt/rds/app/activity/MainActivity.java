@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity
 
     private Button mSearchButton;
     private Button showall_button, hide_button;
+    private Button cancelCollectBtn,addSpliterBtn,pauseCollectBtn,stopCollectBtn;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
 
@@ -86,6 +87,15 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.BtnPointCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnLineCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnQuery_main).setOnClickListener(this);
+
+        findViewById(R.id.btnLinePause).setOnClickListener(this);
+        findViewById(R.id.btnLineCancel).setOnClickListener(this);
+        findViewById(R.id.btnLineStop).setOnClickListener(this);
+        findViewById(R.id.btnAddspliter).setOnClickListener(this);
+
+
+        findViewById(R.id.btnLineClear).setOnClickListener(this);
+        findViewById(R.id.btnMyLocation).setOnClickListener(this);
 //
         showall_button = (Button) findViewById(R.id.show_button);
         hide_button = (Button) findViewById(R.id.hide_button);
@@ -117,7 +127,7 @@ public class MainActivity extends BaseActivity
                 String selectedItem = parent.getItemAtPosition(position).toString();
 
                 // Display the selected/clicked item text
-                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
                 if(selectedItem.equals("桥梁")){
                     Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
                     startActivity(intent);
@@ -264,26 +274,10 @@ public class MainActivity extends BaseActivity
                 Intent intent2 = new Intent(MainActivity.this,DataQueryActivity.class);
                 startActivity(intent2);
                 break;
-//            case R.id.bottom_sheet_collapse:
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//                break;
-//            case R.id.bottom_sheet_hide:
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//                break;
-//            case R.id.selecnormal_button:
-//                mBottomSheetBehavior.setPeekHeight(200);
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-////                gridLayout.removeAllViews();
-//                break;
-//            case R.id.selectall_button:
-
-            //
-//                mBottomSheetBehavior.setPeekHeight(100*(plantsList.size()/3+1));
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                break;
-//            case R.id.hideall_button:
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//                break;
+            case R.id.btnLineStop:
+                Log.d(TAG, "Click button stop main");
+                Intent intent3 = new Intent(MainActivity.this,FinishcollectingActivity.class);
+                startActivity(intent3);
 
         }
     }

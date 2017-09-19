@@ -381,6 +381,14 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             app:layout_columnWeight="0.25" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/camera"
+            android:gravity="center_horizontal"
+            app:layout_column="0"
+            app:layout_columnSpan="3"
+            app:layout_gravity="center" />
     </android.support.v7.widget.GridLayout>
     </ScrollView>
 
