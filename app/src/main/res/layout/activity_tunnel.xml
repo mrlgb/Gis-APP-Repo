@@ -217,7 +217,7 @@
                 android:gravity="center_vertical|start"
                 android:hint="隧道进口处至出口处实际长度"
                 android:textColorHint="#CECBCB"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 app:layout_columnWeight="4" />
 
             <TextView
@@ -284,7 +284,6 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical|end"
                 android:text="渡口类型："
-
                 android:textSize="@dimen/info_text_size"
                 app:layout_columnWeight="1.5" />
 
@@ -440,7 +439,6 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical|end"
                 android:text="经度："
-
                 android:textSize="@dimen/info_text_size"
                 app:layout_columnWeight="1.5" />
 

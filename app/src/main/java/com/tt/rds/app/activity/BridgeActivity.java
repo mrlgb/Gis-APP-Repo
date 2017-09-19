@@ -39,8 +39,8 @@ public class BridgeActivity extends BaseSaveActivity {
         });
 
         //------------------------------
-        edtBridgeName = (EditText) findViewById(R.id.Edt_BridgeName);
-        edtBridgeNo = (EditText) findViewById(R.id.Edt_BridgeNo);
+//        edtBridgeName = (EditText) findViewById(R.id.Edt_BridgeName);
+//        edtBridgeNo = (EditText) findViewById(R.id.Edt_BridgeNo);
 
     }
 
@@ -60,9 +60,9 @@ public class BridgeActivity extends BaseSaveActivity {
     //保存逻辑
     private void saveBridgeInfo2DB() {
         if (verifyInput()) {
-            InfoBridge bridge = new InfoBridge();
-            bridge.setName(edtBridgeName.getText().toString());
-            bridge.setNoID(edtBridgeNo.getText().toString());
+//            InfoBridge bridge = new InfoBridge();
+//            bridge.setName(edtBridgeName.getText().toString());
+//            bridge.setNoID(edtBridgeNo.getText().toString());
             ToastUtil.showToast(getApplicationContext(), TAG + "-save!");
         }
     }
