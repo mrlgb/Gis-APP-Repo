@@ -10,4 +10,9 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="micro_padding">4dp</dimen>
     <dimen name="default_circle_size">250dp</dimen>
+    
+    <dimen name="line_height">0.5dp</dimen>
+    
+    <dimen name="tabtitle_text_size">14sp</dimen>
+    <dimen name="info_text_size">16sp</dimen>
 </resources>

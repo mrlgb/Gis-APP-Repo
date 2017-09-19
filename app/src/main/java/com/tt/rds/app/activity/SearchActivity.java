@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.tt.rds.app.R;
 
@@ -27,6 +29,7 @@ public class SearchActivity extends AppCompatActivity{
     private CoordinatorLayout mCoordinatorLayout;
     private LinearLayout mll_filter;
     private DrawerLayout mDrawer;
+    private Spinner msp_dataType,msp_govern,msp_country;
     private Button mbt_filter;
     private Button mbt_nolimit,mbt_progm,mbt_plan;
     private Button mbt_road,mbt_bridge,mbt_tunnel,mbt_ferry,mbt_platform,mbt_mark;
@@ -111,8 +114,6 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             public void onDrawerOpened(View drawerView) {
                 drawerView.setClickable(true);
-
-                Log.d(TAG,"button clickable is "+mbt_nolimit.isClickable());
             }
 
             @Override
@@ -128,8 +129,31 @@ public class SearchActivity extends AppCompatActivity{
             }
         });
 
+        initSpinners();
+
     }
 
+    private void initSpinners(){
+        msp_dataType = (Spinner)findViewById(R.id.sp_datatype);
+        msp_govern = (Spinner)findViewById(R.id.sp_govern);
+        msp_country = (Spinner)findViewById(R.id.sp_country);
+
+        ArrayAdapter adapter_data= ArrayAdapter.createFromResource(this,
+                R.array.spinner_type,R.layout.spinner_item);
+        adapter_data.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        msp_dataType.setAdapter(adapter_data);
+
+        ArrayAdapter adapter_govern= ArrayAdapter.createFromResource(this,
+                R.array.spinner_govern,R.layout.spinner_item);
+        adapter_govern.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        msp_govern.setAdapter(adapter_govern);
+
+        ArrayAdapter adapter_country= ArrayAdapter.createFromResource(this,
+                R.array.spinner_country,R.layout.spinner_item);
+        adapter_country.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        msp_country.setAdapter(adapter_country);
+
+    }
     private void setOnClickListerForFilter(){
         //drawerlayout打开侧滑监听
         mbt_filter.setOnClickListener(new View.OnClickListener() {

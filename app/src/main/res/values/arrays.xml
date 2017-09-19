@@ -8,14 +8,27 @@
     </string-array>
     <string-array name="spinner_govern">
         <item>行政等级</item>
+        <item>全部</item>
         <item>国道</item>
         <item>省道</item>
+        <item>县道</item>
+        <item>乡道</item>
+        <item>村道</item>
 
     </string-array>
     <string-array name="spinner_country">
         <item>所属乡镇</item>
         <item>全部</item>
         <item>木厂镇</item>
+        <item>马头镇</item>
+        <item>东桥镇</item>
+        <item>张店镇</item>
+        <item>毛坦厂镇</item>
+        <item>东河口镇</item>
+        <item>双河镇</item>
+        <item>施桥镇</item>
+        <item>孙岗镇</item>
+
 
     </string-array>
 </resources>
