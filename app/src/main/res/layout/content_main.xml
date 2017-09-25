@@ -1,181 +1,184 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="?attr/actionBarSize"
     tools:context=".activity.MainActivity">
 
-    <!-- MapView -->
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="64dp">
+    <com.esri.arcgisruntime.mapping.view.MapView
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/BtnLineCollect_main"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp">
 
-        <com.esri.arcgisruntime.mapping.view.MapView
-            android:id="@+id/mapView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="4dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="4dp"
-            app:layout_constraintRight_toRightOf="parent">
+    </com.esri.arcgisruntime.mapping.view.MapView>
 
-        </com.esri.arcgisruntime.mapping.view.MapView>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnLineCancel"
+        android:theme="@style/SilverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="取消"
+        tools:layout_conversion_absoluteX="312dp"
+        tools:layout_conversion_absoluteY="102dp"
+        tools:layout_conversion_absoluteWidth="52dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        android:layout_marginTop="7dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnLineCancel"
-            android:theme="@style/SilverButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="取消"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="@+id/mapView"
-            app:layout_constraintRight_toRightOf="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnAddspliter"
+        android:theme="@style/SilverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="分段"
+        tools:layout_conversion_absoluteX="312dp"
+        tools:layout_conversion_absoluteY="140dp"
+        tools:layout_conversion_absoluteWidth="52dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/btnLineCancel" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnAddspliter"
-            android:theme="@style/SilverButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="分段"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="@+id/mapView"
-            app:layout_constraintRight_toRightOf="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnLinePause"
+        android:theme="@style/SilverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="暂停"
+        tools:layout_conversion_absoluteX="312dp"
+        tools:layout_conversion_absoluteY="179dp"
+        tools:layout_conversion_absoluteWidth="52dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddspliter" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnLinePause"
-            android:theme="@style/SilverButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="暂停"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="@+id/mapView"
-            app:layout_constraintRight_toRightOf="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnLineStop"
-            android:theme="@style/SilverButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="结束"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="@+id/mapView"
-            app:layout_constraintRight_toRightOf="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnLineStop"
+        android:theme="@style/SilverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="结束"
+        tools:layout_conversion_absoluteX="312dp"
+        tools:layout_conversion_absoluteY="217dp"
+        tools:layout_conversion_absoluteWidth="52dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/btnLinePause" />
 
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnLineClear"
-            android:theme="@style/OrangeButton"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="清除"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.901"
-            app:layout_constraintLeft_toLeftOf="@+id/mapView"
-            app:layout_constraintRight_toRightOf="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.85"
-            tools:layout_editor_absoluteY="356dp" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnLineClear"
+        android:theme="@style/OrangeButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="清除"
+        tools:layout_conversion_absoluteX="252dp"
+        tools:layout_conversion_absoluteY="395dp"
+        tools:layout_conversion_absoluteWidth="100dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnLineStop"
+        app:layout_constraintRight_toLeftOf="@+id/guideline" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnMyLocation"
-            android:theme="@style/OrangeButton"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="我的位置"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintLeft_toLeftOf="@+id/mapView"
-            app:layout_constraintRight_toRightOf="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
-    </android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnMyLocation"
+        android:theme="@style/OrangeButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="我的位置"
+        tools:layout_conversion_absoluteX="252dp"
+        tools:layout_conversion_absoluteY="435dp"
+        tools:layout_conversion_absoluteWidth="100dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/btnLineClear" />
 
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="64dp"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/BtnPointCollect_main"
+        style="@style/SilverButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/background_light"
+        android:drawableTop="@drawable/ic_menu_camera"
+        android:text="点位采集"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintRight_toLeftOf="@+id/BtnLineCollect_main"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/BtnLineCollect_main"
+        style="@style/SilverButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:background="@android:color/background_light"
+        android:drawableTop="@drawable/ic_menu_gallery"
+        android:text="路线采集"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/BtnPointCollect_main"
+        app:layout_constraintRight_toLeftOf="@+id/BtnQuery_main"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/BtnQuery_main"
+        style="@style/SilverButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:background="@android:color/background_light"
+        android:drawableTop="@drawable/ic_menu_share"
+        android:text="数据查询"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/BtnLineCollect_main"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="32dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="328dp" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline2"
+        app:layout_constraintGuide_end="58dp"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        tools:layout_editor_absoluteY="509dp"
+        tools:layout_editor_absoluteX="0dp" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/BtnPointCollect_main"
-            style="@style/SilverButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:drawableTop="@drawable/ic_menu_camera"
-            android:text="点位采集"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline3"
+        app:layout_constraintGuide_begin="90dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="90dp"
+        tools:layout_editor_absoluteX="0dp" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/BtnLineCollect_main"
-            style="@style/SilverButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:drawableTop="@drawable/ic_menu_gallery"
-            android:text="路线采集"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/BtnQuery_main"
-            style="@style/SilverButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:drawableTop="@drawable/ic_menu_share"
-            android:text="数据查询"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
