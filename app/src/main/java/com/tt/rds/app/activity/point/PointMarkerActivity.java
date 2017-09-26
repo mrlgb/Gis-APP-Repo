@@ -29,7 +29,7 @@ public class PointMarkerActivity extends BaseSaveActivity {
     ImageButton iBtnCamera;
 
     TextInputLayout input_name;
-
+    //----------Mine fields----------
 
     @Override
     protected int getLayoutResId() {
