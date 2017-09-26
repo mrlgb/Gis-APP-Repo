@@ -26,7 +26,11 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 import java.util.List;
 
+import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.common.EventBusMSG;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -45,6 +49,8 @@ public class MainActivity extends BaseActivity
     private Button cancelCollectBtn,addSpliterBtn,pauseCollectBtn,stopCollectBtn;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
+
+    final MainApplication gpsApplication = MainApplication.getInstance();
 
 
     @Override
@@ -265,8 +271,11 @@ public class MainActivity extends BaseActivity
             case R.id.BtnLineCollect_main:
                 //
                 Log.d(TAG, "Click button Begin Line collect main");
-                Intent intent1 = new Intent(MainActivity.this,BegincollectingActivity.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(MainActivity.this,BegincollectingActivity.class);
+//                startActivity(intent1);
+                final Boolean grs = gpsApplication.getRecording();
+                boolean newRecordingState = !grs;
+                gpsApplication.setRecording(newRecordingState);
                 break;
             case R.id.BtnQuery_main:
                 //
@@ -276,8 +285,13 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.btnLineStop:
                 Log.d(TAG, "Click button stop main");
-                Intent intent3 = new Intent(MainActivity.this,FinishcollectingActivity.class);
-                startActivity(intent3);
+//                Intent intent3 = new Intent(MainActivity.this,FinishcollectingActivity.class);
+//                startActivity(intent3);
+                gpsApplication.setNewTrackFlag(false);
+                gpsApplication.setRecording(false);
+                EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
+                Toast.makeText(this, "STOP Collecting", Toast.LENGTH_SHORT).show();
+                break;
 
         }
     }

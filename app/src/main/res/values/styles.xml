@@ -42,7 +42,7 @@
     </style>
 
     <style name="OrangeButton" parent="AppTheme">
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Small</item>
         <item name="colorButtonNormal">@color/orange</item>
     </style>
 
@@ -95,7 +95,7 @@
         <item name ="android:gravity">center</item>
         <item name ="android:layout_width">wrap_content</item>
         <item name ="android:layout_height">wrap_content</item>
-        <item name ="android:background">@drawable/camera</item>
+        <item name ="android:background">@drawable/camera_normal</item>
     </style>
 
 

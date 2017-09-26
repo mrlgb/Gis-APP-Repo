@@ -653,7 +653,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/camera"
+                    android:background="@drawable/camera_normal"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     app:layout_column="0"

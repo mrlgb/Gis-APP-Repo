@@ -10,7 +10,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/bridge_toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
