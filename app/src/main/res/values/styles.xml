@@ -55,17 +55,26 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name ="android:gravity">center_vertical|end</item>
+        <item name ="android:layout_height">wrap_content</item>
         <item name ="android:textSize">13sp</item>
         <item name ="android:textColor">@color/black</item>
     </style>
-    <style name="info_content_edittext">
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name ="android:background">@drawable/shape</item>
+
+    <style name="info_content_input">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name ="android:textColorHint">@color/black</item>
         <item name ="android:gravity">center_vertical|start</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:layout_width">wrap_content</item>
+        <item name ="android:layout_height">wrap_content</item>
+
+    </style>
+
+    <style name="info_content_edittext">
+        <item name ="android:gravity">center</item>
         <item name ="android:textColorHint">@color/saddlebrown</item>
         <item name ="android:textSize">13sp</item>
-        <item name ="android:layout_width">0dp</item>
         <item name ="android:layout_height">wrap_content</item>
     </style>
     <style name="info_content_spinner">
@@ -86,6 +95,10 @@
         <item name ="android:text">*</item>
         <item name ="android:layout_width">0dp</item>
         <item name ="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="info_x_no">
+
     </style>
 
     <style name="info_camera">

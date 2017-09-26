@@ -34,19 +34,20 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".activity.BridgeActivity"
+            android:name=".activity.point.BridgeActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".activity.Bridge2Activity"
+            android:name=".activity.point.Bridge2Activity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.FerryActivity" />
-        <activity android:name=".activity.BoundaryPointActivity" />
-        <activity android:name=".activity.TunnelActivity" />
+        <activity android:name=".activity.point.FerryActivity" />
+        <activity android:name=".activity.point.BoundaryPointActivity" />
+        <activity android:name=".activity.point.TunnelActivity" />
         <activity android:name=".activity.SectionActivity" />
-        <activity android:name=".activity.BegincollectingActivity" />
-        <activity android:name=".activity.FinishcollectingActivity" />
+        <activity android:name=".activity.path.BegincollectingActivity" />
+        <activity android:name=".activity.path.FinishcollectingActivity" />
+        <activity android:name=".activity.point.PointMarkerActivity" />
     </application>
 
 </manifest>
