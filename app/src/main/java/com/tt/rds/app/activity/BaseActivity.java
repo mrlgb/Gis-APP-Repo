@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             finish();
         }
         setContentView(layoutResId);
-        applyKitKatTranslucency();
+
         ButterKnife.bind(this);
         app = (MainApplication) getApplication(); // 获得MainApplication对象
         initActivity(savedInstanceState);
@@ -46,27 +46,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected int getLayoutResId() {
         return 0;
-    }
-
-    private void applyKitKatTranslucency() {
-        if (VERSION.SDK_INT >= 19) {
-            setTranslucentStatus(true);
-//            SystemBarTintManager mTintManager = new SystemBarTintManager(this);
-//            mTintManager.setStatusBarTintEnabled(true);
-//            mTintManager.setStatusBarTintResource(R.color.title);
-        }
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= 67108864;
-        } else {
-            winParams.flags &= -67108865;
-        }
-        win.setAttributes(winParams);
     }
 
     protected void initActivity(Bundle savedInstanceState) {
