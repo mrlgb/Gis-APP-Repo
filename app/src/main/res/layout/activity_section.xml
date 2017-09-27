@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SectionActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/sectionactivity_toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="路段"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp"
+        android:layout_below="@+id/sectionactivity_toolbar">
+
+
+        <LinearLayout
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#66000000"
+                android:text="路段地理信息:"
+                android:gravity="center|left" />
+
+
+
+
+            <android.support.v7.widget.GridLayout
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                app:columnCount="3"
+                android:horizontalSpacing="1dip"
+                app:rowCount="20"
+                android:verticalSpacing="1dip"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="变化点名称：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.5"
+                    android:gravity="center_vertical|start"
+                    android:text="*"
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="桩号：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="是否分界点：" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.5"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+            </android.support.v7.widget.GridLayout>
+            <TextView
+                android:layout_width="368dp"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|left"
+                android:background="#66000000"
+                android:text="路段基本信息：" />
+
+            <android.support.v7.widget.GridLayout
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                app:columnCount="3"
+                android:horizontalSpacing="1dip"
+                app:rowCount="20"
+                android:verticalSpacing="1dip"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="路段序列号：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="002" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.5"
+                    android:gravity="center_vertical|start"
+                    android:text="*"
+                    />
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="所属乡镇：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="请选择" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="*"
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="技术等级：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="二级公路" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="路面类型：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="请选择" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="车道分类：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="请选择" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="面层厚度：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="8" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="厘米 "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="路基宽度：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="10" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="米 "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="路面宽度：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="8" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="米 "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="设计车速：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="80" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="km/h "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="路段类型：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="是否城管路段：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="请选择" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="行政等级：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="请选择" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="断链类型：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="请选择" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="断头路：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="涵洞数量：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="座 "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="评定等级：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                     />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+
+
+
+            </android.support.v7.widget.GridLayout>
+
+
+
+            <TextView
+                android:layout_width="368dp"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|left"
+                android:background="#66000000"
+                android:text="路段辅助信息：" />
+
+
+
+
+            <android.support.v7.widget.GridLayout
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                app:columnCount="3"
+                android:horizontalSpacing="1dip"
+                app:rowCount="20"
+                android:verticalSpacing="1dip"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="8dp">
+
+
+
+
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="项目来源：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.5"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="重复路段：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                     />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="重复路段编码：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="重复路段序号：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="管养单位名称：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="养护里程：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="km"
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="可绿化里程：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="km "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="已绿化里程：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text="*"
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="是否晴雨通车：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="开工时间：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="点击选取时间"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="完工时间：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="点击选取时间"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="改建年度：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    android:hint="点击选取时间"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="建设状态：" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_columnWeight="2"
+                    android:gravity="center_vertical|end"
+                    android:text="备注：" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    app:layout_columnWeight="4"
+                    android:gravity="center_vertical|start"
+                    android:background="@drawable/settext"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="0.25"
+                    android:gravity="center_vertical|start"
+                    android:text=" "
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/camera_normal"
+                    android:gravity="center_horizontal"
+                    app:layout_column="0"
+                    app:layout_columnSpan="3"
+                    app:layout_gravity="center" />
+
+            </android.support.v7.widget.GridLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

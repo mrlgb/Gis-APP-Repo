@@ -12,6 +12,27 @@
     <string name="version_name">GisAPP</string>
     <string name="can_not_find_version_name">没找到当前版本号</string>
 
+    <string-array name="points_normal">
+        <item>桥梁</item>
+        <item>隧道</item>
+        <item>渡口</item>
+        <item>标志点</item>
+        <item>交通标志</item>
+        <item>公路收费站</item>
+    </string-array>
+
+    <string-array name="points_all">
+        <item>桥梁</item>
+        <item>隧道</item>
+        <item>渡口</item>
+        <item>标志点</item>
+        <item>交通标志</item>
+        <item>公路收费站</item>
+        <item>治超站点</item>
+        <item>广告牌</item>
+        <item>道班</item>
+    </string-array>
+
 
 
     <!-- Exit confirmation -->
@@ -28,4 +49,29 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="export_unable_to_write_file">Unable to write the file</string>
+
+    <!-- Units of Measurement -->
+    <string name="UM_m">m</string>
+    <string name="UM_km">km</string>
+    <string name="UM_m_s">m/s</string>
+    <string name="UM_km_h">km/h</string>
+    <string name="UM_ft">ft</string>
+    <string name="UM_mi">mi</string>
+    <string name="UM_fps">fps</string>
+    <string name="UM_mph">mph</string>
+    <string name="UM_nm">NM</string>
+    <string name="UM_kn">kn</string>
+
+    <!-- GPS Fix -->
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="altitude">Altitude</string>
+    <string name="speed">Speed</string>
+    <string name="direction">Direction</string>
+    <string name="accuracy">Accuracy</string>
+
+    <string name="north">N</string>
+    <string name="south">S</string>
+    <string name="east">E</string>
+    <string name="west">W</string>
 </resources>

@@ -26,7 +26,11 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 
 import java.util.List;
 
+import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.common.EventBusMSG;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -42,8 +46,11 @@ public class MainActivity extends BaseActivity
 
     private Button mSearchButton;
     private Button showall_button, hide_button;
+    private Button cancelCollectBtn,addSpliterBtn,pauseCollectBtn,stopCollectBtn;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
+
+    final MainApplication gpsApplication = MainApplication.getInstance();
 
 
     @Override
@@ -86,6 +93,15 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.BtnPointCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnLineCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnQuery_main).setOnClickListener(this);
+
+        findViewById(R.id.btnLinePause).setOnClickListener(this);
+        findViewById(R.id.btnLineCancel).setOnClickListener(this);
+        findViewById(R.id.btnLineStop).setOnClickListener(this);
+        findViewById(R.id.btnAddspliter).setOnClickListener(this);
+
+
+        findViewById(R.id.btnLineClear).setOnClickListener(this);
+        findViewById(R.id.btnMyLocation).setOnClickListener(this);
 //
         showall_button = (Button) findViewById(R.id.show_button);
         hide_button = (Button) findViewById(R.id.hide_button);
@@ -117,15 +133,24 @@ public class MainActivity extends BaseActivity
                 String selectedItem = parent.getItemAtPosition(position).toString();
 
                 // Display the selected/clicked item text
-                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
                 if(selectedItem.equals("桥梁")){
                     Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
                     startActivity(intent);
                 }
                 if(selectedItem.equals("隧道")){
-                    Intent intent = new Intent(MainActivity.this, Bridge2Activity.class);
+                    Intent intent = new Intent(MainActivity.this, TunnelActivity.class);
                     startActivity(intent);
                 }
+                if(selectedItem.equals("渡口")){
+                    Intent intent = new Intent(MainActivity.this, FerryActivity.class);
+                    startActivity(intent);
+                }
+                if(selectedItem.equals("政界分界点")){
+                    Intent intent = new Intent(MainActivity.this, BoundaryPointActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -243,32 +268,30 @@ public class MainActivity extends BaseActivity
                 mBottomSheetBehavior.setPeekHeight(200);
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
+            case R.id.BtnLineCollect_main:
+                //
+                Log.d(TAG, "Click button Begin Line collect main");
+//                Intent intent1 = new Intent(MainActivity.this,BegincollectingActivity.class);
+//                startActivity(intent1);
+                final Boolean grs = gpsApplication.getRecording();
+                boolean newRecordingState = !grs;
+                gpsApplication.setRecording(newRecordingState);
+                break;
             case R.id.BtnQuery_main:
                 //
                 Log.d(TAG, "Click button query main");
-                Intent intent = new Intent(MainActivity.this,DataQueryActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(MainActivity.this,DataQueryActivity.class);
+                startActivity(intent2);
                 break;
-//            case R.id.bottom_sheet_collapse:
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//                break;
-//            case R.id.bottom_sheet_hide:
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//                break;
-//            case R.id.selecnormal_button:
-//                mBottomSheetBehavior.setPeekHeight(200);
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-////                gridLayout.removeAllViews();
-//                break;
-//            case R.id.selectall_button:
-
-            //
-//                mBottomSheetBehavior.setPeekHeight(100*(plantsList.size()/3+1));
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                break;
-//            case R.id.hideall_button:
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//                break;
+            case R.id.btnLineStop:
+                Log.d(TAG, "Click button stop main");
+//                Intent intent3 = new Intent(MainActivity.this,FinishcollectingActivity.class);
+//                startActivity(intent3);
+                gpsApplication.setNewTrackFlag(false);
+                gpsApplication.setRecording(false);
+                EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
+                Toast.makeText(this, "STOP Collecting", Toast.LENGTH_SHORT).show();
+                break;
 
         }
     }

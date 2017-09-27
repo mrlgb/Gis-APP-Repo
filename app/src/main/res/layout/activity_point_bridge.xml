@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.point.BridgeActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/bridge_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="桥梁" />
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bridge_toolbar"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bridge_toolbar">
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="1dip"
+            android:paddingTop="16dp"
+            app:columnCount="3">
+
+            <include
+                layout="@layout/line_item"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                style="@style/info_title"
+                android:text="桥梁名称："
+                app:layout_columnWeight="1" />
+
+            <EditText
+                style="@style/info_content_edittext"
+                android:hint="被调查桥梁的名称"
+                app:layout_columnWeight="3.5" />
+
+            <TextView
+                style="@style/info_x"
+                app:layout_columnWeight="0.5" />
+
+            <include
+                layout="@layout/line_item"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                style="@style/info_title"
+                android:text="桥梁名称："
+                app:layout_columnWeight="1" />
+
+            <Spinner
+                style="@style/info_content_spinner"
+                android:hint="被调查桥梁的名称"
+                app:layout_columnWeight="3.5" />
+
+            <TextView
+                style="@style/info_x"
+                app:layout_columnWeight="0.5" />
+
+            <include
+                layout="@layout/line_item"
+                app:layout_columnSpan="3" />
+
+            <ImageButton
+                style="@style/info_camera"
+                app:layout_columnSpan="3"
+                app:layout_gravity="center"
+                android:background="@drawable/select_camera_item"
+                />
+
+        </android.support.v7.widget.GridLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

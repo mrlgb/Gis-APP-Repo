@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.point.BoundaryPointActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/boundarypoint_toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="政界分界点"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_below="@+id/boundarypoint_toolbar">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="1dip"
+        android:verticalSpacing="1dip"
+        app:columnCount="3"
+        app:rowCount="20">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:gravity="center_vertical|end"
+            android:text="管理单位名称："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="例：宿州市直属分局"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="*"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="时间："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="年份"
+            android:background="@drawable/shape"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="4" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="*"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:gravity="center_vertical|end"
+            android:text="分界点编号："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="例：0030"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="*"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="驶出行政区划："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="例：安徽省宿州市埇桥区"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text=" "
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="驶入行政区划："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="例：安徽省淮北市濉溪县"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="*"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="经度："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="117.813791"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text=" "
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="纬度："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="31.5376067"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text=" "
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="采集人："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="例：潜山县分局"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="*"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="采集单位："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="117.813791"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text=" "
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="采集时间："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:hint="31.5376067"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text=" "
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_column="0"
+            app:layout_columnSpan="3" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical|end"
+            android:text="备注："
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="1.5" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center_vertical|start"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape"
+            app:layout_columnWeight="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text=" "
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_columnWeight="0.25" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/camera_normal"
+            android:gravity="center_horizontal"
+            app:layout_column="0"
+            app:layout_columnSpan="3"
+            app:layout_gravity="center" />
+    </android.support.v7.widget.GridLayout>
+    </ScrollView>
+
+</RelativeLayout>

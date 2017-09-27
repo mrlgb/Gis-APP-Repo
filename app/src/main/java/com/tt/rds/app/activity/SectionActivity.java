@@ -1,32 +1,36 @@
 package com.tt.rds.app.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import com.tt.rds.app.R;
-import com.tt.rds.app.bean.InfoBridge;
 import com.tt.rds.app.util.ToastUtil;
 
 
-public class BridgeActivity extends BaseSaveActivity {
-    private static final String TAG = BridgeActivity.class.getSimpleName();
+/**
+ * Created by WK on 2017/9/18.
+ */
+
+public class SectionActivity extends BaseSaveActivity {
+
+    private static final String TAG = SectionActivity.class.getSimpleName();
     //----------Mine fields----------
-    EditText edtBridgeName;
-    EditText edtBridgeNo;
+//    EditText edtBridgeName;
+//    EditText edtBridgeNo;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_bridge;
+        return R.layout.activity_section;
     }
 
     @Override
     protected void initActivity(Bundle savedInstanceState) {
         super.initActivity(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.bridge_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.sectionactivity_toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -34,7 +38,7 @@ public class BridgeActivity extends BaseSaveActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BridgeActivity.this.onBackPressed();
+                SectionActivity.this.onBackPressed();
             }
         });
 
@@ -50,7 +54,7 @@ public class BridgeActivity extends BaseSaveActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.save_activity) {
-            saveBridgeInfo2DB();
+            saveInfo2DB();
             return true;
         }
 
@@ -58,7 +62,7 @@ public class BridgeActivity extends BaseSaveActivity {
     }
 
     //保存逻辑
-    private void saveBridgeInfo2DB() {
+    private void saveInfo2DB() {
         if (verifyInput()) {
 //            InfoBridge bridge = new InfoBridge();
 //            bridge.setName(edtBridgeName.getText().toString());

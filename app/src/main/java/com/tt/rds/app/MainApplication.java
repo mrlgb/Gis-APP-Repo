@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -52,6 +53,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MainApplication extends Application implements GpsStatus.Listener, LocationListener {
     //history
+    String[] normal ;
+    String[] all ;
     private HttpMethods httpMethods;
 
     private User user;
@@ -69,12 +72,12 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     public void switchCollectPointList(boolean isAll) {
         this.collectPointList.clear();
         if (isAll) {
-            for (int i = 0; i < ConstantValue.points_normal.length; i++) {
-                collectPointList.add(i, ConstantValue.points_normal[i]);
+            for (int i = 0; i < normal.length; i++) {
+                collectPointList.add(i, normal[i]);
             }
         } else {
-            for (int i = 0; i < ConstantValue.points_all.length; i++) {
-                collectPointList.add(i, ConstantValue.points_all[i]);
+            for (int i = 0; i < all.length; i++) {
+                collectPointList.add(i, all[i]);
             }
         }
 
@@ -255,58 +258,14 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     }
 
 
-    private class AsyncPrepareTracklistContextMenu extends Thread {
-
-        public AsyncPrepareTracklistContextMenu() {
-        }
-
-        public void run() {
-            isContextMenuShareVisible = false;
-            isContextMenuViewVisible = false;
-            isContextMenuEnabled = false;
-            ViewInApp = "";
-
-            final PackageManager pm = getPackageManager();
-
-            // Check permissions
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                isContextMenuEnabled = true;
-
-
-            // ----- menu share
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-            intent.setType("text/xml");
-            // Verify the intent will resolve to at least one activity
-            if ((intent.resolveActivity(pm) != null)) isContextMenuShareVisible = true;
-
-            // ----- menu view
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setType("application/vnd.google-earth.kml+xml");
-            ResolveInfo ri = pm.resolveActivity(intent, 0); // Find default app
-            if (ri != null) {
-                //Log.w("myApp", "[#] FragmentTracklist.java - Open with: " + ri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
-                List<ResolveInfo> lri = pm.queryIntentActivities(intent, 0);
-                //Log.w("myApp", "[#] FragmentTracklist.java - Found " + lri.size() + " viewers:");
-                for (ResolveInfo tmpri : lri) {
-                    //Log.w("myApp", "[#] " + ri.activityInfo.applicationInfo.packageName + " - " + tmpri.activityInfo.applicationInfo.packageName);
-                    if (ri.activityInfo.applicationInfo.packageName.equals(tmpri.activityInfo.applicationInfo.packageName)) {
-                        ViewInApp = ri.activityInfo.applicationInfo.loadLabel(pm).toString();
-                        //Log.w("myApp", "[#]                              DEFAULT --> " + tmpri.activityInfo.applicationInfo.loadLabel(getPackageManager()));
-                    }   //else Log.w("myApp", "[#]                                          " + tmpri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
-                }
-                isContextMenuViewVisible = true;
-            }
-            Log.w("myApp", "[#] GPSApplication.java - Tracklist ContextMenu prepared");
-        }
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        collectPointList = new ArrayList<String>(Arrays.asList(ConstantValue.points_normal));
+        Resources res = getResources();
+        normal = res.getStringArray(R.array.points_normal);
+        all = res.getStringArray(R.array.points_all);
+        collectPointList = new ArrayList<String>(Arrays.asList(normal));
 
         singleton = this;
 
@@ -406,24 +365,6 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
             }
             return;
         }
-//        if (msg.MSGType == EventBusMSG.EXPORT_TRACK) {
-//            long trackid = msg.id;
-//            Ex = new Exporter(trackid, prefExportKML, prefExportGPX, prefExportTXT, Environment.getExternalStorageDirectory() + "/GPSLogger");
-//            Ex.start();
-//            return;
-//        }
-//        if (msg.MSGType == EventBusMSG.SHARE_TRACK) {
-//            setShare(msg.id);
-//            Ex = new Exporter(Share, prefExportKML, prefExportGPX, prefExportTXT, Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
-//            Ex.start();
-//            return;
-//        }
-//        if (msg.MSGType == EventBusMSG.VIEW_TRACK) {
-//            setOpenInViewer(msg.id);
-//            Ex = new Exporter(OpenInViewer, true, false, false, Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
-//            Ex.start();
-//            return;
-//        }
         if (msg.MSGType == EventBusMSG.DELETE_TRACK) {
             AsyncTODO ast = new AsyncTODO();
             ast.TaskType = "TASK_DELETE_TRACK " + msg.id;
@@ -478,8 +419,6 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
         }
         if (msg == EventBusMSG.APP_RESUME) {
             //Log.w("myApp", "[#] GPSApplication.java - Received EventBusMSG.APP_RESUME");
-            AsyncPrepareTracklistContextMenu asyncPrepareTracklistContextMenu = new AsyncPrepareTracklistContextMenu();
-            asyncPrepareTracklistContextMenu.start();
             handler.removeCallbacks(r);                 // Cancel the switch-off handler
             setHandlerTimer(DEFAULTHANDLERTIMER);
             setGPSLocationUpdates(true);

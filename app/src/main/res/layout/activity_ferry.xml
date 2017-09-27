@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silver"
+    tools:context=".activity.point.FerryActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ferryactivity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="渡口" />
+    </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ferryactivity_toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:horizontalSpacing="1dip"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:verticalSpacing="1dip"
+            app:columnCount="3"
+            app:rowCount="20">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="管理单位名称："
+                app:layout_columnWeight="3" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="例如：潜山县分局"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.5" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="渡口名称："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="被调查渡口的名称"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="渡口编号："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="以D开头，共5位，最后保留0"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="建成时间："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="渡口的建成时间（年份）"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="渡口宽度："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="渡口的实际宽度"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="是否机动："
+                app:layout_columnWeight="1.5" />
+
+            <Spinner
+                android:id="@+id/spinnre1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="渡口类型："
+                app:layout_columnWeight="1.5" />
+
+            <Spinner
+                android:id="@+id/spinnre2"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="路线编码："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="路线邮编"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="路线序列号："
+                app:layout_columnWeight="2" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="001"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="所属乡镇："
+                app:layout_columnWeight="1.5" />
+
+            <Spinner
+                android:id="@+id/spinnre3"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColorHint="#CECBCB"
+                android:textSize="13dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="经度："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="117.813971"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="纬度："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="31.5376067"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="采集人："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="例如：潜山县分局"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text="*"
+                android:textColor="@color/red"
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="采集单位："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="117.813971"
+                android:textColorHint="@color/silver"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="采集时间："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:hint="31.5376067"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=" "
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|end"
+                android:text="备注："
+                app:layout_columnWeight="1.5" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                android:gravity="center_vertical|start"
+                android:textColorHint="#CECBCB"
+                android:textSize="15dp"
+                app:layout_columnWeight="4" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|start"
+                android:text=""
+                app:layout_columnWeight="0.25" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                app:layout_column="0"
+                app:layout_columnSpan="3"
+                app:layout_gravity="center">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/camera_normal"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    app:layout_column="0"
+                    app:layout_columnSpan="3"
+                    app:layout_gravity="center"></ImageButton>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/silver"
+                app:layout_column="0"
+                app:layout_columnSpan="3" />
+
+        </android.support.v7.widget.GridLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -42,7 +42,7 @@
     </style>
 
     <style name="OrangeButton" parent="AppTheme">
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Small</item>
         <item name="colorButtonNormal">@color/orange</item>
     </style>
 
@@ -51,6 +51,91 @@
         <item name="backgroundTint">@color/white</item>
     </style>
 
+    <style name="BottomButton" parent="AppTheme">
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name ="android:layout_width">wrap_content</item>
+        <item name ="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BottomSheetButton" parent="AppTheme">
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">14sp</item>
+        <item name ="android:layout_width">wrap_content</item>
+        <item name ="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="info_title">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name ="android:gravity">center_vertical|end</item>
+        <item name ="android:layout_height">wrap_content</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:textColor">@color/black</item>
+    </style>
+
+    <style name="info_content_input">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name ="android:textColorHint">@color/black</item>
+        <item name ="android:gravity">center_vertical|start</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:layout_width">wrap_content</item>
+        <item name ="android:layout_height">wrap_content</item>
+
+    </style>
+
+    <style name="info_content_edittext">
+        <item name ="android:gravity">center</item>
+        <item name ="android:textColorHint">@color/saddlebrown</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="info_content_edittext_read">
+        <item name ="android:gravity">center</item>
+        <item name ="android:textColorHint">@color/saddlebrown</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:editable">false</item>
+        <item name ="android:layout_height">wrap_content</item>
+    </style>
+    <style name="info_content_spinner">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name ="android:gravity">center_vertical|start</item>
+        <item name ="android:textColorHint">@color/saddlebrown</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:layout_width">0dp</item>
+        <item name ="android:layout_height">wrap_content</item>
+    </style>
+    <style name="info_x">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name ="android:gravity">center_vertical|start</item>
+        <item name ="android:textSize">13sp</item>
+        <item name ="android:textColor">@color/red</item>
+        <item name ="android:text">*</item>
+        <item name ="android:layout_width">0dp</item>
+        <item name ="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="info_x_no">
+
+    </style>
+
+    <style name="info_camera">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name ="android:layout_gravity">center</item>
+        <item name ="android:gravity">center</item>
+        <item name ="android:layout_width">wrap_content</item>
+        <item name ="android:layout_height">wrap_content</item>
+        <item name ="android:background">@drawable/camera_normal</item>
+    </style>
 
 
 </resources>
