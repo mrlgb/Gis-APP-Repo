@@ -11,7 +11,7 @@ import android.widget.Spinner;
 
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
-import com.tt.rds.app.bean.InfoPointMarker;
+//import com.tt.rds.app.bean.InfoPointMarker;
 import com.tt.rds.app.util.ToastUtil;
 
 
@@ -85,15 +85,15 @@ public class PointMarkerActivity extends BaseSaveActivity {
     private void saveBridgeInfo2DB() {
         if (verifyInput()) {
 
-            InfoPointMarker pMarker = new InfoPointMarker();
-            pMarker.setName(edtName.getText().toString());
-            pMarker.setCode(edtCode.getText().toString());
-            pMarker.setType(spinType.getSelectedItemPosition());
-            pMarker.setAdminDiv(spinAdminDiv.getSelectedItemPosition());
-            pMarker.setLongitude(23.001);
-            pMarker.setLatitude(123.001);
-            pMarker.setElevation(345.001);
-            pMarker.setRemarks(edtRemark.getText().toString());
+//            InfoPointMarker pMarker = new InfoPointMarker();
+//            pMarker.setName(edtName.getText().toString());
+//            pMarker.setCode(edtCode.getText().toString());
+//            pMarker.setType(spinType.getSelectedItemPosition());
+//            pMarker.setAdminDiv(spinAdminDiv.getSelectedItemPosition());
+//            pMarker.setLongitude(23.001);
+//            pMarker.setLatitude(123.001);
+//            pMarker.setElevation(345.001);
+//            pMarker.setRemarks(edtRemark.getText().toString());
 
 
         }

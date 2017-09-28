@@ -19,7 +19,7 @@ public class BridgeActivity extends BaseSaveActivity {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_bridge;
+        return R.layout.activity_point_bridge;
     }
 
     @Override
