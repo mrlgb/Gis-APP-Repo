@@ -1,10 +1,14 @@
 package com.tt.rds.app.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,10 +22,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.view.DrawStatus;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
+import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
+import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 import java.util.List;
@@ -51,6 +61,12 @@ public class MainActivity extends BaseActivity
     private ArrayAdapter<String> gridViewArrayAdapter;
 
     final MainApplication gpsApplication = MainApplication.getInstance();
+    private LocationDisplay mLocationDisplay;
+    private Spinner mSpinner;
+
+    private int requestCode = 2;
+    String[] reqPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
+            .ACCESS_COARSE_LOCATION};
 
 
     @Override
@@ -64,6 +80,7 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initToolBarAndSearchBar(toolbar);
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -219,6 +236,8 @@ public class MainActivity extends BaseActivity
     }
 
     private void initArcgisMap() {
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
         // inflate MapView from layout
         mMapView = (MapView) findViewById(R.id.mapView);
         // create a MapImageLayer with dynamically generated map images
@@ -229,6 +248,78 @@ public class MainActivity extends BaseActivity
         map.getOperationalLayers().add(mapImageLayer);
         // set the map to be displayed in this view
         mMapView.setMap(map);
+
+        // get the MapView's LocationDisplay
+        mLocationDisplay = mMapView.getLocationDisplay();
+
+
+        // Listen to changes in the status of the location data source.
+        mLocationDisplay.addDataSourceStatusChangedListener(new LocationDisplay.DataSourceStatusChangedListener() {
+            @Override
+            public void onStatusChanged(LocationDisplay.DataSourceStatusChangedEvent dataSourceStatusChangedEvent) {
+
+                // If LocationDisplay started OK, then continue.
+                if (dataSourceStatusChangedEvent.isStarted())
+                    return;
+
+                // No error is reported, then continue.
+                if (dataSourceStatusChangedEvent.getError() == null)
+                    return;
+
+                // If an error is found, handle the failure to start.
+                // Check permissions to see if failure may be due to lack of permissions.
+                boolean permissionCheck1 = ContextCompat.checkSelfPermission(MainActivity.this, reqPermissions[0]) ==
+                        PackageManager.PERMISSION_GRANTED;
+                boolean permissionCheck2 = ContextCompat.checkSelfPermission(MainActivity.this, reqPermissions[1]) ==
+                        PackageManager.PERMISSION_GRANTED;
+
+                if (!(permissionCheck1 && permissionCheck2)) {
+                    // If permissions are not already granted, request permission from the user.
+                    ActivityCompat.requestPermissions(MainActivity.this, reqPermissions, requestCode);
+                } else {
+                    // Report other unknown failure types to the user - for example, location services may not
+                    // be enabled on the device.
+                    String message = String.format("Error in DataSourceStatusChangedListener: %s", dataSourceStatusChangedEvent
+                            .getSource().getLocationDataSource().getError().getMessage());
+                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+
+                    // Update UI to reflect that the location display did not actually start
+                    mSpinner.setSelection(0, true);
+                }
+            }
+        });
+
+        //[DocRef: Name=Monitor map drawing, Category=Work with maps, Topic=Display a map]
+        mMapView.addDrawStatusChangedListener(new DrawStatusChangedListener() {
+            @Override
+            public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
+                if(drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS){
+                    progressBar.setVisibility(View.VISIBLE);
+                    Log.d("drawStatusChanged", "spinner visible");
+                }else if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED){
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        //[DocRef: END]
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Location permission was granted. This would have been triggered in response to failing to start the
+            // LocationDisplay, so try starting this again.
+            mLocationDisplay.startAsync();
+        } else {
+            // If permission was denied, show toast to inform user what was chosen. If LocationDisplay is started again,
+            // request permission UX will be shown again, option should be shown to allow never showing the UX again.
+            // Alternative would be to disable functionality so request is not shown again.
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.location_permission_denied), Toast
+                    .LENGTH_SHORT).show();
+
+        }
     }
 
     private void changeInGV( ArrayAdapter<String> gridViewArrayAdapter) {
@@ -291,6 +382,12 @@ public class MainActivity extends BaseActivity
                 gpsApplication.setRecording(false);
                 EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
                 Toast.makeText(this, "STOP Collecting", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnMyLocation:
+                //
+                mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
+                if (!mLocationDisplay.isStarted())
+                    mLocationDisplay.startAsync();
                 break;
 
         }
