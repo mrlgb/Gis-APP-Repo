@@ -26,8 +26,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
@@ -242,12 +247,21 @@ public class MainActivity extends BaseActivity
         mMapView = (MapView) findViewById(R.id.mapView);
         // create a MapImageLayer with dynamically generated map images
         ArcGISMapImageLayer mapImageLayer = new ArcGISMapImageLayer(getResources().getString(R.string.sample_service_url));
+//        ArcGISTiledLayer mapTiledLayer= new ArcGISTiledLayer("http://gis.ncgl.cn/arcgis/rest/services/yjcmapQS20160520/MapServer");
         // create an empty map instance
-        ArcGISMap map = new ArcGISMap();
+        ArcGISMap map = new ArcGISMap(Basemap.createTopographic());
+//        ArcGISMap map = new ArcGISMap();
         // add map image layer as operational layer
         map.getOperationalLayers().add(mapImageLayer);
         // set the map to be displayed in this view
         mMapView.setMap(map);
+
+
+        // create an initial viewpoint using an envelope (of two points, bottom left and top right)
+        Envelope envelope = new Envelope(new Point(12993828.5821309, 3706520.00454287, SpatialReferences.getWebMercator()),
+                new Point(13098547.3108814, 3773861.02646202, SpatialReferences.getWebMercator()));
+        //set viewpoint on mapview
+        mMapView.setViewpointGeometryAsync(envelope, 100.0);
 
         // get the MapView's LocationDisplay
         mLocationDisplay = mMapView.getLocationDisplay();
