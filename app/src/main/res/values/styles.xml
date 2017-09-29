@@ -137,5 +137,11 @@
         <item name ="android:background">@drawable/camera_normal</item>
     </style>
 
+    <style name="dot_style">
+        <item name="android:layout_width">12dp</item>
+        <item name="android:layout_height">12dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/dot_normal</item>
+    </style>
 
 </resources>
