@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity
     final MainApplication gpsApplication = MainApplication.getInstance();
     private LocationDisplay mLocationDisplay;
     private Spinner mSpinner;
+    double mScale = 0.0;
 
     private int requestCode = 2;
     String[] reqPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
@@ -121,6 +122,8 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.btnLineStop).setOnClickListener(this);
         findViewById(R.id.btnAddspliter).setOnClickListener(this);
 
+        findViewById(R.id.btnZoomIn).setOnClickListener(this);
+        findViewById(R.id.btnZoomOut).setOnClickListener(this);
 
         findViewById(R.id.btnLineClear).setOnClickListener(this);
         findViewById(R.id.btnMyLocation).setOnClickListener(this);
@@ -255,6 +258,8 @@ public class MainActivity extends BaseActivity
         map.getOperationalLayers().add(mapImageLayer);
         // set the map to be displayed in this view
         mMapView.setMap(map);
+
+        mScale=mMapView.getMapScale();
 
 
         // create an initial viewpoint using an envelope (of two points, bottom left and top right)
@@ -402,6 +407,14 @@ public class MainActivity extends BaseActivity
                 mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
                 if (!mLocationDisplay.isStarted())
                     mLocationDisplay.startAsync();
+                break;
+            case R.id.btnZoomIn:
+                mScale=mMapView.getMapScale();
+                mMapView.setViewpointScaleAsync(mScale*0.5);
+                break;
+            case R.id.btnZoomOut:
+                mScale=mMapView.getMapScale();
+                mMapView.setViewpointScaleAsync(mScale*2);
                 break;
 
         }
