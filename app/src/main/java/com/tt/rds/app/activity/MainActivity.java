@@ -1,7 +1,6 @@
 package com.tt.rds.app.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -30,7 +29,6 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.layers.ArcGISTiledLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
@@ -59,15 +57,13 @@ public class MainActivity extends BaseActivity
     private int count = 0;
     private MapView mMapView;
 
-    private Button mSearchButton;
     private Button showall_button, hide_button;
-    private Button cancelCollectBtn,addSpliterBtn,pauseCollectBtn,stopCollectBtn;
+    private Button cancelCollectBtn, addSpliterBtn, pauseCollectBtn, stopCollectBtn;
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
 
     final MainApplication gpsApplication = MainApplication.getInstance();
     private LocationDisplay mLocationDisplay;
-    private Spinner mSpinner;
     double mScale = 0.0;
 
     private int requestCode = 2;
@@ -83,35 +79,12 @@ public class MainActivity extends BaseActivity
     @Override
     protected void initActivity(Bundle savedInstanceState) {
         super.initActivity(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        initToolBarAndSearchBar(toolbar);
 
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        mSearchButton = (Button) findViewById(R.id.bSearch);
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
+        initToolBarAnDrawerLayout();
 
         initArcgisMap();
 
-
+        findViewById(R.id.bSearch).setOnClickListener(this);
         //Implement click listeners
         findViewById(R.id.BtnPointCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnLineCollect_main).setOnClickListener(this);
@@ -128,15 +101,7 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.btnLineClear).setOnClickListener(this);
         findViewById(R.id.btnMyLocation).setOnClickListener(this);
 //
-        showall_button = (Button) findViewById(R.id.show_button);
-        hide_button = (Button) findViewById(R.id.hide_button);
-
-        mBottomSheet = findViewById(R.id.bottomSheet);
-
         initBottomSheet();
-
-        gv = (GridView) findViewById(R.id.gv);
-        initBottomGridView();
     }
 
 
@@ -159,53 +124,29 @@ public class MainActivity extends BaseActivity
 
                 // Display the selected/clicked item text
 //                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
-                if(selectedItem.equals("桥梁")){
+                if (selectedItem.equals("桥梁")) {
                     Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
                     startActivity(intent);
                 }
-                if(selectedItem.equals("隧道")){
+                if (selectedItem.equals("隧道")) {
                     Intent intent = new Intent(MainActivity.this, TunnelActivity.class);
                     startActivity(intent);
                 }
-                if(selectedItem.equals("渡口")){
+                if (selectedItem.equals("渡口")) {
                     Intent intent = new Intent(MainActivity.this, FerryActivity.class);
                     startActivity(intent);
                 }
-                if(selectedItem.equals("政界分界点")){
+                if (selectedItem.equals("政界分界点")) {
                     Intent intent = new Intent(MainActivity.this, BoundaryPointActivity.class);
                     startActivity(intent);
                 }
 
             }
         });
-
-//        add_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addItemInGV(collectPointList, gridViewArrayAdapter);
-//                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
-//                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//            }
-//        });
-
-        showall_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeInGV(gridViewArrayAdapter);
-                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
-
-        hide_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            }
-        });
     }
 
     private void initBottomSheet() {
+        mBottomSheet = findViewById(R.id.bottomSheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
 
         //By default set BottomSheet Behavior as Collapsed and Height 0
@@ -241,6 +182,44 @@ public class MainActivity extends BaseActivity
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
+
+        gv = (GridView) findViewById(R.id.gv);
+        initBottomGridView();
+        showall_button = (Button) findViewById(R.id.show_button);
+        hide_button = (Button) findViewById(R.id.hide_button);
+        showall_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeInGV(gridViewArrayAdapter);
+                mBottomSheetBehavior.setPeekHeight(100 * (collectPointList.size() / 3 + 1));
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+
+        hide_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            }
+        });
+    }
+
+    private void changeInGV(ArrayAdapter<String> gridViewArrayAdapter) {
+        // Get the second item from ArrayAdapter
+        if (showall_button.getText().equals("全部")) {
+            getApp().switchCollectPointList(false);
+            showall_button.setText("常用");
+        } else {
+            showall_button.setText("全部");
+            getApp().switchCollectPointList(true);
+        }
+
+        // Update the GridView
+        gridViewArrayAdapter.notifyDataSetChanged();
+
+        // Confirm the deletion
+//        Toast.makeText(getApplicationContext(),
+//                "Removed : " + secondItemText, Toast.LENGTH_SHORT).show();
     }
 
     private void initArcgisMap() {
@@ -259,7 +238,7 @@ public class MainActivity extends BaseActivity
         // set the map to be displayed in this view
         mMapView.setMap(map);
 
-        mScale=mMapView.getMapScale();
+        mScale = mMapView.getMapScale();
 
 
         // create an initial viewpoint using an envelope (of two points, bottom left and top right)
@@ -301,9 +280,6 @@ public class MainActivity extends BaseActivity
                     String message = String.format("Error in DataSourceStatusChangedListener: %s", dataSourceStatusChangedEvent
                             .getSource().getLocationDataSource().getError().getMessage());
                     Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-
-                    // Update UI to reflect that the location display did not actually start
-                    mSpinner.setSelection(0, true);
                 }
             }
         });
@@ -312,10 +288,10 @@ public class MainActivity extends BaseActivity
         mMapView.addDrawStatusChangedListener(new DrawStatusChangedListener() {
             @Override
             public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-                if(drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS){
+                if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
                     progressBar.setVisibility(View.VISIBLE);
                     Log.d("drawStatusChanged", "spinner visible");
-                }else if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED){
+                } else if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
                     progressBar.setVisibility(View.INVISIBLE);
                 }
             }
@@ -341,35 +317,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void changeInGV( ArrayAdapter<String> gridViewArrayAdapter) {
-        // Get the second item from ArrayAdapter
-        if(showall_button.getText().equals("全部")){
-            getApp().switchCollectPointList(false);
-            showall_button.setText("常用");
-        }else
-        {
-            showall_button.setText("全部");
-            getApp().switchCollectPointList(true);
-        }
-
-        // Update the GridView
-        gridViewArrayAdapter.notifyDataSetChanged();
-
-        // Confirm the deletion
-//        Toast.makeText(getApplicationContext(),
-//                "Removed : " + secondItemText, Toast.LENGTH_SHORT).show();
-    }
-
-    private void addItemInGV(List<String> plantsList, ArrayAdapter<String> gridViewArrayAdapter) {
-        count++;
-        plantsList.add(plantsList.size(), "hello" + count);
-
-        // Update the GridView
-        gridViewArrayAdapter.notifyDataSetChanged();
-
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -390,8 +337,12 @@ public class MainActivity extends BaseActivity
             case R.id.BtnQuery_main:
                 //
                 Log.d(TAG, "Click button query main");
-                Intent intent2 = new Intent(MainActivity.this,DataQueryActivity.class);
+                Intent intent2 = new Intent(MainActivity.this, DataQueryActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.bSearch:
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnLineStop:
                 Log.d(TAG, "Click button stop main");
@@ -407,32 +358,35 @@ public class MainActivity extends BaseActivity
                 mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
                 if (!mLocationDisplay.isStarted())
                     mLocationDisplay.startAsync();
+                else {
+                    mLocationDisplay.stop();
+                }
                 break;
             case R.id.btnZoomIn:
-                mScale=mMapView.getMapScale();
-                mMapView.setViewpointScaleAsync(mScale*0.5);
+                mScale = mMapView.getMapScale();
+                mMapView.setViewpointScaleAsync(mScale * 0.5);
                 break;
             case R.id.btnZoomOut:
-                mScale=mMapView.getMapScale();
-                mMapView.setViewpointScaleAsync(mScale*2);
+                mScale = mMapView.getMapScale();
+                mMapView.setViewpointScaleAsync(mScale * 2);
                 break;
 
         }
     }
 
-
-    public static int dpToPx(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-
-    public void initToolBarAndSearchBar(Toolbar toolbar) {
+    public void initToolBarAnDrawerLayout() {
         //设置我们的ToolBar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
-
 
     @Override
     public void onBackPressed() {
