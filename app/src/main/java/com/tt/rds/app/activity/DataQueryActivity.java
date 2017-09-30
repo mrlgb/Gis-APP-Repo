@@ -1,5 +1,6 @@
 package com.tt.rds.app.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.usersetting.PointSetActivity;
 
 public class DataQueryActivity extends AppCompatActivity {
     //add test commit
@@ -30,21 +32,9 @@ public class DataQueryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dataquery_main);
 
+        initToolBar();
         initViews();
         setOnClickListerForFilter();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataQueryActivity.this.onBackPressed();
-
-            }
-        });
 
         DisplayMetrics dm=getResources().getDisplayMetrics();
         int wd_width=dm.widthPixels;
@@ -53,6 +43,19 @@ public class DataQueryActivity extends AppCompatActivity {
         ll_filter_dq.setLayoutParams(layparams);
 
 
+    }
+
+    private void initToolBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataQueryActivity.this.onBackPressed();
+            }
+        });
     }
 
     private void initViews() {
