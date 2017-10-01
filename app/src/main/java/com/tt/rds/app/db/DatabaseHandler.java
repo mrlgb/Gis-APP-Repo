@@ -26,6 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.util.Log;
 
+import com.tt.rds.app.bean.Constant;
 import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.LatLng;
@@ -1005,13 +1006,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + TABLE_POINTTYPE;
         Cursor cursor = db.rawQuery(query, null);
+        int i=0;
         while(cursor.moveToNext()){
-            String ptname=cursor.getString(1);
+            String ptname= ConstantValue.points_all[i];
             int ptusual=cursor.getInt(2);
             PointType pt_tmp=new PointType();
             pt_tmp.setName(ptname);
             pt_tmp.setUsually(ptusual);
             points.add(pt_tmp);
+            i++;
         }
         return  points;
 
