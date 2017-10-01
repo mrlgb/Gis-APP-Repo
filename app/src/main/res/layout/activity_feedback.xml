@@ -34,26 +34,30 @@
             android:layout_marginTop="10dp"
             android:text="建议："
             android:textColor="@color/black"
-            android:textSize="@dimen/info_text_size"/>
+            android:textSize="18sp"/>
+
         <EditText
             android:id="@+id/fb_content"
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
             android:background="@drawable/shape"
-            android:textSize="@dimen/info_text_size"
-            android:hint="非常感谢您的建议与反馈，这将有助于我们改进与完善产品！"/>
+            android:hint="非常感谢您的建议与反馈，这将有助于我们改进与完善产品！"
+            android:textSize="@dimen/info_text_size" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="@dimen/info_text_size"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:text="联系方式：" />
         <EditText
             android:id="@+id/fb_contact"
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:background="@drawable/shape"
             android:textSize="@dimen/info_text_size"
             android:hint="请留下您的联系方式（QQ/Email/电话），方便我们联系您！"/>
@@ -62,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="@dimen/info_text_size"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:text="评分区：" />
         <RatingBar
@@ -72,6 +76,23 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="版权所有：安徽省通途信息技术有限公司"
+        android:layout_gravity="center"
+        android:textSize="@dimen/info_text_size"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="服务热线：0551-65371656，0551-65371658"
+        android:textSize="@dimen/info_text_size"
+        android:layout_marginTop="5dp"/>
 
 
 </LinearLayout>
