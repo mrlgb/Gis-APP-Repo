@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tt.rds.app.activity.usersetting.CollectStaticActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Light" >
+        <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="采集统计" />
+    </android.support.v7.widget.Toolbar>
+
+    <RadioGroup
+        android:id="@+id/cs_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <RadioButton
+            android:id="@+id/cs_rb_week"
+            style="@style/radio_style"
+            android:checked="true"
+            android:text="周"
+            android:background="@drawable/select_bt_left_selected"/>
+        <RadioButton
+            android:id="@+id/cs_rb_month"
+            style="@style/radio_style"
+            android:text="月"
+            android:background="@drawable/select_bt_middle_selected"/>
+        <RadioButton
+            android:id="@+id/cs_rb_year"
+            style="@style/radio_style"
+            android:text="年"
+            android:background="@drawable/select_bt_middle_selected"/>
+        <RadioButton
+            android:id="@+id/cs_rb_all"
+            style="@style/radio_style"
+            android:text="总"
+            android:background="@drawable/select_bt_right_selected"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/cs_tv_area"
+        style="@style/text_p_common"
+        android:layout_margin="10dp"
+        android:text="本周"
+        />
+
+    <include
+        layout="@layout/line_item_thin"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/cs_tv_length"
+            style="@style/text_p_common"
+            android:text="525"
+            android:textSize="25sp"
+            android:gravity="bottom"/>
+
+        <TextView
+            style="@style/text_p_common"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:text="km"
+            android:gravity="bottom"/>
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/cs_chart"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#00FFFFFF">
+
+    </com.github.mikephil.charting.charts.BarChart>
+
+    <include
+        layout="@layout/line_item_thin"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        >
+        <TextView
+            style="@style/text_p_common"
+            android:drawableLeft="@drawable/ic_clock_32"
+            android:drawablePadding="10dp"
+            android:layout_gravity="center_vertical"
+            android:text="时长"/>
+
+        <TextView
+            android:id="@+id/cs_tv_time"
+            style="@style/text_p_common"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:text="4:46:35"/>
+    </LinearLayout>
+    <include
+        layout="@layout/line_item_thin"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            style="@style/text_p_common"
+            android:drawableLeft="@drawable/ic_speed_32"
+            android:drawablePadding="10dp"
+            android:layout_gravity="center_vertical"
+            android:text="平均速度"/>
+
+        <TextView
+            android:id="@+id/cs_tv_speed"
+            style="@style/text_p_common"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:text="40km/h"/>
+    </LinearLayout>
+    <include
+        layout="@layout/line_item_thin"
+        />
+
+</LinearLayout>

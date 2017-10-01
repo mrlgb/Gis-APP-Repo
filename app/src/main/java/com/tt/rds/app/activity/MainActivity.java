@@ -42,6 +42,7 @@ import java.util.List;
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
+import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.common.EventBusMSG;
@@ -430,7 +431,9 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_collectsum) {
-            // Handle the camera action
+            Log.d(TAG,"Launch CollectStaticActivity");
+            Intent intent = new Intent(MainActivity.this, CollectStaticActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_pointsetting) {
             Log.d(TAG,"Launch PointSetActivity");
             Intent intent = new Intent(MainActivity.this, PointSetActivity.class);

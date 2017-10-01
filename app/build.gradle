@@ -49,5 +49,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     //
     compile 'com.android.support:gridlayout-v7:26+'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     testCompile 'junit:junit:4.12'
 }
