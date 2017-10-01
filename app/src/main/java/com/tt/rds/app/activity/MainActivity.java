@@ -41,6 +41,7 @@ import java.util.List;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.usersetting.FeedbackActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.common.EventBusMSG;
 
@@ -430,12 +431,16 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_collectsum) {
             // Handle the camera action
         } else if (id == R.id.nav_pointsetting) {
+            Log.d(TAG,"Launch PointSetActivity");
             Intent intent = new Intent(MainActivity.this, PointSetActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_emptystorage) {
 
         } else if (id == R.id.nav_feedback) {
+            Log.d(TAG,"Launch FeedBackActivity");
+            Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_switchuser) {
 

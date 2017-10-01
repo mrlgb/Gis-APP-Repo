@@ -34,7 +34,6 @@
     </string-array>
 
 
-
     <!-- Exit confirmation -->
     <string name="message_exit_confirmation">Do you really want to finish this track and close the app?</string>
 
