@@ -318,6 +318,7 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     @Override
     public void onTerminate() {
         Log.w("myApp", "[#] GPSApplication.java - onTerminate");
+        GPSDataBase.close();
         EventBus.getDefault().unregister(this);
         StopAndUnbindGPSService();
         super.onTerminate();
