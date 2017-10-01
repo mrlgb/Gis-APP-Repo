@@ -52,12 +52,15 @@
         </activity>
         <activity
             android:name=".activity.usersetting.PointSetActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.usersetting.FeedbackActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.usersetting.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.usersetting.ShareActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
 
         </activity>
     </application>

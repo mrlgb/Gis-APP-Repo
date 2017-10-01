@@ -41,6 +41,7 @@ import java.util.List;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.common.EventBusMSG;
@@ -445,6 +446,9 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_switchuser) {
 
         } else if (id == R.id.nav_about) {
+            Log.d(TAG,"Launch AboutActivity");
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
 
         }
 
