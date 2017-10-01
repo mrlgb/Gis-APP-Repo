@@ -24,7 +24,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+import android.util.Log;
 
+import com.tt.rds.app.bean.PointType;
+import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.LatLng;
 import com.tt.rds.app.common.LocationExtended;
 import com.tt.rds.app.common.Track;
@@ -48,6 +51,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_LOCATIONS = "locations";
     private static final String TABLE_TRACKS = "tracks";
     private static final String TABLE_PLACEMARKS = "placemarks";
+    private static final String TABLE_POINTTYPE = "pointtypes";
 
     // ----------------------------------------------------------------------- Common Columns names
     private static final String KEY_ID = "id";
@@ -125,6 +129,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String KEY_TRACK_VALIDMAP = "validmap";
 
+    // ---------------------------------------------------------------------------- pointstates
+    private static final String KEY_POINT_USERID = "userid"; //用户名
+    private static final String KEY_POINT_CODE = "code";    //点位类型编码
+    private static final String KEY_POINT_NAME = "name";    //点位类型名称
+    private static final String KEY_POINT_TYPE = "type";    //类型
+    private static final String KEY_POINT_SUBTYPE = "subtype";
+    private static final String KEY_POINT_USUALLY = "usually";//是否常用
+
 
 
     public DatabaseHandler(Context context) {
@@ -134,7 +146,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TRACKS_TABLE = "CREATE TABLE " + TABLE_TRACKS + "("
+        String CREATE_TRACKS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_TRACKS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"    // 0
                 + KEY_TRACK_NAME + " TEXT,"                         // 1
                 + KEY_TRACK_FROM + " TEXT,"                         // 2
@@ -178,7 +190,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_TRACK_TYPE + " INTEGER " + ")";               // 40
         db.execSQL(CREATE_TRACKS_TABLE);
 
-        String CREATE_LOCATIONS_TABLE = "CREATE TABLE " + TABLE_LOCATIONS + "("
+        String CREATE_LOCATIONS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_LOCATIONS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"                // 0
                 + KEY_TRACK_ID + " INTEGER,"                                    // 1
                 + KEY_LOCATION_NUMBER + " INTEGER,"                             // 2
@@ -194,7 +206,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LOCATION_NUMBEROFSATELLITESUSEDINFIX + " INTEGER" + ")";  // 12
         db.execSQL(CREATE_LOCATIONS_TABLE);
 
-        String CREATE_PLACEMARKS_TABLE = "CREATE TABLE " + TABLE_PLACEMARKS + "("
+        String CREATE_PLACEMARKS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PLACEMARKS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"                // 0
                 + KEY_TRACK_ID + " INTEGER,"                                    // 1
                 + KEY_LOCATION_NUMBER + " INTEGER,"                             // 2
@@ -210,6 +222,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LOCATION_NAME + " TEXT,"                                  // 12
                 + KEY_LOCATION_NUMBEROFSATELLITESUSEDINFIX + " INTEGER" + ")";  // 13
         db.execSQL(CREATE_PLACEMARKS_TABLE);
+
+
+        String CREATE_POINTTYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_POINTTYPE + "("
+                + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
+//                + KEY_POINT_USERID + " VARCHAR(20) NOT NULL,"                      // 1
+//                + KEY_POINT_CODE + " VARCHAR(20) NOT NULL,"                        // 2
+                + KEY_POINT_NAME + " VARCHAR(30) NOT NULL,"                               // 3
+//                + KEY_POINT_TYPE + " VARCHAR(20),"                                 // 4
+//                + KEY_POINT_SUBTYPE + " DOUBLE,"                                   // 5
+                + KEY_POINT_USUALLY + " INTEGER DEFAULT(0)" + ")";                 // 6
+        db.execSQL(CREATE_POINTTYPE_TABLE);
+        initPointTypeTableData(db);
+
     }
 
 
@@ -956,6 +981,55 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return trackList;
     }
+
+
+    //-------------------------Point_Type_Table--------------------------
+
+    //init pointtype table in onCreate()
+    private void initPointTypeTableData(SQLiteDatabase db){
+        String INIT_POINT_TYPE;
+
+        for(int i=0;i< ConstantValue.points_all.length;i++){
+            INIT_POINT_TYPE="INSERT INTO " + TABLE_POINTTYPE
+                    +"("+KEY_POINT_NAME+","+KEY_POINT_USUALLY+")"
+                    + " VALUES(' " + ConstantValue.points_all[i]
+                    + "','" + ConstantValue.points_type[i] + "')";
+            db.execSQL(INIT_POINT_TYPE);
+        }
+    }
+
+    //return all point type info
+    public List<PointType> getUsualPoints(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<PointType> points = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_POINTTYPE;
+        Cursor cursor = db.rawQuery(query, null);
+        while(cursor.moveToNext()){
+            String ptname=cursor.getString(1);
+            int ptusual=cursor.getInt(2);
+            PointType pt_tmp=new PointType();
+            pt_tmp.setName(ptname);
+            pt_tmp.setUsually(ptusual);
+            points.add(pt_tmp);
+        }
+        return  points;
+
+
+    }
+
+    //update point type info
+    public void updateUsualPoints(int[] pointUsuals){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String updatePT;
+        for(int i=0;i<pointUsuals.length;i++){
+            updatePT="UPDATE "+ TABLE_POINTTYPE
+                    + " SET "+ KEY_POINT_USUALLY+"="+pointUsuals[i]
+                    + " WHERE " + KEY_ID+" = '"+(i+1)+"'";
+            db.execSQL(updatePT);
+        }
+    }
+
 
 
     // Getting the list of all Tracks in the DB

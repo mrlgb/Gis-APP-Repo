@@ -41,6 +41,7 @@ import java.util.List;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.common.EventBusMSG;
 
 import org.greenrobot.eventbus.EventBus;
@@ -429,6 +430,8 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_collectsum) {
             // Handle the camera action
         } else if (id == R.id.nav_pointsetting) {
+            Intent intent = new Intent(MainActivity.this, PointSetActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_emptystorage) {
 

@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.User;
 import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.EventBusMSG;
@@ -172,6 +173,7 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     private LocationExtended _currentLocationExtended = null;
     private LocationExtended _currentPlacemark = null;
     private Track _currentTrack = null;
+    private List<PointType> pointTypes;
     private List<Track> _ArrayListTracks = Collections.synchronizedList(new ArrayList<Track>());
 
     static SparseArray<Bitmap> thumbsArray = new SparseArray<>();       // The Array containing the Tracks Thumbnail
@@ -633,6 +635,16 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     }
 
 
+    // GPSDatabase ----------------------
+    //return all point type info
+    public List<PointType> getUsualPoints(){
+        pointTypes = GPSDataBase.getUsualPoints();
+        return pointTypes;
+    }
+    //update all point type info
+    public void setUsualPoints(int[] typelists){
+        GPSDataBase.updateUsualPoints(typelists);
+    }
 
     // PREFERENCES LOADER ------------------------------------------------------------------------------
 
@@ -992,5 +1004,6 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
         this.useFilter = useFilter;
     }
     //------------------------------------------------history------------------------------------------------
+
 
 }

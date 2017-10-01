@@ -21,21 +21,19 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.DataQueryActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BridgeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Bridge2Activity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.FerryActivity" />
         <activity android:name=".activity.BoundaryPointActivity" />
         <activity android:name=".activity.TunnelActivity" />
@@ -51,6 +49,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.usersetting.PointSetActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 

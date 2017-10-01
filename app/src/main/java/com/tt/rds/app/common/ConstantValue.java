@@ -9,17 +9,22 @@ import java.io.File;
  */
 
 public class ConstantValue {
-    //    public static String[] points_all = new String[]{
-//            "桥梁",
-//            "隧道",
-//            "渡口",
-//            "政界分界点",
-//            "交通标志",
-//            "公路收费站",
-//            "治超站点",
-//            "广告牌",
-//            "道班"
-//    };
+    public static String[] points_all = new String[]{
+            "桥梁",
+            "隧道",
+            "渡口",
+            "涵洞",
+            "乡镇",
+            "建制村",
+            "自然村",
+            "学校",
+            "标志标牌",
+            "标志点"
+    };
+    public static int[] points_type = new int[]{
+            1,1,1,1,1,0,0,0,1,1,
+
+    };
 //
 //    public static String[] points_normal = new String[]{
 //            "桥梁",
@@ -61,4 +66,6 @@ public class ConstantValue {
         public static void getSDcardState() {
         }
     }
+
+
 }
