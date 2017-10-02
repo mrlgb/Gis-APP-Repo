@@ -239,11 +239,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_POINTTYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_POINTTYPE + "("
                 + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
                 + KEY_USER + " VARCHAR(30) NOT NULL,"
-//                + KEY_POINT_USERID + " VARCHAR(20) NOT NULL,"                      // 1
-//                + KEY_POINT_CODE + " VARCHAR(20) NOT NULL,"                        // 2
+                + KEY_POINT_USERID + " VARCHAR(20) NOT NULL,"                      // 1
+                + KEY_POINT_CODE + " VARCHAR(20) NOT NULL,"                        // 2
                 + KEY_POINT_NAME + " VARCHAR(30) NOT NULL,"                               // 3
-//                + KEY_POINT_TYPE + " VARCHAR(20),"                                 // 4
-//                + KEY_POINT_SUBTYPE + " DOUBLE,"                                   // 5
+                + KEY_POINT_TYPE + " VARCHAR(20),"                                 // 4
+                + KEY_POINT_SUBTYPE + " DOUBLE,"                                   // 5
                 + KEY_POINT_USUALLY + " INTEGER DEFAULT(0)" + ")";                 // 6
         db.execSQL(CREATE_POINTTYPE_TABLE);
 //        initPointTypeTableData(db);
@@ -253,6 +253,178 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_USER + " VARCHAR(30) NOT NULL,"                               // 1
                 + KEY_PASSWORD + " VARCHAR(30)" + ")";                 // 2
         db.execSQL(CREATE_USERLOGIN_TABLE);
+
+
+        //平台参数-公路类别表
+        String CREATE_Pparams_Type_TABLE ="CREATE TABLE IF NOT EXISTS Pparams_Type (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "typename varchar(50)," +				//公路类别名
+                "version integer)";
+        db.execSQL(CREATE_Pparams_Type_TABLE);
+
+        //平台参数-索引表
+        String CREATE_Pparams_Index_TABLE ="CREATE TABLE IF NOT EXISTS Pparams_Index (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "typename varchar(50)," +				//公路类别名
+                "code varchar(20)," +					//公路字段编码
+                "name varchar(50) )";				//公路字段名称
+        db.execSQL(CREATE_Pparams_Index_TABLE);
+
+        //平台参数-参数值表
+        String CREATE_Pparams_Items_TABLE= "CREATE TABLE IF NOT EXISTS Pparams_Items (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "typename varchar(50)," +				//公路类别名
+                "indexcode varchar(20)," +				//公路字段编码
+                "name varchar(50)," +					//公路字段选项名称
+                "value integer)";						//公路字段选项值
+        db.execSQL(CREATE_Pparams_Items_TABLE);
+
+        //数据_点位表
+        String CREATE_Data_Point_TABLE="CREATE TABLE IF NOT EXISTS Data_Point (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL," +	//所属点位类型编码:0-桥梁，1-隧道，2-渡口，3-涵洞，4-乡镇，5-建制村，
+                // 6-自然村，7-学校，8-标志标牌，9-标志点
+                "PathName varchar(20)," +			//路线名称
+                "PathCode varchar(20)," +		//路线代码GUID
+                "AdminCode varchar(20)," +		//行政区划
+                "Type varchar(20)," +				//类型
+                "Lat double," +						//纬度
+                "Alt double," +						//高度
+                "Lon double," +						//经度
+                "Note varchar(100)," +				//备注
+                "Picker varchar(20),"+				//用户名
+                "Time date,"+						//采集时间
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Data_Point_TABLE);
+
+        //数据_点位照片表
+        String CREATE_Data_PointImage_TABLE="CREATE TABLE IF NOT EXISTS Data_PointImage (" +
+                        "ID INTEGER NOT NULL primary key autoincrement," +
+                        "UserID varchar(20) NOT NULL," +		//用户名
+                        "PointCode varchar(20) NOT NULL," +		//所属点位类型编码
+                        "PointNumbler varchar(20) NOT NULL," +	//所属点位编号
+                        "ImagePath varchar(128) NOT NULL," +	//图片路径
+                        "Lon double," +							//经度
+                        "Lat double," +							//纬度
+                        "Alt double," +							//高度
+                        "Picker varchar(20),"+					//用户名
+                        "Time date)";							//拍照时间
+        db.execSQL(CREATE_Data_PointImage_TABLE);
+
+
+        //数据_桥梁表
+        String CREATE_Bridge_TABLE="CREATE TABLE IF NOT EXISTS Point_Bridge (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//桥名称
+                "Code varchar(20)," +		//桥代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Bridge_TABLE);
+
+        //数据_隧道表
+        String CREATE_Tunnnel_TABLE="CREATE TABLE IF NOT EXISTS Point_Tunnel (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Tunnnel_TABLE);
+
+        //数据_渡口表
+        String CREATE_Ferry_TABLE="CREATE TABLE IF NOT EXISTS Point_Ferry (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Ferry_TABLE);
+
+        //数据_渡口表
+        String CREATE_Culvert_TABLE="CREATE TABLE IF NOT EXISTS Point_Culvert (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Culvert_TABLE);
+
+        //数据_乡镇表
+        String CREATE_Town_TABLE="CREATE TABLE IF NOT EXISTS Point_Town (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Town_TABLE);
+
+
+        //数据_自然村表
+        String CREATE_Village_TABLE="CREATE TABLE IF NOT EXISTS Point_Village (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Village_TABLE);
+
+        //数据_建制村表
+        String CREATE_StandardVillage_TABLE="CREATE TABLE IF NOT EXISTS Point_StandardVillage (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_StandardVillage_TABLE);
+
+
+        //数据_学校表
+        String CREATE_School_TABLE="CREATE TABLE IF NOT EXISTS Point_School (" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_School_TABLE);
+
+        //数据_标志点表
+        String CREATE_Sign_TABLE="CREATE TABLE IF NOT EXISTS Point_Sign(" +
+                "ID INTEGER NOT NULL primary key autoincrement," +
+                "UserID varchar(20) NOT NULL," +	//用户名
+                "PointCode varchar(20) NOT NULL,"+    //外键关联 Data_Point
+                "ImageCode varchar(20) NOT NULL,"+    //外键关联 Data_PointImage
+                "Name varchar(20)," +			//名称
+                "Code varchar(20)," +		//代码
+                //........
+                "UpLoadFlag integer default 0)";	//是否上报
+        db.execSQL(CREATE_Sign_TABLE);
+
+
+
 
     }
 
