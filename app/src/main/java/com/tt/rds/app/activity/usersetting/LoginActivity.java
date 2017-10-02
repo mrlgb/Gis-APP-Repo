@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //if verify passed
                     upateUserInfoToDB();
                     setLoginStatePreference();
+                    gpsApplication.initPointType();
                     finish();
                 }
                 break;

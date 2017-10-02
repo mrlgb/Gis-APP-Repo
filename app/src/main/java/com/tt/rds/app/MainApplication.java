@@ -121,6 +121,7 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     private int prefKMLAltitudeMode = 0;
     private int prefShowTrackStatsType = 0;
     private int prefShowDirections = 0;
+    private SharedPreferences sf_login;
 
     private boolean PermissionsChecked = false;                 // If the flag is false the GPSActivity will check for permissions
 
@@ -297,7 +298,10 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
         }
 
 
-        GPSDataBase = new DatabaseHandler(this);                                        // Initialize the Database
+        GPSDataBase = new DatabaseHandler(this);
+
+        sf_login = getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
+        // Initialize the Database
 
         // Prepare the current track
         if (GPSDataBase.getLastTrackID() == 0) GPSDataBase.addTrack(new Track());       // Creation of the first track if the DB is empty
@@ -639,14 +643,21 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
 
 
     // GPSDatabase ----------------------
+    //init point type data for new login user
+    public void initPointType(){
+        String username= sf_login.getString(ConstantValue.current_user,"");
+        GPSDataBase.initPointType(username);
+    }
     //return all point type info
     public List<PointType> getUsualPoints(){
-        pointTypes = GPSDataBase.getUsualPoints();
+        String username= sf_login.getString(ConstantValue.current_user,"");
+        pointTypes = GPSDataBase.getUsualPoints(username);
         return pointTypes;
     }
     //update all point type info
     public void setUsualPoints(int[] typelists){
-        GPSDataBase.updateUsualPoints(typelists);
+        String username= sf_login.getString(ConstantValue.current_user,"");
+        GPSDataBase.updateUsualPoints(username,typelists);
     }
 
     //get all user login info locally

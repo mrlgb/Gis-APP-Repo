@@ -68,14 +68,13 @@ public class PointSetActivity extends BaseSaveActivity {
         mListView=(ListView)findViewById(R.id.pt_list);
         points=new ArrayList<String>();
         checkpoints=new ArrayList<CheckBox>();
-        String[] str_points= ConstantValue.points_all;
+
         pointAll=gpsApplication.getUsualPoints();
         pointTypes = new int[pointAll.size()];
+
         for(int i=0;i<pointAll.size();i++){
+            points.add(pointAll.get(i).getName());
             pointTypes[i]=pointAll.get(i).getUsually();
-        }
-        for(int i=0;i<str_points.length;i++){
-            points.add(str_points[i]);
         }
         MyAdapter adapter = new MyAdapter();
         mListView.setAdapter(adapter);

@@ -20,11 +20,13 @@ package com.tt.rds.app.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.util.Log;
+import android.util.Xml;
 
 import com.tt.rds.app.bean.Constant;
 import com.tt.rds.app.bean.PointType;
@@ -34,6 +36,7 @@ import com.tt.rds.app.common.LocationExtended;
 import com.tt.rds.app.common.Track;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -235,6 +238,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         String CREATE_POINTTYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_POINTTYPE + "("
                 + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
+                + KEY_USER + " VARCHAR(30) NOT NULL,"
 //                + KEY_POINT_USERID + " VARCHAR(20) NOT NULL,"                      // 1
 //                + KEY_POINT_CODE + " VARCHAR(20) NOT NULL,"                        // 2
                 + KEY_POINT_NAME + " VARCHAR(30) NOT NULL,"                               // 3
@@ -242,7 +246,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                + KEY_POINT_SUBTYPE + " DOUBLE,"                                   // 5
                 + KEY_POINT_USUALLY + " INTEGER DEFAULT(0)" + ")";                 // 6
         db.execSQL(CREATE_POINTTYPE_TABLE);
-        initPointTypeTableData(db);
+//        initPointTypeTableData(db);
 
         String CREATE_USERLOGIN_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_USERLOGIN + "("
                 + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
@@ -1001,34 +1005,45 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //-------------------------PointType_Table--------------------------
 
     //init pointtype table in onCreate()
-    private void initPointTypeTableData(SQLiteDatabase db){
-        String INIT_POINT_TYPE;
+    public void initPointType(String userName){
+        SQLiteDatabase db=this.getReadableDatabase();
 
-        for(int i=0;i< ConstantValue.points_all.length;i++){
-            INIT_POINT_TYPE="INSERT INTO " + TABLE_POINTTYPE
-                    +"("+KEY_POINT_NAME+","+KEY_POINT_USUALLY+")"
-                    + " VALUES(' " + ConstantValue.points_all[i]
-                    + "','" + ConstantValue.points_type[i] + "')";
-            db.execSQL(INIT_POINT_TYPE);
+        String insert,query;
+        query = "SELECT * FROM " + TABLE_POINTTYPE
+                + " WHERE "+KEY_USER+"= '"+userName+"'";
+        Cursor cursor=db.rawQuery(query,null);
+        if(cursor.getCount()>0){
+            Log.d("MainApplication","Already save point type data for this user.");
         }
+        else{
+            for(int i=0;i< ConstantValue.points_all_db.length;i++){
+                insert="INSERT INTO " + TABLE_POINTTYPE
+                        +"("+KEY_USER+","+KEY_POINT_NAME+","+KEY_POINT_USUALLY+")"
+                        + " VALUES('" + userName + "','" + ConstantValue.points_all_db[i]
+                        + "','" + ConstantValue.points_type[i] + "')";
+                db.execSQL(insert);
+            }
+        }
+
     }
 
     //return all point type info
-    public List<PointType> getUsualPoints(){
+    public List<PointType> getUsualPoints(String userName){
         SQLiteDatabase db = this.getReadableDatabase();
         List<PointType> points = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE_POINTTYPE;
+        List<String> point_names_db= Arrays.asList(ConstantValue.points_all_db);
+        List<String> point_names=Arrays.asList(ConstantValue.points_all);
+
+        String query = "SELECT * FROM " + TABLE_POINTTYPE+ " WHERE "+KEY_USER+"= '"+userName+"'";
         Cursor cursor = db.rawQuery(query, null);
-        int i=0;
         while(cursor.moveToNext()){
-            String ptname= ConstantValue.points_all[i];
-            int ptusual=cursor.getInt(2);
+            String ptname= cursor.getString(2);
+            int ptusual=cursor.getInt(3);
             PointType pt_tmp=new PointType();
-            pt_tmp.setName(ptname);
+            pt_tmp.setName(point_names.get(point_names_db.indexOf(ptname)));
             pt_tmp.setUsually(ptusual);
             points.add(pt_tmp);
-            i++;
         }
         return  points;
 
@@ -1036,13 +1051,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //update point type info
-    public void updateUsualPoints(int[] pointUsuals){
+    public void updateUsualPoints(String userName,int[] pointUsuals){
         SQLiteDatabase db = this.getReadableDatabase();
         String updatePT;
         for(int i=0;i<pointUsuals.length;i++){
             updatePT="UPDATE "+ TABLE_POINTTYPE
                     + " SET "+ KEY_POINT_USUALLY+"="+pointUsuals[i]
-                    + " WHERE " + KEY_ID+" = '"+(i+1)+"'";
+                    + " WHERE " + KEY_USER+" = '"+userName+"' AND "
+                    + KEY_POINT_NAME+" = '"+ConstantValue.points_all_db[i]+"'";
             db.execSQL(updatePT);
         }
     }
