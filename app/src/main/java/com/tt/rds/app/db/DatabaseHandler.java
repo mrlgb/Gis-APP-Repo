@@ -34,7 +34,9 @@ import com.tt.rds.app.common.LocationExtended;
 import com.tt.rds.app.common.Track;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -53,6 +55,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_TRACKS = "tracks";
     private static final String TABLE_PLACEMARKS = "placemarks";
     private static final String TABLE_POINTTYPE = "pointtypes";
+    private static final String TABLE_USERLOGIN = "userlogin";
+
 
     // ----------------------------------------------------------------------- Common Columns names
     private static final String KEY_ID = "id";
@@ -137,6 +141,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_POINT_TYPE = "type";    //类型
     private static final String KEY_POINT_SUBTYPE = "subtype";
     private static final String KEY_POINT_USUALLY = "usually";//是否常用
+
+    // ---------------------------------------------------------------------------- userlogin
+    private static final String KEY_USER = "username"; //用户名
+    private static final String KEY_PASSWORD = "password";    //密码
 
 
 
@@ -235,6 +243,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_POINT_USUALLY + " INTEGER DEFAULT(0)" + ")";                 // 6
         db.execSQL(CREATE_POINTTYPE_TABLE);
         initPointTypeTableData(db);
+
+        String CREATE_USERLOGIN_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_USERLOGIN + "("
+                + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
+                + KEY_USER + " VARCHAR(30) NOT NULL,"                               // 1
+                + KEY_PASSWORD + " VARCHAR(30)" + ")";                 // 2
+        db.execSQL(CREATE_USERLOGIN_TABLE);
 
     }
 
@@ -984,7 +998,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    //-------------------------Point_Type_Table--------------------------
+    //-------------------------PointType_Table--------------------------
 
     //init pointtype table in onCreate()
     private void initPointTypeTableData(SQLiteDatabase db){
@@ -1033,6 +1047,58 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    //-------------------------USERLOGIN_Table--------------------------
+    public void updateUserLoginInfo(String[] userinfo){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query="SELECT * FROM " + TABLE_USERLOGIN + " WHERE "
+                + KEY_USER + " = '"+userinfo[0]+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        Log.d("DebugInfo",query);
+        Log.d("DebugInfo",cursor.getCount()+"");
+        String mPwd="";
+        if(cursor.moveToNext()){
+            mPwd=cursor.getString(2);
+            Log.d("DebugInfo",mPwd);
+            if(mPwd.equals(userinfo[1])){
+                //if exist, return
+                return;
+            }
+            else if(!userinfo[1].equals("")){
+                //if user exists, pwd changed, update
+                String updateUP="UPDATE " + TABLE_USERLOGIN
+                        + " SET "+KEY_PASSWORD + " = '"+userinfo[1]+"' WHERE "
+                        + KEY_USER + " = '"+userinfo[0]+"'";
+                db.execSQL(updateUP);
+
+            }
+        }
+        else {
+            //if not exist, insert
+            String insert="INSERT INTO " + TABLE_USERLOGIN
+                    +"("+KEY_USER+","+KEY_PASSWORD+")"
+                    + " VALUES('" + userinfo[0] + "','" + userinfo[1] + "')";
+            db.execSQL(insert);
+        }
+    }
+
+    public List<Map<String,Object>> getUserLoginInfo(){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Map<String,Object>> users = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_USERLOGIN;
+        Cursor cursor = db.rawQuery(query, null);
+        while(cursor.moveToNext()){
+            String username= cursor.getString(1);
+            String password= cursor.getString(2);
+            Map<String,Object> userinfo=new HashMap<String,Object>();
+            userinfo.put("user",username);
+            userinfo.put("password",password);
+            users.add(userinfo);
+        }
+        return  users;
+
+    }
 
 
     // Getting the list of all Tracks in the DB

@@ -9,6 +9,9 @@ import java.io.File;
  */
 
 public class ConstantValue {
+    public static final String login_preference_name="loginstate";
+    public static final String current_user="currentuser";
+    public static final String login_state="login";
     public static String[] points_all = new String[]{
             "桥梁",
             "隧道",

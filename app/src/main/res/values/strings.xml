@@ -75,4 +75,6 @@
     <string name="west">W</string>
     <string name="location_permission_denied">LocationDisplayManager cannot run because location permission was denied</string>
     <string name="title_activity_share">ShareActivity</string>
+    <string name="user_constrain">1234567890qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJKMIOLP_@</string>
+    <string name="password_constrain">1234567890qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJKMIOLP_</string>
 </resources>

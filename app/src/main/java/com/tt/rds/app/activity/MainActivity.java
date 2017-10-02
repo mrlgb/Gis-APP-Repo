@@ -2,6 +2,7 @@ package com.tt.rds.app.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -44,7 +46,10 @@ import com.tt.rds.app.R;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
+import com.tt.rds.app.activity.usersetting.LoginActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
+import com.tt.rds.app.bean.Constant;
+import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.EventBusMSG;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +72,7 @@ public class MainActivity extends BaseActivity
     private ArrayAdapter<String> gridViewArrayAdapter;
 
     final MainApplication gpsApplication = MainApplication.getInstance();
+    DrawerLayout drawer;
     private LocationDisplay mLocationDisplay;
     double mScale = 0.0;
 
@@ -383,14 +389,19 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -428,6 +439,12 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+        if(!judgeIfLogin()){
+            drawer.closeDrawer(Gravity.START);
+            return false;
+        }
+
         int id = item.getItemId();
 
         if (id == R.id.nav_collectsum) {
@@ -447,16 +464,38 @@ public class MainActivity extends BaseActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_switchuser) {
+            Log.d(TAG,"Launch LoginActivity");
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_about) {
             Log.d(TAG,"Launch AboutActivity");
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
 
+        } else if (id == R.id.nav_exit) {
+            Log.d(TAG,"Logout");
+            SharedPreferences sf= getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
+            SharedPreferences.Editor editor = sf.edit();
+            editor.putInt(ConstantValue.login_state,0);
+            editor.commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    //judge if it's login state, yes: do nothing; No: start login activity
+    private boolean judgeIfLogin(){
+        SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name, MODE_PRIVATE);
+        int loginState = sf.getInt(ConstantValue.login_state, 0);
+        if (loginState == 0) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            return false;
+        }
         return true;
     }
 

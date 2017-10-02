@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -174,6 +175,7 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     private LocationExtended _currentPlacemark = null;
     private Track _currentTrack = null;
     private List<PointType> pointTypes;
+    private List<Map<String,Object>> userLoginInfo;
     private List<Track> _ArrayListTracks = Collections.synchronizedList(new ArrayList<Track>());
 
     static SparseArray<Bitmap> thumbsArray = new SparseArray<>();       // The Array containing the Tracks Thumbnail
@@ -646,6 +648,18 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     public void setUsualPoints(int[] typelists){
         GPSDataBase.updateUsualPoints(typelists);
     }
+
+    //get all user login info locally
+    public List<Map<String,Object>> getUserLoginInfo(){
+        userLoginInfo=GPSDataBase.getUserLoginInfo();
+        return userLoginInfo;
+    }
+
+    //update user login info to database
+    public void updateUserLoginInfo(String[] userinfo){
+        GPSDataBase.updateUserLoginInfo(userinfo);
+    }
+
 
     // PREFERENCES LOADER ------------------------------------------------------------------------------
 
