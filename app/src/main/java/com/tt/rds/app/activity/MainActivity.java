@@ -176,7 +176,7 @@ public class MainActivity extends BaseActivity
         mBottomSheetBehavior.setPeekHeight(0);
         mBottomSheetBehavior.setSkipCollapsed(false);
 
-//
+////
 //        //If you want to handle callback of Sheet Behavior you can use below code
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
