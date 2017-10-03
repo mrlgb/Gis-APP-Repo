@@ -1,9 +1,12 @@
 package com.tt.rds.app.activity.usersetting;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +14,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -20,6 +25,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -39,15 +46,17 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button mLogin;
-    TextView mForget;
+    TextView mForget,mDesc1,mDesc2;
     EditText et_user,et_pwd;
     CheckBox mRemember;
     ImageButton mClear,mExpand,mCollapse;
+    ImageView mLogo;
     PopupWindow pw;
     ListView mListView;
     List<UserInfo> allusers;
     List<String> usernames;
     List<String> passwords;
+    ConstraintLayout mCstr;
 
     final MainApplication gpsApplication = MainApplication.getInstance();
 
@@ -61,6 +70,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initViews(){
 
+        mCstr=(ConstraintLayout)findViewById(R.id.login_cstr);
+        mLogo=(ImageView)findViewById(R.id.im_login_logo);
+        mDesc1=(TextView) findViewById(R.id.tv_login_des1);
+        mDesc2=(TextView) findViewById(R.id.tv_login_des2);
         mLogin=(Button)findViewById(R.id.login_bt);
         et_user=(EditText) findViewById(R.id.login_et_user);
         et_pwd=(EditText) findViewById(R.id.login_et_password);
@@ -80,6 +93,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mExpand.setOnClickListener(this);
         mCollapse.setOnClickListener(this);
         mLogin.setOnClickListener(this);
+
+        getWindow().getDecorView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                Rect rect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+                if(i3!=0 && i7!=0 && i3 - rect.bottom <= 300){
+                    mCstr.setVisibility(View.VISIBLE);
+                    mCstr.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                }else {
+                    mCstr.setVisibility(View.GONE);
+                    mCstr.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+                }
+            }
+        });
+
 
         //Clear visibility setting
         et_user.addTextChangedListener(new TextWatcher() {
@@ -120,6 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 et_pwd.setText(passwords.get(i));
             }
         });
+
     }
 
     @Override

@@ -76,7 +76,9 @@
         <activity android:name=".activity.usersetting.FindPwdPhoneActivity" />
         <activity android:name=".activity.usersetting.FindPwdVerCodeActivity" />
         <activity android:name=".activity.usersetting.FindPwdNewPwdActivity" />
-        <activity android:name=".activity.usersetting.UserSettingActivity"></activity>
+        <activity
+            android:name=".activity.usersetting.UserSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
     </application>
 
 </manifest>
