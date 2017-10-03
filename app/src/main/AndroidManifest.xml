@@ -78,7 +78,12 @@
         <activity android:name=".activity.usersetting.FindPwdNewPwdActivity" />
         <activity
             android:name=".activity.usersetting.UserSettingActivity"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.usersetting.USModifyActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

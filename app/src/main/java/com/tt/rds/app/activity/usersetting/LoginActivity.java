@@ -46,11 +46,10 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button mLogin;
-    TextView mForget,mDesc1,mDesc2;
+    TextView mForget;
     EditText et_user,et_pwd;
     CheckBox mRemember;
     ImageButton mClear,mExpand,mCollapse;
-    ImageView mLogo;
     PopupWindow pw;
     ListView mListView;
     List<UserInfo> allusers;
@@ -71,9 +70,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initViews(){
 
         mCstr=(ConstraintLayout)findViewById(R.id.login_cstr);
-        mLogo=(ImageView)findViewById(R.id.im_login_logo);
-        mDesc1=(TextView) findViewById(R.id.tv_login_des1);
-        mDesc2=(TextView) findViewById(R.id.tv_login_des2);
         mLogin=(Button)findViewById(R.id.login_bt);
         et_user=(EditText) findViewById(R.id.login_et_user);
         et_pwd=(EditText) findViewById(R.id.login_et_password);
@@ -248,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         gpsApplication.updateUserLoginInfo(userinfo);
     }
 
-    //TODO 联网验证身份
+    //TODO 联网验证身份，并且获得个人信息
     private boolean verifyUserInfo(){
 
         return true;
