@@ -440,12 +440,21 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
 
+        int id = item.getItemId();
+
+        if (id == R.id.nav_about) {
+            Log.d(TAG,"Launch AboutActivity");
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
+
+        Log.d(TAG,"Check if it's login state");
         if(!judgeIfLogin()){
             drawer.closeDrawer(Gravity.START);
             return false;
         }
-
-        int id = item.getItemId();
 
         if (id == R.id.nav_collectsum) {
             Log.d(TAG,"Launch CollectStaticActivity");
@@ -468,11 +477,6 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_about) {
-            Log.d(TAG,"Launch AboutActivity");
-            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-            startActivity(intent);
-
         } else if (id == R.id.nav_exit) {
             Log.d(TAG,"Logout");
             SharedPreferences sf= getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
@@ -480,9 +484,6 @@ public class MainActivity extends BaseActivity
             editor.putInt(ConstantValue.login_state,0);
             editor.commit();
         }
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
