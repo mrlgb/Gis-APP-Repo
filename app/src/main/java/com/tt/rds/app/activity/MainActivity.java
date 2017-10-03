@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
@@ -23,8 +25,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -39,6 +42,7 @@ import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
+import java.io.File;
 import java.util.List;
 
 import com.tt.rds.app.MainApplication;
@@ -48,7 +52,9 @@ import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
 import com.tt.rds.app.activity.usersetting.LoginActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
-import com.tt.rds.app.bean.Constant;
+import com.tt.rds.app.activity.usersetting.UserSettingActivity;
+import com.tt.rds.app.bean.AppBitmap;
+import com.tt.rds.app.bean.UserInfo;
 import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.EventBusMSG;
 
@@ -58,6 +64,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String HEAD_PATH = Environment.getExternalStorageState()+"/GPSLogger/Headers/";
 
     private BottomSheetBehavior mBottomSheetBehavior;
     private View mBottomSheet;
@@ -65,6 +72,9 @@ public class MainActivity extends BaseActivity
 
     private int count = 0;
     private MapView mMapView;
+    private ImageView mHeader;
+    private TextView mUsername,mAddress;
+    private NavigationView navigationView;
 
     private Button showall_button, hide_button;
     private Button cancelCollectBtn, addSpliterBtn, pauseCollectBtn, stopCollectBtn;
@@ -79,6 +89,8 @@ public class MainActivity extends BaseActivity
     private int requestCode = 2;
     String[] reqPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
             .ACCESS_COARSE_LOCATION};
+
+    private UserInfo userInfo;
 
 
     @Override
@@ -395,10 +407,60 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        initHeadersInDrawer();
 
 
+
+    }
+
+
+    //Init the headers, user name, user address in drawer
+    private void initHeadersInDrawer(){
+        View headerView=navigationView.getHeaderView(0);
+        mHeader=headerView.findViewById(R.id.user_head_img);
+        mUsername=headerView.findViewById(R.id.user_anonymus);
+        mAddress=headerView.findViewById(R.id.user_address);
+
+        if(!judgeIfLogin()){
+            mHeader.setImageResource(R.drawable.ic_launcher_logo);
+            mUsername.setText("未登录");
+            mAddress.setText("");
+        }
+        else {
+            String currentUser;
+            SharedPreferences sf= getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
+            currentUser=sf.getString(ConstantValue.current_user,"未登录");
+            userInfo=gpsApplication.getUserLoginInfo(currentUser);
+            String fileName=HEAD_PATH+"header_"+currentUser+".png";
+            File file = new File(fileName);
+            if(file.exists()){
+                Bitmap bitmap= AppBitmap.getBitmapFromFilePath(fileName);
+                mHeader.setImageBitmap(bitmap);
+            }
+            else{
+                mHeader.setImageResource(R.drawable.ic_launcher_logo);
+            }
+            if(userInfo.getAnonymous().equals("")){
+                mUsername.setText(currentUser);
+            }
+            else {
+                mUsername.setText(userInfo.getAnonymous());
+            }
+            mAddress.setText(userInfo.getAddress());
+
+        }
+
+        mHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this, UserSettingActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(Gravity.START);
+            }
+        });
     }
 
 
@@ -444,15 +506,17 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_about) {
             Log.d(TAG,"Launch AboutActivity");
+            drawer.closeDrawer(GravityCompat.START);
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
-            drawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
         Log.d(TAG,"Check if it's login state");
         if(!judgeIfLogin()){
             drawer.closeDrawer(Gravity.START);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
             return false;
         }
 
@@ -493,8 +557,7 @@ public class MainActivity extends BaseActivity
         SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name, MODE_PRIVATE);
         int loginState = sf.getInt(ConstantValue.login_state, 0);
         if (loginState == 0) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+
             return false;
         }
         return true;

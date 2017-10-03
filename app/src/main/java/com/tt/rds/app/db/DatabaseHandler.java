@@ -30,6 +30,7 @@ import android.util.Xml;
 
 import com.tt.rds.app.bean.Constant;
 import com.tt.rds.app.bean.PointType;
+import com.tt.rds.app.bean.UserInfo;
 import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.LatLng;
 import com.tt.rds.app.common.LocationExtended;
@@ -148,6 +149,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // ---------------------------------------------------------------------------- userlogin
     private static final String KEY_USER = "username"; //用户名
     private static final String KEY_PASSWORD = "password";    //密码
+    private static final String KEY_ANONYMOUS = "anonymous";    //昵称
+    private static final String KEY_PHONE = "phone";    //电话
+    private static final String KEY_EMAIL = "email";    //邮箱
+    private static final String KEY_GENDER = "gender";    //性别
+    private static final String KEY_ADDRESS = "address";    //性别
+    private static final String KEY_SIGNATURE = "signature";    //个性签名
 
 
 
@@ -239,19 +246,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_POINTTYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_POINTTYPE + "("
                 + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
                 + KEY_USER + " VARCHAR(30) NOT NULL,"
-                + KEY_POINT_USERID + " VARCHAR(20) NOT NULL,"                      // 1
-                + KEY_POINT_CODE + " VARCHAR(20) NOT NULL,"                        // 2
+//                + KEY_POINT_USERID + " VARCHAR(20) NOT NULL,"                      // 1
+//                + KEY_POINT_CODE + " VARCHAR(20) NOT NULL,"                        // 2
                 + KEY_POINT_NAME + " VARCHAR(30) NOT NULL,"                               // 3
-                + KEY_POINT_TYPE + " VARCHAR(20),"                                 // 4
-                + KEY_POINT_SUBTYPE + " DOUBLE,"                                   // 5
+//                + KEY_POINT_TYPE + " VARCHAR(20),"                                 // 4
+//                + KEY_POINT_SUBTYPE + " DOUBLE,"                                   // 5
                 + KEY_POINT_USUALLY + " INTEGER DEFAULT(0)" + ")";                 // 6
         db.execSQL(CREATE_POINTTYPE_TABLE);
-//        initPointTypeTableData(db);
+
 
         String CREATE_USERLOGIN_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_USERLOGIN + "("
                 + KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"          // 0
                 + KEY_USER + " VARCHAR(30) NOT NULL,"                               // 1
-                + KEY_PASSWORD + " VARCHAR(30)" + ")";                 // 2
+                + KEY_PASSWORD + " VARCHAR(30)," // 2
+                + KEY_ANONYMOUS + " VARCHAR(30)," //3
+                + KEY_PHONE + " VARCHAR(30)," //4
+                + KEY_EMAIL + " VARCHAR(30)," //5
+                + KEY_GENDER + " VARCHAR(10)," //6
+                + KEY_ADDRESS + " VARCHAR(50)," //7
+                + KEY_SIGNATURE + " VARCHAR(50)" //8
+                + ")";
+
         db.execSQL(CREATE_USERLOGIN_TABLE);
 
 
@@ -1191,7 +1206,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             for(int i=0;i< ConstantValue.points_all_db.length;i++){
                 insert="INSERT INTO " + TABLE_POINTTYPE
                         +"("+KEY_USER+","+KEY_POINT_NAME+","+KEY_POINT_USUALLY+")"
-                        + " VALUES('" + userName + "','" + ConstantValue.points_all_db[i]
+                        + " VALUES('" + userName + "','" + ConstantValue.points_all[i]
                         + "','" + ConstantValue.points_type[i] + "')";
                 db.execSQL(insert);
             }
@@ -1204,19 +1219,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<PointType> points = new ArrayList<>();
 
-        List<String> point_names_db= Arrays.asList(ConstantValue.points_all_db);
-        List<String> point_names=Arrays.asList(ConstantValue.points_all);
-
         String query = "SELECT * FROM " + TABLE_POINTTYPE+ " WHERE "+KEY_USER+"= '"+userName+"'";
         Cursor cursor = db.rawQuery(query, null);
         while(cursor.moveToNext()){
             String ptname= cursor.getString(2);
             int ptusual=cursor.getInt(3);
             PointType pt_tmp=new PointType();
-            pt_tmp.setName(point_names.get(point_names_db.indexOf(ptname)));
+            pt_tmp.setName(ptname);
             pt_tmp.setUsually(ptusual);
             points.add(pt_tmp);
         }
+        cursor.close();
         return  points;
 
 
@@ -1230,61 +1243,104 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             updatePT="UPDATE "+ TABLE_POINTTYPE
                     + " SET "+ KEY_POINT_USUALLY+"="+pointUsuals[i]
                     + " WHERE " + KEY_USER+" = '"+userName+"' AND "
-                    + KEY_POINT_NAME+" = '"+ConstantValue.points_all_db[i]+"'";
+                    + KEY_POINT_NAME+" = '"+ConstantValue.points_all[i]+"'";
             db.execSQL(updatePT);
         }
     }
 
     //-------------------------USERLOGIN_Table--------------------------
-    public void updateUserLoginInfo(String[] userinfo){
+    public void updateUserLoginInfo(UserInfo userinfo){
         SQLiteDatabase db = this.getReadableDatabase();
         String query="SELECT * FROM " + TABLE_USERLOGIN + " WHERE "
-                + KEY_USER + " = '"+userinfo[0]+"'";
+                + KEY_USER + " = '"+userinfo.getUserName()+"'";
         Cursor cursor = db.rawQuery(query, null);
-        Log.d("DebugInfo",query);
-        Log.d("DebugInfo",cursor.getCount()+"");
-        String mPwd="";
         if(cursor.moveToNext()){
-            mPwd=cursor.getString(2);
-            Log.d("DebugInfo",mPwd);
-            if(mPwd.equals(userinfo[1])){
-                //if exist, return
-                return;
+            if(userinfo.getPassword().equals("")){
+                userinfo.setPassword(cursor.getString(2));
             }
-            else if(!userinfo[1].equals("")){
-                //if user exists, pwd changed, update
-                String updateUP="UPDATE " + TABLE_USERLOGIN
-                        + " SET "+KEY_PASSWORD + " = '"+userinfo[1]+"' WHERE "
-                        + KEY_USER + " = '"+userinfo[0]+"'";
-                db.execSQL(updateUP);
+            if(userinfo.getAnonymous().equals("")){
+                userinfo.setAnonymous(cursor.getString(3));
+            }
+            if(userinfo.getPhone().equals("")){
+                userinfo.setPhone(cursor.getString(4));
+            }
+            if(userinfo.getEmail().equals("")){
+                userinfo.setEmail(cursor.getString(5));
+            }
+            if(userinfo.getGender().equals("")){
+                userinfo.setGender(cursor.getString(6));
+            }
+            if(userinfo.getAddress().equals("")){
+                userinfo.setAddress(cursor.getString(7));
+            }
+            if(userinfo.getSignature().equals("")){
+                userinfo.setSignature(cursor.getString(8));
+            }
+            cursor.close();
 
-            }
+            String updateUP="UPDATE " + TABLE_USERLOGIN
+                    + " SET "+KEY_PASSWORD + " = '"+userinfo.getPassword() + "', "
+                    + KEY_ANONYMOUS + " = '"+userinfo.getAnonymous() + "', "
+                    + KEY_PHONE + " = '"+userinfo.getPhone() + "', "
+                    + KEY_EMAIL + " = '"+userinfo.getEmail() + "', "
+                    + KEY_GENDER + " = '"+userinfo.getGender() + "', "
+                    + KEY_ADDRESS + " = '"+userinfo.getAddress() + "', "
+                    + KEY_SIGNATURE + " = '"+userinfo.getSignature() + "' "
+                    +" WHERE " + KEY_USER + " = '"+userinfo.getUserName()+"'";
+            db.execSQL(updateUP);
+
         }
         else {
             //if not exist, insert
             String insert="INSERT INTO " + TABLE_USERLOGIN
-                    +"("+KEY_USER+","+KEY_PASSWORD+")"
-                    + " VALUES('" + userinfo[0] + "','" + userinfo[1] + "')";
+                    +"("+KEY_USER+","+KEY_PASSWORD+","+KEY_ANONYMOUS+","+KEY_PHONE+","+KEY_EMAIL+","+KEY_GENDER+","+KEY_ADDRESS+","+KEY_SIGNATURE+")"
+                    + " VALUES('"+ userinfo.getUserName()+ "','" + userinfo.getPassword() + "','" + userinfo.getAnonymous() + "','" + userinfo.getPhone() + "','" + userinfo.getEmail() + "','" + userinfo.getGender() + "','" + userinfo.getAddress() + "','" + userinfo.getSignature()+"')";
             db.execSQL(insert);
         }
     }
 
-    public List<Map<String,Object>> getUserLoginInfo(){
-
+    public List<UserInfo> getAllUserLoginInfo(){
         SQLiteDatabase db = this.getReadableDatabase();
-        List<Map<String,Object>> users = new ArrayList<>();
+        List<UserInfo> users = new ArrayList<>();
 
         String query = "SELECT * FROM " + TABLE_USERLOGIN;
         Cursor cursor = db.rawQuery(query, null);
         while(cursor.moveToNext()){
-            String username= cursor.getString(1);
-            String password= cursor.getString(2);
-            Map<String,Object> userinfo=new HashMap<String,Object>();
-            userinfo.put("user",username);
-            userinfo.put("password",password);
+            UserInfo userinfo = new UserInfo();
+            userinfo.setUserName(cursor.getString(1));
+            userinfo.setPassword(cursor.getString(2));
+            userinfo.setAnonymous(cursor.getString(3));
+            userinfo.setPhone(cursor.getString(4));
+            userinfo.setEmail(cursor.getString(5));
+            userinfo.setGender(cursor.getString(6));
+            userinfo.setAddress(cursor.getString(7));
+            userinfo.setSignature(cursor.getString(8));
             users.add(userinfo);
         }
+        cursor.close();
         return  users;
+
+    }
+
+    public UserInfo getUserLoginInfo(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        UserInfo userinfo = new UserInfo();
+        userinfo.setUserName(username);
+
+        String query = "SELECT * FROM " + TABLE_USERLOGIN + " WHERE "
+                + KEY_USER + " = '"+username+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToNext()){
+            userinfo.setPassword(cursor.getString(2));
+            userinfo.setAnonymous(cursor.getString(3));
+            userinfo.setPhone(cursor.getString(4));
+            userinfo.setEmail(cursor.getString(5));
+            userinfo.setGender(cursor.getString(6));
+            userinfo.setAddress(cursor.getString(7));
+            userinfo.setSignature(cursor.getString(8));
+        }
+        cursor.close();
+        return  userinfo;
 
     }
 

@@ -39,6 +39,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.User;
+import com.tt.rds.app.bean.UserInfo;
 import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.EventBusMSG;
 import com.tt.rds.app.common.EventBusMSGLong;
@@ -176,7 +177,8 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     private LocationExtended _currentPlacemark = null;
     private Track _currentTrack = null;
     private List<PointType> pointTypes;
-    private List<Map<String,Object>> userLoginInfo;
+    private List<UserInfo> userLoginInfo;
+    private UserInfo userInfo;
     private List<Track> _ArrayListTracks = Collections.synchronizedList(new ArrayList<Track>());
 
     static SparseArray<Bitmap> thumbsArray = new SparseArray<>();       // The Array containing the Tracks Thumbnail
@@ -285,6 +287,12 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
             sd.mkdir();
             Log.w("myApp", "[#] GPSApplication.java - Folder created: " + sd.getAbsolutePath());
         }
+        sd = new File(Environment.getExternalStorageDirectory() + "/GPSLogger/Headers");
+        if (!sd.exists()) {
+            sd.mkdir();
+            Log.w("myApp", "[#] Headers for each user - Folder created: " + sd.getAbsolutePath());
+        }
+
         sd = new File(Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
         if (!sd.exists()) {
             sd.mkdir();
@@ -661,13 +669,19 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     }
 
     //get all user login info locally
-    public List<Map<String,Object>> getUserLoginInfo(){
-        userLoginInfo=GPSDataBase.getUserLoginInfo();
+    public List<UserInfo> getAllUserLoginInfo(){
+        userLoginInfo=GPSDataBase.getAllUserLoginInfo();
         return userLoginInfo;
     }
 
+    //get one user login info locally
+    public UserInfo getUserLoginInfo(String username){
+        userInfo=GPSDataBase.getUserLoginInfo(username);
+        return userInfo;
+    }
+
     //update user login info to database
-    public void updateUserLoginInfo(String[] userinfo){
+    public void updateUserLoginInfo(UserInfo userinfo){
         GPSDataBase.updateUserLoginInfo(userinfo);
     }
 

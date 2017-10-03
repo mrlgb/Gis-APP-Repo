@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.bean.UserInfo;
 import com.tt.rds.app.common.ConstantValue;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ImageButton mClear,mExpand,mCollapse;
     PopupWindow pw;
     ListView mListView;
-    List<Map<String,Object>> allusers;
+    List<UserInfo> allusers;
     List<String> usernames;
     List<String> passwords;
 
@@ -155,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //get user info from db
     private void getAllUserInfo(){
-        allusers = gpsApplication.getUserLoginInfo();
+        allusers = gpsApplication.getAllUserLoginInfo();
 
         if(allusers.size()==0){
             mExpand.setVisibility(View.GONE);
@@ -166,8 +167,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             passwords= new ArrayList<>();
             for(int i=0;i<allusers.size();i++)
             {
-                String name=(allusers.get(i)).get("user").toString();
-                String pwd=(allusers.get(i)).get("password").toString();
+                String name=allusers.get(i).getUserName();
+                String pwd=allusers.get(i).getPassword();
                 usernames.add(name);
                 passwords.add(pwd);
             }
@@ -209,12 +210,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //add userinfo to local database
     private void upateUserInfoToDB(){
-        String[] userinfo=new String[]{
-                et_user.getText().toString(),
-                et_pwd.getText().toString()
-        };
-        if(!mRemember.isChecked()){
-            userinfo[1]="";
+        UserInfo userinfo=new UserInfo();
+        userinfo.setUserName(et_user.getText().toString());
+        if(mRemember.isChecked()){
+            userinfo.setPassword(et_pwd.getText().toString());
         }
         gpsApplication.updateUserLoginInfo(userinfo);
     }

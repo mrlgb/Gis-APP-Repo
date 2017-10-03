@@ -5,9 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
-    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -73,7 +75,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.usersetting.FindPwdPhoneActivity" />
         <activity android:name=".activity.usersetting.FindPwdVerCodeActivity" />
-        <activity android:name=".activity.usersetting.FindPwdNewPwdActivity"></activity>
+        <activity android:name=".activity.usersetting.FindPwdNewPwdActivity" />
+        <activity android:name=".activity.usersetting.UserSettingActivity"></activity>
     </application>
 
 </manifest>
