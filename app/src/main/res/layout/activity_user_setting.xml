@@ -153,6 +153,7 @@
 
         <TextView
             android:id="@+id/mf_signature"
+            android:singleLine="true"
             style="@style/text_usersetting_content"
             android:text="未填写" />
 

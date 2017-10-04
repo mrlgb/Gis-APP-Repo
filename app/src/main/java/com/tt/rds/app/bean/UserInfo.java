@@ -11,7 +11,7 @@ public class UserInfo {
     private String anonymous="";
     private String phone="";
     private String email="";
-    private String gender="male";
+    private String gender="";
     private String address="";
     private String signature="";
 

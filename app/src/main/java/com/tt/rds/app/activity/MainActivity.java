@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String HEAD_PATH = Environment.getExternalStorageState()+"/GPSLogger/Headers/";
+    private static final String HEAD_PATH = Environment.getExternalStorageDirectory().getPath()+"/GPSLogger/Headers/";
 
     private BottomSheetBehavior mBottomSheetBehavior;
     private View mBottomSheet;
@@ -434,11 +434,11 @@ public class MainActivity extends BaseActivity
             SharedPreferences sf= getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
             currentUser=sf.getString(ConstantValue.current_user,"未登录");
             userInfo=gpsApplication.getUserLoginInfo(currentUser);
-            String fileName=HEAD_PATH+"header_"+currentUser+".png";
+            String fileName=HEAD_PATH+"header_"+currentUser+".jpg";
             File file = new File(fileName);
             if(file.exists()){
                 Bitmap bitmap= AppBitmap.getBitmapFromFilePath(fileName);
-                mHeader.setImageBitmap(bitmap);
+                mHeader.setImageBitmap(AppBitmap.getRoundBitmap(bitmap));
             }
             else{
                 mHeader.setImageResource(R.drawable.ic_launcher_logo);
@@ -456,8 +456,15 @@ public class MainActivity extends BaseActivity
         mHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this, UserSettingActivity.class);
-                startActivity(intent);
+
+                if(!judgeIfLogin()){
+                    Intent intent =new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent =new Intent(MainActivity.this, UserSettingActivity.class);
+                    startActivity(intent);
+                }
                 drawer.closeDrawer(Gravity.START);
             }
         });
@@ -506,17 +513,17 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_about) {
             Log.d(TAG,"Launch AboutActivity");
-            drawer.closeDrawer(GravityCompat.START);
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
+            drawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
         Log.d(TAG,"Check if it's login state");
         if(!judgeIfLogin()){
-            drawer.closeDrawer(Gravity.START);
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
+            drawer.closeDrawer(Gravity.START);
             return false;
         }
 

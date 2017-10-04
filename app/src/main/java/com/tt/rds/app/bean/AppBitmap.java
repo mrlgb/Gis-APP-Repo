@@ -14,6 +14,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * Created by Xinxin on 2017/10/3.
  */
@@ -89,5 +94,22 @@ public class AppBitmap {
         return output;
     }
 
+    public static void saveBitmap(Context mContext, Bitmap bitmap, String filePath) {
+        try {
+            File capture_f=new File(filePath);
+            if(capture_f.exists()){
+                capture_f.delete();
+            }
+            FileOutputStream out = new FileOutputStream(capture_f);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
