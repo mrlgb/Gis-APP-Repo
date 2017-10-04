@@ -12,4 +12,6 @@ public class Constant {
     public static final String SUBMITDetail="submitQuestionnaireDetail";
     public static final String MSGREAD="setMesRead";
 
+    public static String myCaptureFile;
+
 }

@@ -47,12 +47,14 @@ import java.util.List;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.point.PointMarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
 import com.tt.rds.app.activity.usersetting.LoginActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.activity.usersetting.UserSettingActivity;
+import com.tt.rds.app.app.Constant;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.UserInfo;
 import com.tt.rds.app.common.ConstantValue;
@@ -124,6 +126,12 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.btnMyLocation).setOnClickListener(this);
 //
         initBottomSheet();
+
+        File file_photo = new File(Environment.getExternalStorageDirectory()
+                .getPath() + "/tt/collectionpo");
+        if (!file_photo.exists())
+            file_photo.mkdirs();
+        Constant.myCaptureFile = file_photo.getPath() + "/";
     }
 
 
@@ -146,20 +154,8 @@ public class MainActivity extends BaseActivity
 
                 // Display the selected/clicked item text
 //                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
-                if (selectedItem.equals("桥梁")) {
-                    Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
-                    startActivity(intent);
-                }
-                if (selectedItem.equals("隧道")) {
-                    Intent intent = new Intent(MainActivity.this, TunnelActivity.class);
-                    startActivity(intent);
-                }
-                if (selectedItem.equals("渡口")) {
-                    Intent intent = new Intent(MainActivity.this, FerryActivity.class);
-                    startActivity(intent);
-                }
-                if (selectedItem.equals("政界分界点")) {
-                    Intent intent = new Intent(MainActivity.this, BoundaryPointActivity.class);
+                if (selectedItem.equals("标志点")) {
+                    Intent intent = new Intent(MainActivity.this, PointMarkerActivity.class);
                     startActivity(intent);
                 }
 
