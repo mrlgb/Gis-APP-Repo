@@ -1,7 +1,6 @@
 package com.tt.rds.app;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.location.GpsSatellite;
@@ -33,14 +31,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.User;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.EventBusMSG;
 import com.tt.rds.app.common.EventBusMSGLong;
 import com.tt.rds.app.common.EventBusMSGNormal;
@@ -49,7 +46,6 @@ import com.tt.rds.app.common.LocationExtended;
 import com.tt.rds.app.common.Track;
 import com.tt.rds.app.db.DatabaseHandler;
 import com.tt.rds.app.net.HttpMethods;
-import com.tt.rds.app.activity.ActivityTaskManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -308,7 +304,7 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
 
         GPSDataBase = new DatabaseHandler(this);
 
-        sf_login = getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
+        sf_login = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         // Initialize the Database
 
         // Prepare the current track
@@ -653,18 +649,18 @@ public class MainApplication extends Application implements GpsStatus.Listener, 
     // GPSDatabase ----------------------
     //init point type data for new login user
     public void initPointType(){
-        String username= sf_login.getString(ConstantValue.current_user,"");
+        String username= sf_login.getString(Common.current_user,"");
         GPSDataBase.initPointType(username);
     }
     //return all point type info
     public List<PointType> getUsualPoints(){
-        String username= sf_login.getString(ConstantValue.current_user,"");
+        String username= sf_login.getString(Common.current_user,"");
         pointTypes = GPSDataBase.getUsualPoints(username);
         return pointTypes;
     }
     //update all point type info
     public void setUsualPoints(int[] typelists){
-        String username= sf_login.getString(ConstantValue.current_user,"");
+        String username= sf_login.getString(Common.current_user,"");
         GPSDataBase.updateUsualPoints(username,typelists);
     }
 

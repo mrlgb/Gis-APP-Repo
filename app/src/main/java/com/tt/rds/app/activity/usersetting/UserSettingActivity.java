@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 
 public class UserSettingActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -66,8 +66,8 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         mf_signature=(TextView)findViewById(R.id.mf_signature);
 
         userInfo=new UserInfo();
-        SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
-        String currentUser=sf.getString(ConstantValue.current_user,"");
+        SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+        String currentUser=sf.getString(Common.current_user,"");
 
         userInfo=gpsApplication.getUserLoginInfo(currentUser);
         mf_anony.setText(userInfo.getAnonymous().equals("")?"未填写":userInfo.getAnonymous());
@@ -90,13 +90,13 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.us_anony:
-                startAlterActivity(ConstantValue.MODIFY_ANONYMOUS);
+                startAlterActivity(Common.MODIFY_ANONYMOUS);
                 break;
             case R.id.us_phone:
-                startAlterActivity(ConstantValue.MODIFY_PHONE);
+                startAlterActivity(Common.MODIFY_PHONE);
                 break;
             case R.id.us_email:
-                startAlterActivity(ConstantValue.MODIFY_EMAIL);
+                startAlterActivity(Common.MODIFY_EMAIL);
                 break;
 
         }
@@ -115,15 +115,15 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         super.onActivityResult(requestCode, resultCode, data);
         String content = data.getBundleExtra("result").getString("content");
         switch (resultCode){
-            case ConstantValue.MODIFY_ANONYMOUS:
+            case Common.MODIFY_ANONYMOUS:
                 mf_anony.setText(content);
                 userInfo.setAnonymous(content);
                 break;
-            case ConstantValue.MODIFY_PHONE:
+            case Common.MODIFY_PHONE:
                 mf_phone.setText(content);
                 userInfo.setPhone(content);
                 break;
-            case ConstantValue.MODIFY_EMAIL:
+            case Common.MODIFY_EMAIL:
                 mf_email.setText(content);
                 userInfo.setEmail(content);
                 break;

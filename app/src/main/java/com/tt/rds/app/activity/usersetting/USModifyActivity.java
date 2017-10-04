@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
-import com.tt.rds.app.common.ConstantValue;
+import com.tt.rds.app.app.Common;
 
 public class USModifyActivity extends BaseSaveActivity
 {
@@ -58,11 +58,11 @@ public class USModifyActivity extends BaseSaveActivity
         current_mode=bundleIn.getInt("launch_mode");
 
         switch (current_mode){
-            case ConstantValue.MODIFY_ANONYMOUS:
+            case Common.MODIFY_ANONYMOUS:
                 et_input.setHint("请输入您的昵称");
                 toolbar_title.setText("更改昵称");
                 break;
-            case ConstantValue.MODIFY_PHONE:
+            case Common.MODIFY_PHONE:
                 et_input.setHint("请输入您的手机号");
                 et_input.setInputType(InputType.TYPE_CLASS_PHONE);
                 Drawable src=getResources().getDrawable(R.drawable.et_drawable_86);
@@ -70,7 +70,7 @@ public class USModifyActivity extends BaseSaveActivity
                 et_input.setCompoundDrawables(src,null,null,null);
                 toolbar_title.setText("联系方式");
                 break;
-            case ConstantValue.MODIFY_EMAIL:
+            case Common.MODIFY_EMAIL:
                 et_input.setHint("请输入您的邮箱");
                 toolbar_title.setText("邮箱");
                 break;

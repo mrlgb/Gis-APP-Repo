@@ -34,8 +34,8 @@ import android.widget.Toast;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -262,10 +262,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //Set login_state to 1 (已登录状态)，设置当前用户名
     private void setLoginStatePreference(){
-        SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
+        SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
-        editor.putInt(ConstantValue.login_state,1);
-        editor.putString(ConstantValue.current_user,et_user.getText().toString());
+        editor.putInt(Common.login_state,1);
+        editor.putString(Common.current_user,et_user.getText().toString());
         editor.commit();
     }
 

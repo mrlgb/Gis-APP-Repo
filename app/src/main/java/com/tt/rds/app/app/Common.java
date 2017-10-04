@@ -20,6 +20,44 @@ import java.util.Map;
 
 public class Common {
 
+    public static final String login_preference_name="loginstate";
+    public static final String current_user="currentuser";
+    public static final String login_state="login";
+
+    public static final int MODIFY_ANONYMOUS=0x0101;
+    public static final int MODIFY_PHONE=0x0102;
+    public static final int MODIFY_EMAIL=0x0103;
+    public static final String[] points_all = new String[]{
+            "桥梁",
+            "隧道",
+            "渡口",
+            "涵洞",
+            "乡镇",
+            "建制村",
+            "自然村",
+            "学校",
+            "标志标牌",
+            "标志点"
+    };
+    public static final String[] points_all_db = new String[]{
+            "bridge",
+            "tunnel",
+            "ferry",
+            "culvert",
+            "country",
+            "jzvillage",
+            "naturevillage",
+            "school",
+            "logo",
+            "mark"
+    };
+
+
+    public static int[] points_type = new int[]{
+            1,1,1,1,1,0,0,0,1,1,
+
+    };
+
     public static String myCaptureFile;
 
     public static class ExceptionHandler {
