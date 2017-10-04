@@ -28,10 +28,9 @@ import android.widget.Toast;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
-import com.tt.rds.app.activity.BridgeActivity;
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 
 import java.io.File;
 
@@ -117,8 +116,8 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         us_gallery=(TextView)view.findViewById(R.id.us_gallery);
 
         userInfo=new UserInfo();
-        SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
-        String currentUser=sf.getString(ConstantValue.current_user,"");
+        SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+        String currentUser=sf.getString(Common.current_user,"");
         filePath= Environment.getExternalStorageDirectory().getPath()
                 + "/GPSLogger/Headers/header_" + currentUser+".jpg";
         capture_uri=Uri.fromFile(new File(filePath));
@@ -169,31 +168,31 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
                 pws.showAtLocation(us_head, Gravity.TOP,0,getResources().getDisplayMetrics().heightPixels/4);
                 break;
             case R.id.us_anony:
-                startAlterActivity(ConstantValue.MODIFY_ANONYMOUS);
+                startAlterActivity(Common.MODIFY_ANONYMOUS);
                 break;
             case R.id.us_phone:
-                startAlterActivity(ConstantValue.MODIFY_PHONE);
+                startAlterActivity(Common.MODIFY_PHONE);
                 break;
             case R.id.us_email:
-                startAlterActivity(ConstantValue.MODIFY_EMAIL);
+                startAlterActivity(Common.MODIFY_EMAIL);
                 break;
             case R.id.us_addr:
-                startAlterActivity(ConstantValue.MODIFY_ADDR);
+                startAlterActivity(Common.MODIFY_ADDR);
                 break;
             case R.id.us_signature:
-                startAlterActivity(ConstantValue.MODIFY_SIGNATURE);
+                startAlterActivity(Common.MODIFY_SIGNATURE);
                 break;
             case R.id.us_camera:
                 pws.dismiss();
                 Intent intentc = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intentc.putExtra(MediaStore.EXTRA_OUTPUT,capture_uri);
-                startActivityForResult(intentc,ConstantValue.CAMERA_CAPTURE);
+                startActivityForResult(intentc,Common.CAMERA_CAPTURE);
                 break;
             case R.id.us_gallery:
                 pws.dismiss();
                 Intent intentg = new Intent(Intent.ACTION_PICK, null);
                 intentg.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intentg, ConstantValue.GALLERY_SELECT);
+                startActivityForResult(intentg, Common.GALLERY_SELECT);
                 break;
             case R.id.us_gender:
                 String[] items=new String[]{"男","女"};
@@ -226,39 +225,39 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         Bundle bundle = new Bundle();
         bundle.putInt("launch_mode", mode);
         intent.putExtra("mode",bundle);
-        startActivityForResult(intent,ConstantValue.MODIFY_INFO);
+        startActivityForResult(intent,Common.MODIFY_INFO);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ConstantValue.MODIFY_INFO){
+        if(requestCode == Common.MODIFY_INFO){
             String content = data.getBundleExtra("result").getString("content");
             switch (resultCode){
-                case ConstantValue.MODIFY_ANONYMOUS:
+                case Common.MODIFY_ANONYMOUS:
                     mf_anony.setText(content);
                     userInfo.setAnonymous(content);
                     break;
-                case ConstantValue.MODIFY_PHONE:
+                case Common.MODIFY_PHONE:
                     mf_phone.setText(content);
                     userInfo.setPhone(content);
                     break;
-                case ConstantValue.MODIFY_EMAIL:
+                case Common.MODIFY_EMAIL:
                     mf_email.setText(content);
                     userInfo.setEmail(content);
                     break;
-                case ConstantValue.MODIFY_ADDR:
+                case Common.MODIFY_ADDR:
                     mf_addr.setText(content);
                     userInfo.setAddress(content);
                     break;
-                case ConstantValue.MODIFY_SIGNATURE:
+                case Common.MODIFY_SIGNATURE:
                     mf_signature.setText(content);
                     userInfo.setSignature(content);
                     break;
             }
             gpsApplication.updateUserLoginInfo(userInfo);
         }
-        else if(requestCode == ConstantValue.CAMERA_CAPTURE && resultCode==RESULT_OK){
+        else if(requestCode == Common.CAMERA_CAPTURE && resultCode==RESULT_OK){
             if (data != null)
             {
                 if(data.hasExtra("data")){
@@ -273,7 +272,7 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
                 mf_head.setImageBitmap(AppBitmap.getRoundBitmap(bitmap));
             }
         }
-        else if(requestCode == ConstantValue.GALLERY_SELECT && resultCode==RESULT_OK){
+        else if(requestCode == Common.GALLERY_SELECT && resultCode==RESULT_OK){
             Bitmap bitmap = AppBitmap.getBitmapFromContentUri(data.getData(), this);
             mf_head.setImageBitmap(AppBitmap.getRoundBitmap(bitmap));
             Log.d("BitmapDebug",capture_uri.getPath());

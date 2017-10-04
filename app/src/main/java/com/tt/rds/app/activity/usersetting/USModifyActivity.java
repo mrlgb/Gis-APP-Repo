@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 
 public class USModifyActivity extends BaseSaveActivity
 {
@@ -67,8 +67,8 @@ public class USModifyActivity extends BaseSaveActivity
         et_input=(EditText)findViewById(R.id.us_new_info);
         toolbar_title=(TextView)findViewById(R.id.us_title);
 
-        SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
-        String currentUser=sf.getString(ConstantValue.current_user,"");
+        SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+        String currentUser=sf.getString(Common.current_user,"");
 
         userInfo=gpsApplication.getUserLoginInfo(currentUser);
 
@@ -76,12 +76,12 @@ public class USModifyActivity extends BaseSaveActivity
         current_mode=bundleIn.getInt("launch_mode");
 
         switch (current_mode){
-            case ConstantValue.MODIFY_ANONYMOUS:
+            case Common.MODIFY_ANONYMOUS:
                 et_input.setHint("请输入您的昵称");
                 et_input.setText(userInfo.getAnonymous());
                 toolbar_title.setText("更改昵称");
                 break;
-            case ConstantValue.MODIFY_PHONE:
+            case Common.MODIFY_PHONE:
                 et_input.setHint("请输入您的手机号");
                 et_input.setText(userInfo.getPhone());
                 et_input.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -90,17 +90,17 @@ public class USModifyActivity extends BaseSaveActivity
                 et_input.setCompoundDrawables(src,null,null,null);
                 toolbar_title.setText("联系方式");
                 break;
-            case ConstantValue.MODIFY_EMAIL:
+            case Common.MODIFY_EMAIL:
                 et_input.setHint("请输入您的邮箱");
                 et_input.setText(userInfo.getEmail());
                 toolbar_title.setText("邮箱");
                 break;
-            case ConstantValue.MODIFY_ADDR:
+            case Common.MODIFY_ADDR:
                 et_input.setHint("请输入您的所在地区");
                 et_input.setText(userInfo.getAddress());
                 toolbar_title.setText("所在地区");
                 break;
-            case ConstantValue.MODIFY_SIGNATURE:
+            case Common.MODIFY_SIGNATURE:
                 et_input.setHint("记录工作和生活的点点滴滴");
                 et_input.setText(userInfo.getSignature());
                 et_input.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
