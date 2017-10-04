@@ -20,27 +20,21 @@ package com.tt.rds.app.db;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.util.Log;
-import android.util.Xml;
 
-import com.tt.rds.app.bean.Constant;
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.LatLng;
 import com.tt.rds.app.common.LocationExtended;
 import com.tt.rds.app.common.Track;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -1203,11 +1197,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             Log.d("MainApplication","Already save point type data for this user.");
         }
         else{
-            for(int i=0;i< ConstantValue.points_all_db.length;i++){
+            for(int i = 0; i< Common.points_all_db.length; i++){
                 insert="INSERT INTO " + TABLE_POINTTYPE
                         +"("+KEY_USER+","+KEY_POINT_NAME+","+KEY_POINT_USUALLY+")"
-                        + " VALUES('" + userName + "','" + ConstantValue.points_all[i]
-                        + "','" + ConstantValue.points_type[i] + "')";
+                        + " VALUES('" + userName + "','" + Common.points_all[i]
+                        + "','" + Common.points_type[i] + "')";
                 db.execSQL(insert);
             }
         }
@@ -1243,7 +1237,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             updatePT="UPDATE "+ TABLE_POINTTYPE
                     + " SET "+ KEY_POINT_USUALLY+"="+pointUsuals[i]
                     + " WHERE " + KEY_USER+" = '"+userName+"' AND "
-                    + KEY_POINT_NAME+" = '"+ConstantValue.points_all[i]+"'";
+                    + KEY_POINT_NAME+" = '"+Common.points_all[i]+"'";
             db.execSQL(updatePT);
         }
     }

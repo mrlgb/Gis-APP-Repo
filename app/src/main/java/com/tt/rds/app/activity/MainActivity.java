@@ -47,15 +47,17 @@ import java.util.List;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.point.PointMarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
 import com.tt.rds.app.activity.usersetting.LoginActivity;
 import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.activity.usersetting.UserSettingActivity;
+import com.tt.rds.app.app.Common;
+import com.tt.rds.app.app.Constant;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.ConstantValue;
 import com.tt.rds.app.common.EventBusMSG;
 
 import org.greenrobot.eventbus.EventBus;
@@ -124,6 +126,12 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.btnMyLocation).setOnClickListener(this);
 //
         initBottomSheet();
+
+        File file_photo = new File(Environment.getExternalStorageDirectory()
+                .getPath() + "/tt/collectionpo");
+        if (!file_photo.exists())
+            file_photo.mkdirs();
+        Constant.myCaptureFile = file_photo.getPath() + "/";
     }
 
 
@@ -146,20 +154,8 @@ public class MainActivity extends BaseActivity
 
                 // Display the selected/clicked item text
 //                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
-                if (selectedItem.equals("桥梁")) {
-                    Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
-                    startActivity(intent);
-                }
-                if (selectedItem.equals("隧道")) {
-                    Intent intent = new Intent(MainActivity.this, TunnelActivity.class);
-                    startActivity(intent);
-                }
-                if (selectedItem.equals("渡口")) {
-                    Intent intent = new Intent(MainActivity.this, FerryActivity.class);
-                    startActivity(intent);
-                }
-                if (selectedItem.equals("政界分界点")) {
-                    Intent intent = new Intent(MainActivity.this, BoundaryPointActivity.class);
+                if (selectedItem.equals("标志点")) {
+                    Intent intent = new Intent(MainActivity.this, PointMarkerActivity.class);
                     startActivity(intent);
                 }
 
@@ -431,8 +427,8 @@ public class MainActivity extends BaseActivity
         }
         else {
             String currentUser;
-            SharedPreferences sf= getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
-            currentUser=sf.getString(ConstantValue.current_user,"未登录");
+            SharedPreferences sf= getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+            currentUser=sf.getString(Common.current_user,"未登录");
             userInfo=gpsApplication.getUserLoginInfo(currentUser);
             String fileName=HEAD_PATH+"header_"+currentUser+".jpg";
             File file = new File(fileName);
@@ -550,9 +546,9 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_exit) {
             Log.d(TAG,"Logout");
-            SharedPreferences sf= getSharedPreferences(ConstantValue.login_preference_name,MODE_PRIVATE);
+            SharedPreferences sf= getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
             SharedPreferences.Editor editor = sf.edit();
-            editor.putInt(ConstantValue.login_state,0);
+            editor.putInt(Common.login_state,0);
             editor.commit();
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -561,8 +557,8 @@ public class MainActivity extends BaseActivity
 
     //judge if it's login state, yes: do nothing; No: start login activity
     private boolean judgeIfLogin(){
-        SharedPreferences sf = getSharedPreferences(ConstantValue.login_preference_name, MODE_PRIVATE);
-        int loginState = sf.getInt(ConstantValue.login_state, 0);
+        SharedPreferences sf = getSharedPreferences(Common.login_preference_name, MODE_PRIVATE);
+        int loginState = sf.getInt(Common.login_state, 0);
         if (loginState == 0) {
 
             return false;
