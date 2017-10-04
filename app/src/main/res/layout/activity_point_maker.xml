@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.point.PointMarkerActivity"
+    tools:context=".activity.point.MarkerActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 
@@ -40,8 +40,8 @@
             android:horizontalSpacing="1dip"
             app:columnCount="3">
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -60,8 +60,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -81,8 +81,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -100,8 +100,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -119,8 +119,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -138,8 +138,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -157,8 +157,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -176,8 +176,8 @@
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <TextView
@@ -195,21 +195,30 @@
                 style="@style/info_x_no"
                 app:layout_columnWeight="0.5" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
+                app:layout_columnSpan="3" />
+
+            <TextView
+                style="@style/info_title"
+                android:text="图片："
+                app:layout_columnWeight="1" />
+
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/galleryRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 app:layout_columnSpan="3"
                 app:orientation="horizontal" />
 
-            <include
-                layout="@layout/line_item"
+            <View
+                style="@style/info_splitter_line"
                 app:layout_columnSpan="3" />
 
 
@@ -234,7 +243,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/select_camera_item"
-            android:onClick="takePhoto"
+            android:contentDescription=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

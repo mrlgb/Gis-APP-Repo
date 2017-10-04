@@ -47,7 +47,7 @@ import java.util.List;
 
 import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
-import com.tt.rds.app.activity.point.PointMarkerActivity;
+import com.tt.rds.app.activity.point.MarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;
@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity
                 // Display the selected/clicked item text
 //                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
                 if (selectedItem.equals("标志点")) {
-                    Intent intent = new Intent(MainActivity.this, PointMarkerActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MarkerActivity.class);
                     startActivity(intent);
                 }
 

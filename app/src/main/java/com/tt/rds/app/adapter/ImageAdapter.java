@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.tt.rds.app.R;
 
 import java.io.File;
+import java.io.FileFilter;
 
 /**
  * Created by nigelhenshaw on 25/06/2015.
@@ -18,9 +19,13 @@ import java.io.File;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private File imagesFile;
+    private String  filter;
 
-    public ImageAdapter(File folderFile) {
+
+
+    public ImageAdapter(File folderFile,String filterStr ) {
         imagesFile = folderFile;
+        filter=filterStr;
     }
 
     @Override
@@ -32,14 +37,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        File imageFile = imagesFile.listFiles()[position];
+        File imageFile = imagesFile.listFiles(new myFileFilter())[position];
         Bitmap imageBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         holder.getImageView().setImageBitmap(imageBitmap);
     }
 
     @Override
     public int getItemCount() {
-        return imagesFile.listFiles().length>5?5:imagesFile.listFiles().length;
+        if(imagesFile.listFiles()!=null)
+            return imagesFile.listFiles().length>5?5:imagesFile.listFiles().length;
+        else
+            return 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,6 +61,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         public ImageView getImageView() {
             return imageView;
+        }
+    }
+
+    public class myFileFilter implements FileFilter {
+
+        @Override
+        public boolean accept(File pathname) {
+            String filename = pathname.getName().toLowerCase();
+            if(filename.contains("filter")){
+                return false;
+            }else{
+                return true;
+            }
         }
     }
 }

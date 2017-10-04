@@ -36,7 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.path.BegincollectingActivity" />
         <activity android:name=".activity.path.FinishcollectingActivity" />
-        <activity android:name=".activity.point.PointMarkerActivity" />
+        <activity android:name=".activity.point.MarkerActivity" />
         <activity
             android:name=".activity.WelcomActivity"
             android:theme="@style/AppTheme.NoActionBar">

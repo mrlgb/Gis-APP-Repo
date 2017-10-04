@@ -80,8 +80,7 @@
 
             <View
                 app:layout_columnSpan="3"
-                android:layout_height="4px"
-                android:background="@color/silver"
+                style="@style/info_splitter_line"
                 />
 
             <TextView
