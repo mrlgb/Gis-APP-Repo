@@ -24,7 +24,7 @@
     </android.support.v7.widget.Toolbar>
 
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/us_header"
@@ -56,7 +56,7 @@
 
     </android.support.constraint.ConstraintLayout>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
     <LinearLayout
         android:id="@+id/us_anony"
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
 
     </LinearLayout>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
     <LinearLayout
         android:id="@+id/us_phone"
         android:layout_width="match_parent"
@@ -90,7 +90,7 @@
 
     </LinearLayout>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
     <LinearLayout
         android:id="@+id/us_email"
         android:layout_width="match_parent"
@@ -124,7 +124,7 @@
 
     </LinearLayout>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
     <LinearLayout
         android:id="@+id/us_addr"
         android:layout_width="match_parent"
@@ -141,7 +141,7 @@
 
     </LinearLayout>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
     <LinearLayout
         android:id="@+id/us_signature"
         android:layout_width="match_parent"
@@ -159,6 +159,6 @@
 
     </LinearLayout>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
 
 </LinearLayout>

@@ -24,6 +24,8 @@ public class Common {
     public static final String current_user="currentuser";
     public static final String login_state="login";
 
+    public static final int USER_STATE_CHANGE=0x0201;
+    public static final int USER_STATE_CHANGE_BACK=0x0202;
     public static final int MODIFY_INFO=0x0101;
     public static final int MODIFY_ANONYMOUS=0x0102;
     public static final int MODIFY_PHONE=0x0103;
@@ -32,6 +34,7 @@ public class Common {
     public static final int GALLERY_SELECT=0x0106;
     public static final int MODIFY_ADDR=0x0107;
     public static final int MODIFY_SIGNATURE=0x0108;
+    public static final int MODIFY_CANCEL=0x0111;
     public static final String[] points_all = new String[]{
             "桥梁",
             "隧道",

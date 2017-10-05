@@ -419,7 +419,25 @@ public class MainActivity extends BaseActivity
         mHeader=headerView.findViewById(R.id.user_head_img);
         mUsername=headerView.findViewById(R.id.user_anonymus);
         mAddress=headerView.findViewById(R.id.user_address);
+        updateHeaderView();
+        mHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                if(!judgeIfLogin()){
+                    Intent intent =new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent,Common.USER_STATE_CHANGE);
+                }
+                else{
+                    Intent intent =new Intent(MainActivity.this, UserSettingActivity.class);
+                    startActivityForResult(intent,Common.USER_STATE_CHANGE);
+                }
+                drawer.closeDrawer(Gravity.START);
+            }
+        });
+    }
+
+    private void updateHeaderView(){
         if(!judgeIfLogin()){
             mHeader.setImageResource(R.drawable.ic_launcher_logo);
             mUsername.setText("未登录");
@@ -448,25 +466,15 @@ public class MainActivity extends BaseActivity
             mAddress.setText(userInfo.getAddress());
 
         }
-
-        mHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(!judgeIfLogin()){
-                    Intent intent =new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-                else{
-                    Intent intent =new Intent(MainActivity.this, UserSettingActivity.class);
-                    startActivity(intent);
-                }
-                drawer.closeDrawer(Gravity.START);
-            }
-        });
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==Common.USER_STATE_CHANGE && resultCode==Common.USER_STATE_CHANGE_BACK){
+            //update headerView
+            updateHeaderView();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -518,7 +526,7 @@ public class MainActivity extends BaseActivity
         Log.d(TAG,"Check if it's login state");
         if(!judgeIfLogin()){
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,Common.USER_STATE_CHANGE);
             drawer.closeDrawer(Gravity.START);
             return false;
         }
@@ -542,7 +550,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_switchuser) {
             Log.d(TAG,"Launch LoginActivity");
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,Common.USER_STATE_CHANGE);
 
         } else if (id == R.id.nav_exit) {
             Log.d(TAG,"Logout");
@@ -550,6 +558,7 @@ public class MainActivity extends BaseActivity
             SharedPreferences.Editor editor = sf.edit();
             editor.putInt(Common.login_state,0);
             editor.commit();
+            updateHeaderView();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

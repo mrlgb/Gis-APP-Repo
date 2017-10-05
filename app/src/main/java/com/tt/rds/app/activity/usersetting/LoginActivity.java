@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
                 Rect rect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-                if(i3!=0 && i7!=0 && i3 - rect.bottom <= 300){
+                if(i3!=0  && i3 - rect.bottom <= getResources().getDisplayMetrics().heightPixels/4){
                     mCstr.setVisibility(View.VISIBLE);
                     mCstr.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 }else {
@@ -173,6 +173,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     upateUserInfoToDB();
                     setLoginStatePreference();
                     gpsApplication.initPointType();
+                    Intent intent_back=new Intent();
+                    setResult(Common.USER_STATE_CHANGE_BACK,intent_back);
                     finish();
                 }
                 break;

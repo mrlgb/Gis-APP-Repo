@@ -44,8 +44,7 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
     ConstraintLayout us_head;
     UserInfo userInfo;
     LinearLayout us_anony,us_phone,us_email,us_gender,us_addr,us_signature;
-    TextView mf_anony,mf_phone,mf_email,mf_gender,mf_addr,mf_signature,us_capture,us_gallery;
-    PopupWindow pws;
+    TextView mf_anony,mf_phone,mf_email,mf_gender,mf_addr,mf_signature;
     Uri capture_uri;
     String filePath;
 
@@ -91,6 +90,13 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        setResult(Common.USER_STATE_CHANGE_BACK,intent);
+        finish();
+    }
+
     private void initViews() {
 
         us_head=(ConstraintLayout)findViewById(R.id.us_header);
@@ -108,12 +114,6 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         mf_gender=(TextView)findViewById(R.id.mf_gender);
         mf_addr=(TextView)findViewById(R.id.mf_addr);
         mf_signature=(TextView)findViewById(R.id.mf_signature);
-
-        View view = getLayoutInflater().inflate(R.layout.dialog_select,null);
-        pws=new PopupWindow(view,300,100);
-        configPopupWindow();
-        us_capture=(TextView)view.findViewById(R.id.us_camera);
-        us_gallery=(TextView)view.findViewById(R.id.us_gallery);
 
         userInfo=new UserInfo();
         SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
@@ -143,29 +143,31 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         us_gender.setOnClickListener(this);
         us_addr.setOnClickListener(this);
         us_signature.setOnClickListener(this);
-        us_capture.setOnClickListener(this);
-        us_gallery.setOnClickListener(this);
-
-    }
-
-    private void configPopupWindow(){
-        DisplayMetrics dm=getResources().getDisplayMetrics();
-        int wd_width=dm.widthPixels;
-        pws.setWidth(wd_width*3/4);
-        pws.setHeight(ActionBar.LayoutParams.WRAP_CONTENT);
-        // 设置可以获取焦点
-        pws.setFocusable(true);
-        // 设置可以触摸弹出框以外的区域
-        pws.setOutsideTouchable(true);
-        // 更新popupwindow的状态
-        pws.update();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.us_header:
-                pws.showAtLocation(us_head, Gravity.TOP,0,getResources().getDisplayMetrics().heightPixels/4);
+                String[] cap_items = new String[]{"相机","从相册中选择"};
+                AlertDialog.Builder cap_builder=new AlertDialog.Builder(this)
+                    .setItems(cap_items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which==0){
+                                Intent intentc = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intentc.putExtra(MediaStore.EXTRA_OUTPUT,capture_uri);
+                                startActivityForResult(intentc,Common.CAMERA_CAPTURE);
+                            }
+                            else if(which==1){
+                                Intent intentg = new Intent(Intent.ACTION_PICK, null);
+                                intentg.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                                startActivityForResult(intentg, Common.GALLERY_SELECT);
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                cap_builder.create().show();
                 break;
             case R.id.us_anony:
                 startAlterActivity(Common.MODIFY_ANONYMOUS);
@@ -181,18 +183,6 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.us_signature:
                 startAlterActivity(Common.MODIFY_SIGNATURE);
-                break;
-            case R.id.us_camera:
-                pws.dismiss();
-                Intent intentc = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intentc.putExtra(MediaStore.EXTRA_OUTPUT,capture_uri);
-                startActivityForResult(intentc,Common.CAMERA_CAPTURE);
-                break;
-            case R.id.us_gallery:
-                pws.dismiss();
-                Intent intentg = new Intent(Intent.ACTION_PICK, null);
-                intentg.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intentg, Common.GALLERY_SELECT);
                 break;
             case R.id.us_gender:
                 String[] items=new String[]{"男","女"};
@@ -232,6 +222,9 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == Common.MODIFY_INFO){
+            if(resultCode==Common.MODIFY_CANCEL){
+                return;
+            }
             String content = data.getBundleExtra("result").getString("content");
             switch (resultCode){
                 case Common.MODIFY_ANONYMOUS:

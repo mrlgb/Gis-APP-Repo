@@ -52,7 +52,7 @@ public class USModifyActivity extends BaseSaveActivity
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResultForUS();
+                USModifyActivity.this.onBackPressed();
 
             }
         });
@@ -60,7 +60,7 @@ public class USModifyActivity extends BaseSaveActivity
 
     @Override
     public void onBackPressed() {
-        setResultForUS();
+        setResultForUS(Common.MODIFY_CANCEL);
     }
 
     private void initViews() {
@@ -110,19 +110,19 @@ public class USModifyActivity extends BaseSaveActivity
         }
     }
 
-    private void setResultForUS(){
+    private void setResultForUS(int mode){
         Intent intent =new Intent();
         Bundle bundle=new Bundle();
         bundle.putString("content",et_input.getText().toString());
         intent.putExtra("result",bundle);
-        setResult(current_mode,intent);
+        setResult(mode,intent);
         finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.save_activity){
-            setResultForUS();
+            setResultForUS(current_mode);
         }
         return true;
     }
