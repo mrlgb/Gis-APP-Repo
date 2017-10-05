@@ -1,11 +1,8 @@
 package com.tt.rds.app.activity.usersetting;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,35 +10,26 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tt.rds.app.MainApplication;
+import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.app.Common;
-import com.tt.rds.app.bean.UserInfo;
+import com.tt.rds.app.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -52,12 +40,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ImageButton mClear,mExpand,mCollapse;
     PopupWindow pw;
     ListView mListView;
-    List<UserInfo> allusers;
+    List<User> allusers;
     List<String> usernames;
     List<String> passwords;
     ConstraintLayout mCstr;
 
-    final MainApplication gpsApplication = MainApplication.getInstance();
+    final Application gpsApplication = Application.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //if verify passed
                     upateUserInfoToDB();
                     setLoginStatePreference();
-                    gpsApplication.initPointType();
+//                    gpsApplication.initPointType();
                     Intent intent_back=new Intent();
                     setResult(Common.USER_STATE_CHANGE_BACK,intent_back);
                     finish();
@@ -184,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //get user info from db
     private void getAllUserInfo(){
-        allusers = gpsApplication.getAllUserLoginInfo();
+//        allusers = gpsApplication.getAllUserLoginInfo();
 
         if(allusers.size()==0){
             mExpand.setVisibility(View.GONE);
@@ -195,10 +183,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             passwords= new ArrayList<>();
             for(int i=0;i<allusers.size();i++)
             {
-                String name=allusers.get(i).getUserName();
-                String pwd=allusers.get(i).getPassword();
-                usernames.add(name);
-                passwords.add(pwd);
+//                String name=allusers.get(i).getUserName();
+//                String pwd=allusers.get(i).getPassword();
+//                usernames.add(name);
+//                passwords.add(pwd);
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     R.layout.list_item,usernames);
@@ -238,12 +226,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //add userinfo to local database
     private void upateUserInfoToDB(){
-        UserInfo userinfo=new UserInfo();
-        userinfo.setUserName(et_user.getText().toString());
-        if(mRemember.isChecked()){
-            userinfo.setPassword(et_pwd.getText().toString());
-        }
-        gpsApplication.updateUserLoginInfo(userinfo);
+        User userinfo=new User();
+//        userinfo.setUserName(et_user.getText().toString());
+//        if(mRemember.isChecked()){
+//            userinfo.setPassword(et_pwd.getText().toString());
+//        }
+//        gpsApplication.updateUserLoginInfo(userinfo);
     }
 
     //TODO 联网验证身份，并且获得个人信息

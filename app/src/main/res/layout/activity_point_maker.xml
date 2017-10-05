@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.point.MarkerActivity"
+    tools:context=".activity.ttPoint.MarkerActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 
@@ -211,7 +211,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/galleryRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 app:layout_columnSpan="3"
@@ -238,7 +238,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageButton
-            android:id="@+id/point_marker_camera"
+            android:id="@+id/camera_button"
             style="@style/info_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

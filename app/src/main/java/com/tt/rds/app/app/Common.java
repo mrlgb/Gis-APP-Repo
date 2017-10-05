@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class Common {
 
+    public static final String DATABASE_NAME = "GPS-APP";
     public static final String login_preference_name="loginstate";
     public static final String current_user="currentuser";
     public static final String login_state="login";

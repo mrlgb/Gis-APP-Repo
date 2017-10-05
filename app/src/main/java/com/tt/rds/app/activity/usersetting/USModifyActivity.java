@@ -3,32 +3,30 @@ package com.tt.rds.app.activity.usersetting;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tt.rds.app.MainApplication;
+import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.app.Common;
-import com.tt.rds.app.bean.UserInfo;
+import com.tt.rds.app.bean.User;
 
 public class USModifyActivity extends BaseSaveActivity
 {
 
-    private final MainApplication gpsApplication=MainApplication.getInstance();
+    private final Application gpsApplication= Application.getInstance();
 
     EditText et_input;
     TextView toolbar_title;
     int current_mode;
-    UserInfo userInfo;
+    User user;
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_usmodify;
@@ -70,7 +68,7 @@ public class USModifyActivity extends BaseSaveActivity
         SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         String currentUser=sf.getString(Common.current_user,"");
 
-        userInfo=gpsApplication.getUserLoginInfo(currentUser);
+//        user =gpsApplication.getUserLoginInfo(currentUser);
 
         Bundle bundleIn=getIntent().getBundleExtra("mode");
         current_mode=bundleIn.getInt("launch_mode");
@@ -78,12 +76,12 @@ public class USModifyActivity extends BaseSaveActivity
         switch (current_mode){
             case Common.MODIFY_ANONYMOUS:
                 et_input.setHint("请输入您的昵称");
-                et_input.setText(userInfo.getAnonymous());
+                et_input.setText(user.getAnonymous());
                 toolbar_title.setText("更改昵称");
                 break;
             case Common.MODIFY_PHONE:
                 et_input.setHint("请输入您的手机号");
-                et_input.setText(userInfo.getPhone());
+                et_input.setText(user.getPhone());
                 et_input.setInputType(InputType.TYPE_CLASS_PHONE);
                 Drawable src=getResources().getDrawable(R.drawable.et_drawable_86);
                 src.setBounds(0,0,120,80);
@@ -92,17 +90,17 @@ public class USModifyActivity extends BaseSaveActivity
                 break;
             case Common.MODIFY_EMAIL:
                 et_input.setHint("请输入您的邮箱");
-                et_input.setText(userInfo.getEmail());
+                et_input.setText(user.getEmail());
                 toolbar_title.setText("邮箱");
                 break;
             case Common.MODIFY_ADDR:
                 et_input.setHint("请输入您的所在地区");
-                et_input.setText(userInfo.getAddress());
+                et_input.setText(user.getAddress());
                 toolbar_title.setText("所在地区");
                 break;
             case Common.MODIFY_SIGNATURE:
                 et_input.setHint("记录工作和生活的点点滴滴");
-                et_input.setText(userInfo.getSignature());
+                et_input.setText(user.getSignature());
                 et_input.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         getResources().getDisplayMetrics().heightPixels/3));
                 toolbar_title.setText("个性签名");

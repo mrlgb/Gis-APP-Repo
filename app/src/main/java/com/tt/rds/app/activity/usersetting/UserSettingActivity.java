@@ -11,38 +11,33 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.tt.rds.app.MainApplication;
+import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.AppBitmap;
-import com.tt.rds.app.bean.UserInfo;
+import com.tt.rds.app.bean.User;
 
 import java.io.File;
 
 public class UserSettingActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private final MainApplication gpsApplication=MainApplication.getInstance();
+    private final Application gpsApplication= Application.getInstance();
     private final int GENDER_MALE=0x0041;
     private final int GENDER_FEMALE=0x0042;
 
     ImageView mf_head;
     ConstraintLayout us_head;
-    UserInfo userInfo;
+    User user;
     LinearLayout us_anony,us_phone,us_email,us_gender,us_addr,us_signature;
     TextView mf_anony,mf_phone,mf_email,mf_gender,mf_addr,mf_signature;
     Uri capture_uri;
@@ -54,13 +49,13 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             switch (msg.what){
                 case GENDER_MALE:
                     mf_gender.setText("男");
-                    userInfo.setGender("男");
-                    gpsApplication.updateUserLoginInfo(userInfo);
+                    user.setGender("男");
+//                    gpsApplication.updateUserLoginInfo(user);
                     break;
                 case GENDER_FEMALE:
                     mf_gender.setText("女");
-                    userInfo.setGender("女");
-                    gpsApplication.updateUserLoginInfo(userInfo);
+                    user.setGender("女");
+//                    gpsApplication.updateUserLoginInfo(user);
                     break;
                 //TODO 联网更新到服务端，并发送event/广播给MainActivity更新头像等信息
             }
@@ -115,7 +110,7 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         mf_addr=(TextView)findViewById(R.id.mf_addr);
         mf_signature=(TextView)findViewById(R.id.mf_signature);
 
-        userInfo=new UserInfo();
+        user =new User();
         SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         String currentUser=sf.getString(Common.current_user,"");
         filePath= Environment.getExternalStorageDirectory().getPath()
@@ -128,13 +123,13 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             mf_head.setImageBitmap(AppBitmap.getRoundBitmap(bitmap));
         }
 
-        userInfo=gpsApplication.getUserLoginInfo(currentUser);
-        mf_anony.setText(userInfo.getAnonymous().equals("")?"未填写":userInfo.getAnonymous());
-        mf_phone.setText(userInfo.getPhone().equals("")?"未填写":userInfo.getPhone());
-        mf_email.setText(userInfo.getEmail().equals("")?"未填写":userInfo.getEmail());
-        mf_gender.setText(userInfo.getGender().equals("")?"未填写":userInfo.getGender());
-        mf_addr.setText(userInfo.getAddress().equals("")?"未填写":userInfo.getAddress());
-        mf_signature.setText(userInfo.getSignature().equals("")?"未填写":userInfo.getSignature());
+//        user =gpsApplication.getUserLoginInfo(currentUser);
+//        mf_anony.setText(user.getAnonymous().equals("")?"未填写": user.getAnonymous());
+//        mf_phone.setText(user.getPhone().equals("")?"未填写": user.getPhone());
+//        mf_email.setText(user.getEmail().equals("")?"未填写": user.getEmail());
+//        mf_gender.setText(user.getGender().equals("")?"未填写": user.getGender());
+//        mf_addr.setText(user.getAddress().equals("")?"未填写": user.getAddress());
+//        mf_signature.setText(user.getSignature().equals("")?"未填写": user.getSignature());
 
         us_head.setOnClickListener(this);
         us_anony.setOnClickListener(this);
@@ -187,7 +182,7 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             case R.id.us_gender:
                 String[] items=new String[]{"男","女"};
                 int g_index=0;
-                if(userInfo.getGender().equals("女")){
+                if(user.getGender().equals("女")){
                     g_index=1;
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(this)
@@ -229,26 +224,26 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             switch (resultCode){
                 case Common.MODIFY_ANONYMOUS:
                     mf_anony.setText(content);
-                    userInfo.setAnonymous(content);
+                    user.setAnonymous(content);
                     break;
                 case Common.MODIFY_PHONE:
                     mf_phone.setText(content);
-                    userInfo.setPhone(content);
+                    user.setPhone(content);
                     break;
                 case Common.MODIFY_EMAIL:
                     mf_email.setText(content);
-                    userInfo.setEmail(content);
+                    user.setEmail(content);
                     break;
                 case Common.MODIFY_ADDR:
                     mf_addr.setText(content);
-                    userInfo.setAddress(content);
+                    user.setAddress(content);
                     break;
                 case Common.MODIFY_SIGNATURE:
                     mf_signature.setText(content);
-                    userInfo.setSignature(content);
+                    user.setSignature(content);
                     break;
             }
-            gpsApplication.updateUserLoginInfo(userInfo);
+//            gpsApplication.updateUserLoginInfo(user);
         }
         else if(requestCode == Common.CAMERA_CAPTURE && resultCode==RESULT_OK){
             if (data != null)

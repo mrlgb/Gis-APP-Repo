@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import com.tt.rds.app.MainApplication;
+import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.bean.PointType;
@@ -25,7 +25,7 @@ public class PointSetActivity extends BaseSaveActivity {
     private List<String> points;
     private int[] pointTypes;
 
-    final MainApplication gpsApplication = MainApplication.getInstance();
+    final Application gpsApplication = Application.getInstance();
 
     @Override
     protected int getLayoutResId() {
@@ -59,15 +59,15 @@ public class PointSetActivity extends BaseSaveActivity {
         points=new ArrayList<String>();
         checkpoints=new ArrayList<CheckBox>();
 
-        pointAll=gpsApplication.getUsualPoints();
-        pointTypes = new int[pointAll.size()];
-
-        for(int i=0;i<pointAll.size();i++){
-            points.add(pointAll.get(i).getName());
-            pointTypes[i]=pointAll.get(i).getUsually();
-        }
-        MyAdapter adapter = new MyAdapter();
-        mListView.setAdapter(adapter);
+//        pointAll=gpsApplication.getUsualPoints();
+//        pointTypes = new int[pointAll.size()];
+//
+//        for(int i=0;i<pointAll.size();i++){
+//            points.add(pointAll.get(i).getName());
+//            pointTypes[i]=pointAll.get(i).getUsually();
+//        }
+//        MyAdapter adapter = new MyAdapter();
+//        mListView.setAdapter(adapter);
 
     }
 
@@ -105,8 +105,8 @@ public class PointSetActivity extends BaseSaveActivity {
 
         int itemId=item.getItemId();
         if(itemId==R.id.save_activity){
-            gpsApplication.setUsualPoints(getPointTypeLists());
-            this.onBackPressed();
+//            gpsApplication.setUsualPoints(getPointTypeLists());
+//            this.onBackPressed();
         }
         return true;
     }

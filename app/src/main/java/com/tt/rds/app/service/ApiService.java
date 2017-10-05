@@ -1,7 +1,7 @@
 package com.tt.rds.app.service;
 
 import com.tt.rds.app.app.Constant;
-import com.tt.rds.app.bean.User;
+
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -9,8 +9,8 @@ import rx.Observable;
 public interface ApiService {
 
 
-    @POST(Constant.LOGIN)
-    Observable<User> login(@Query("userName") String userName, @Query("password") String password);
+//    @POST(Constant.LOGIN)
+//    Observable<User> login(@Query("userName") String userName, @Query("password") String password);
 //    @POST(Constant.UPDATPASSWORD)
 //    Observable<UpdatPassword> UpdatePassword(@Query("userName") String userName, @Query("newPassword") String newPassword);
 //    @POST(Constant.GETCOURSE)

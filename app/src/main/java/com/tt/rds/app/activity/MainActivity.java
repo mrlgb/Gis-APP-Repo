@@ -41,11 +41,9 @@ import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-
 import java.io.File;
 import java.util.List;
-
-import com.tt.rds.app.MainApplication;
+import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.point.MarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
@@ -57,10 +55,8 @@ import com.tt.rds.app.activity.usersetting.UserSettingActivity;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.app.Constant;
 import com.tt.rds.app.bean.AppBitmap;
-import com.tt.rds.app.bean.UserInfo;
-import com.tt.rds.app.common.EventBusMSG;
+import com.tt.rds.app.bean.User;
 
-import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -83,7 +79,7 @@ public class MainActivity extends BaseActivity
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
 
-    final MainApplication gpsApplication = MainApplication.getInstance();
+    final Application gpsApplication = Application.getInstance();
     DrawerLayout drawer;
     private LocationDisplay mLocationDisplay;
     double mScale = 0.0;
@@ -92,7 +88,7 @@ public class MainActivity extends BaseActivity
     String[] reqPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
             .ACCESS_COARSE_LOCATION};
 
-    private UserInfo userInfo;
+    private User user;
 
 
     @Override
@@ -127,6 +123,10 @@ public class MainActivity extends BaseActivity
 //
         initBottomSheet();
 
+        createPhotoPath();
+    }
+
+    private void createPhotoPath() {
         File file_photo = new File(Environment.getExternalStorageDirectory()
                 .getPath() + "/tt/collectionpo");
         if (!file_photo.exists())
@@ -348,9 +348,9 @@ public class MainActivity extends BaseActivity
                 Log.d(TAG, "Click button Begin Line collect main");
 //                Intent intent1 = new Intent(MainActivity.this,BegincollectingActivity.class);
 //                startActivity(intent1);
-                final Boolean grs = gpsApplication.getRecording();
-                boolean newRecordingState = !grs;
-                gpsApplication.setRecording(newRecordingState);
+//                final Boolean grs = gpsApplication.getRecording();
+//                boolean newRecordingState = !grs;
+//                gpsApplication.setRecording(newRecordingState);
                 break;
             case R.id.BtnQuery_main:
                 //
@@ -366,10 +366,10 @@ public class MainActivity extends BaseActivity
                 Log.d(TAG, "Click button stop main");
 //                Intent intent3 = new Intent(MainActivity.this,FinishcollectingActivity.class);
 //                startActivity(intent3);
-                gpsApplication.setNewTrackFlag(false);
-                gpsApplication.setRecording(false);
-                EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
-                Toast.makeText(this, "STOP Collecting", Toast.LENGTH_SHORT).show();
+//                gpsApplication.setNewTrackFlag(false);
+//                gpsApplication.setRecording(false);
+//                EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
+//                Toast.makeText(this, "STOP Collecting", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnMyLocation:
                 //
@@ -447,7 +447,7 @@ public class MainActivity extends BaseActivity
             String currentUser;
             SharedPreferences sf= getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
             currentUser=sf.getString(Common.current_user,"未登录");
-            userInfo=gpsApplication.getUserLoginInfo(currentUser);
+//            user=gpsApplication.getUserLoginInfo(currentUser);
             String fileName=HEAD_PATH+"header_"+currentUser+".jpg";
             File file = new File(fileName);
             if(file.exists()){
@@ -457,13 +457,13 @@ public class MainActivity extends BaseActivity
             else{
                 mHeader.setImageResource(R.drawable.ic_launcher_logo);
             }
-            if(userInfo.getAnonymous().equals("")){
+            if(user.getAnonymous().equals("")){
                 mUsername.setText(currentUser);
             }
             else {
-                mUsername.setText(userInfo.getAnonymous());
+                mUsername.setText(user.getAnonymous());
             }
-            mAddress.setText(userInfo.getAddress());
+            mAddress.setText(user.getAddress());
 
         }
     }

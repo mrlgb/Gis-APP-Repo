@@ -1,12 +1,14 @@
+apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.android.application'
+
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.tt.rds.app"
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 19
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,36 +21,47 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1000
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    //arcgis
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     //
-    //
-    //
-    //全局字体
-    //沉浸式状态栏
-    //
-    //
-    //
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:appcompat-v7:26+'
+    compile 'com.android.support:design:26+'
+    compile 'com.android.support:gridlayout-v7:26+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+    //arcgis
     compile 'com.esri.arcgisruntime:arcgis-android:100.1.0'
+    //retrofit
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    //butterknife
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.android.support:gridlayout-v7:26.+'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+
+    //take photo
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.tajchert:nammu:1.1.1'
+    compile 'com.github.jkwiecien:EasyImage:2.0.3'
+    //
+
+    //greeDAO eventbus
+//    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.greenrobot:greendao:3.2.2'
+    // This is only needed if you want to use encrypted databases
+//    compile 'net.zetetic:android-database-sqlcipher:3.5.6'
+    //junit
     testCompile 'junit:junit:4.12'
 }

@@ -77,4 +77,9 @@
     <string name="title_activity_share">ShareActivity</string>
     <string name="user_constrain">1234567890qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJKMIOLP_@</string>
     <string name="password_constrain">1234567890qazwsxedcrfvtgbyhnujmiklopQAZWSXEDCRFVTGBYHNUJKMIOLP_</string>
+
+    <array name="str_body">
+        <item>查看</item>
+        <item>删除</item>
+    </array>
 </resources>
