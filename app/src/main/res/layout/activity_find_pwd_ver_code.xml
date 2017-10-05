@@ -22,6 +22,68 @@
             android:text="找回登录密码" />
     </android.support.v7.widget.Toolbar>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
+
+    <TextView
+        style="@style/text_p_common"
+        android:layout_width="match_parent"
+        android:text="验证码短信已发送到您的手机"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/login_vercode"
+                style="@style/text_p_common"
+                android:layout_width="match_parent"
+                android:background="@drawable/select_et_bg_focused"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:gravity="left"
+                android:digits="1234567890"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/login_show_vercode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60s后重新获取"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="@+id/login_vercode"
+                app:layout_constraintBottom_toBottomOf="@+id/login_vercode"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintTop_toTopOf="@+id/login_vercode"
+                android:layout_marginTop="8dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <Button
+            android:id="@+id/find_verify"
+            style="@style/text_p_common"
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:text="验证"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_rectangle_solid_blue"/>
+
+    </LinearLayout>
 
 </LinearLayout>

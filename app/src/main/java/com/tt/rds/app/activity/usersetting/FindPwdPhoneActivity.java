@@ -72,7 +72,6 @@ public class FindPwdPhoneActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO 发送验证码
 
-
                 Intent intent = new Intent(FindPwdPhoneActivity.this,FindPwdVerCodeActivity.class);
                 startActivity(intent);
                 finish();

@@ -23,7 +23,7 @@
             android:text="找回登录密码" />
     </android.support.v7.widget.Toolbar>
     <include
-        layout="@layout/line_item_thin"/>
+        layout="@layout/line_item_l"/>
 
 
 
