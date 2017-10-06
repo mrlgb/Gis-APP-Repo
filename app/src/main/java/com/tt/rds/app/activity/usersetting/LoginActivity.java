@@ -282,10 +282,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initPointSettingForUser(){
         //TODO 暂时只保存本地设置
         UserPointTypeDao userPointTypeDao=gpsApplication.getDbService().getUserPointTypeDao();
-        List<UserPointType> userPTs=userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getId())).build().list();
+        List<UserPointType> userPTs=userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getUserId())).build().list();
         if(userPTs.size()==0){
             for(int i=0;i<Common.points_all.length;i++){
-                UserPointType userPointType=new UserPointType(null,Common.points_all[i],Common.points_type[i],(long)current_user.getId());
+                UserPointType userPointType=new UserPointType(null,Common.points_all[i],Common.points_type[i],(long)current_user.getUserId());
                 userPointTypeDao.insert(userPointType);
             }
         }

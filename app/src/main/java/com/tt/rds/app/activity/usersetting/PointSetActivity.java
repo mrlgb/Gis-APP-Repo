@@ -71,7 +71,7 @@ public class PointSetActivity extends BaseSaveActivity {
         SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         String cur_username=sf.getString(Common.current_user,"");
         current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();
-        pointAll = userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getId())).build().list();
+        pointAll = userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getUserId())).build().list();
 
         MyAdapter adapter = new MyAdapter();
         mListView.setAdapter(adapter);
