@@ -27,6 +27,9 @@ import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.User;
+import com.tt.rds.app.bean.UserDao;
+import com.tt.rds.app.bean.UserPointType;
+import com.tt.rds.app.bean.UserPointTypeDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     List<String> usernames;
     List<String> passwords;
     ConstraintLayout mCstr;
+    User current_user;
 
     final Application gpsApplication = Application.getInstance();
 
@@ -155,24 +159,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_bt:
                 if(!checkETInput()){
                     //input error
+                    Toast.makeText(this,"用户名和密码不能为空！",Toast.LENGTH_SHORT).show();
                 }
                 else if(verifyUserInfo()){
                     //if verify passed
                     upateUserInfoToDB();
                     setLoginStatePreference();
-//                    gpsApplication.initPointType();
+                    initPointSettingForUser();
                     Intent intent_back=new Intent();
                     setResult(Common.USER_STATE_CHANGE_BACK,intent_back);
                     finish();
                 }
                 break;
-
         }
     }
 
     //get user info from db
     private void getAllUserInfo(){
-//        allusers = gpsApplication.getAllUserLoginInfo();
+        UserDao userDao = gpsApplication.getDbService().getUserDao();
+        allusers = userDao.queryBuilder().build().list();
 
         if(allusers.size()==0){
             mExpand.setVisibility(View.GONE);
@@ -183,10 +188,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             passwords= new ArrayList<>();
             for(int i=0;i<allusers.size();i++)
             {
-//                String name=allusers.get(i).getUserName();
-//                String pwd=allusers.get(i).getPassword();
-//                usernames.add(name);
-//                passwords.add(pwd);
+                String name=allusers.get(i).getUser();
+                String pwd=allusers.get(i).getPassword();
+                usernames.add(name);
+                passwords.add(pwd);
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     R.layout.list_item,usernames);
@@ -226,12 +231,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //add userinfo to local database
     private void upateUserInfoToDB(){
-        User userinfo=new User();
-//        userinfo.setUserName(et_user.getText().toString());
-//        if(mRemember.isChecked()){
-//            userinfo.setPassword(et_pwd.getText().toString());
-//        }
-//        gpsApplication.updateUserLoginInfo(userinfo);
+        //TODO 从Server获得用户数据，并插入数据库
+        String mUserName=et_user.getText().toString();
+        String mPwd=et_pwd.getText().toString();
+        UserDao userDao=gpsApplication.getDbService().getUserDao();
+        current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(mUserName)).build().unique();
+        if(current_user!=null){
+            //TODO 更新数据
+            if(mRemember.isChecked()){
+                current_user.setPassword(mPwd);
+            }
+            userDao.update(current_user);
+
+        }
+        else{
+            //TODO 插入数据
+            current_user=new User();
+            current_user.setUser(mUserName);
+            if(mRemember.isChecked()){
+                current_user.setPassword(mPwd);
+            }
+            userDao.insert(current_user);
+        }
     }
 
     //TODO 联网验证身份，并且获得个人信息
@@ -244,7 +265,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //check if input is null
     private boolean checkETInput(){
         if(et_user.getText().toString().equals("") || et_pwd.getText().toString().equals("")){
-            Toast.makeText(this,"用户名和密码不能为空！",Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -255,9 +275,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
         editor.putInt(Common.login_state,1);
-        editor.putString(Common.current_user,et_user.getText().toString());
+        editor.putString(Common.current_user,current_user.getUser());
         editor.commit();
     }
 
+    private void initPointSettingForUser(){
+        //TODO 暂时只保存本地设置
+        UserPointTypeDao userPointTypeDao=gpsApplication.getDbService().getUserPointTypeDao();
+        List<UserPointType> userPTs=userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getId())).build().list();
+        if(userPTs.size()==0){
+            for(int i=0;i<Common.points_all.length;i++){
+                UserPointType userPointType=new UserPointType(null,Common.points_all[i],Common.points_type[i],(long)current_user.getId());
+                userPointTypeDao.insert(userPointType);
+            }
+        }
+
+    }
 
 }

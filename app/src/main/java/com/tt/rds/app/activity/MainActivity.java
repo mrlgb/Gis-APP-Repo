@@ -56,14 +56,13 @@ import com.tt.rds.app.app.Common;
 import com.tt.rds.app.app.Constant;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.User;
+import com.tt.rds.app.bean.UserDao;
 
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String HEAD_PATH = Environment.getExternalStorageDirectory().getPath()+"/GPSLogger/Headers/";
-
     private BottomSheetBehavior mBottomSheetBehavior;
     private View mBottomSheet;
     private GridView gv;
@@ -88,7 +87,8 @@ public class MainActivity extends BaseActivity
     String[] reqPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
             .ACCESS_COARSE_LOCATION};
 
-    private User user;
+    private User current_user;
+    private UserDao userDao;
 
 
     @Override
@@ -419,6 +419,8 @@ public class MainActivity extends BaseActivity
         mHeader=headerView.findViewById(R.id.user_head_img);
         mUsername=headerView.findViewById(R.id.user_anonymus);
         mAddress=headerView.findViewById(R.id.user_address);
+
+
         updateHeaderView();
         mHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -444,11 +446,12 @@ public class MainActivity extends BaseActivity
             mAddress.setText("");
         }
         else {
-            String currentUser;
-            SharedPreferences sf= getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
-            currentUser=sf.getString(Common.current_user,"未登录");
-//            user=gpsApplication.getUserLoginInfo(currentUser);
-            String fileName=HEAD_PATH+"header_"+currentUser+".jpg";
+            userDao = gpsApplication.getDbService().getUserDao();
+            SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+            String cur_username=sf.getString(Common.current_user,"");
+            current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();
+
+            String fileName=Common.HEADER_PATH+"header_"+current_user.getUser()+".jpg";
             File file = new File(fileName);
             if(file.exists()){
                 Bitmap bitmap= AppBitmap.getBitmapFromFilePath(fileName);
@@ -457,13 +460,13 @@ public class MainActivity extends BaseActivity
             else{
                 mHeader.setImageResource(R.drawable.ic_launcher_logo);
             }
-            if(user.getAnonymous().equals("")){
-                mUsername.setText(currentUser);
+            if(current_user.getAnonymous().equals("")){
+                mUsername.setText(current_user.getUser());
             }
             else {
-                mUsername.setText(user.getAnonymous());
+                mUsername.setText(current_user.getAnonymous());
             }
-            mAddress.setText(user.getAddress());
+            mAddress.setText(current_user.getAddress());
 
         }
     }

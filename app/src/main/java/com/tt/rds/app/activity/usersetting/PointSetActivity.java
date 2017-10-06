@@ -1,7 +1,9 @@
 package com.tt.rds.app.activity.usersetting;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,12 @@ import android.widget.ListView;
 import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
+import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.PointType;
+import com.tt.rds.app.bean.User;
+import com.tt.rds.app.bean.UserDao;
+import com.tt.rds.app.bean.UserPointType;
+import com.tt.rds.app.bean.UserPointTypeDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +28,10 @@ public class PointSetActivity extends BaseSaveActivity {
 
     private ListView mListView;
     private List<CheckBox> checkpoints;
-    private List<PointType> pointAll;
-    private List<String> points;
-    private int[] pointTypes;
+    private List<UserPointType> pointAll;
+    private UserPointTypeDao userPointTypeDao;
+    private UserDao userDao;
+    private User current_user;
 
     final Application gpsApplication = Application.getInstance();
 
@@ -56,30 +64,29 @@ public class PointSetActivity extends BaseSaveActivity {
 
     private void initViews(){
         mListView=(ListView)findViewById(R.id.pt_list);
-        points=new ArrayList<String>();
         checkpoints=new ArrayList<CheckBox>();
 
-//        pointAll=gpsApplication.getUsualPoints();
-//        pointTypes = new int[pointAll.size()];
-//
-//        for(int i=0;i<pointAll.size();i++){
-//            points.add(pointAll.get(i).getName());
-//            pointTypes[i]=pointAll.get(i).getUsually();
-//        }
-//        MyAdapter adapter = new MyAdapter();
-//        mListView.setAdapter(adapter);
+        userPointTypeDao=gpsApplication.getDbService().getUserPointTypeDao();
+        userDao = gpsApplication.getDbService().getUserDao();
+        SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+        String cur_username=sf.getString(Common.current_user,"");
+        current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();
+        pointAll = userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getId())).build().list();
+
+        MyAdapter adapter = new MyAdapter();
+        mListView.setAdapter(adapter);
 
     }
 
     class MyAdapter extends BaseAdapter{
         @Override
         public int getCount() {
-            return points.size();
+            return pointAll.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return points.get(i);
+            return pointAll.get(i);
         }
 
         @Override
@@ -94,8 +101,8 @@ public class PointSetActivity extends BaseSaveActivity {
                 checkpoints.add((CheckBox)view);
             }
             CheckBox cb=(CheckBox)view;
-            cb.setText(points.get(i));
-            cb.setChecked(pointTypes[i]==1?true:false);
+            cb.setText(pointAll.get(i).getName());
+            cb.setChecked(pointAll.get(i).getUsually()==1?true:false);
             return view;
         }
     }
@@ -105,21 +112,17 @@ public class PointSetActivity extends BaseSaveActivity {
 
         int itemId=item.getItemId();
         if(itemId==R.id.save_activity){
-//            gpsApplication.setUsualPoints(getPointTypeLists());
-//            this.onBackPressed();
+            for(int i=0;i<pointAll.size();i++){
+                if(checkpoints.get(i).isChecked()){
+                    pointAll.get(i).setUsually(1);
+                }
+                else{
+                    pointAll.get(i).setUsually(0);
+                }
+                userPointTypeDao.update(pointAll.get(i));
+            }
+            this.onBackPressed();
         }
         return true;
-    }
-
-    private int[] getPointTypeLists(){
-        for(int i=0;i<pointTypes.length;i++){
-            if(checkpoints.get(i).isChecked()){
-                pointTypes[i]=1;
-            }
-            else{
-                pointTypes[i]=0;
-            }
-        }
-        return pointTypes;
     }
 }

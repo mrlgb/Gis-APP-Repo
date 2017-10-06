@@ -26,6 +26,7 @@ import com.tt.rds.app.R;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.User;
+import com.tt.rds.app.bean.UserDao;
 
 import java.io.File;
 
@@ -37,7 +38,8 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
 
     ImageView mf_head;
     ConstraintLayout us_head;
-    User user;
+    UserDao userDao;
+    User current_user;
     LinearLayout us_anony,us_phone,us_email,us_gender,us_addr,us_signature;
     TextView mf_anony,mf_phone,mf_email,mf_gender,mf_addr,mf_signature;
     Uri capture_uri;
@@ -49,15 +51,15 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             switch (msg.what){
                 case GENDER_MALE:
                     mf_gender.setText("男");
-                    user.setGender("男");
-//                    gpsApplication.updateUserLoginInfo(user);
+                    current_user.setGender("男");
+                    userDao.update(current_user);
                     break;
                 case GENDER_FEMALE:
                     mf_gender.setText("女");
-                    user.setGender("女");
-//                    gpsApplication.updateUserLoginInfo(user);
+                    current_user.setGender("女");
+                    userDao.update(current_user);
                     break;
-                //TODO 联网更新到服务端，并发送event/广播给MainActivity更新头像等信息
+                //TODO 联网更新到服务端
             }
 
         }
@@ -110,11 +112,12 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         mf_addr=(TextView)findViewById(R.id.mf_addr);
         mf_signature=(TextView)findViewById(R.id.mf_signature);
 
-        user =new User();
-        SharedPreferences sf = getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
-        String currentUser=sf.getString(Common.current_user,"");
-        filePath= Environment.getExternalStorageDirectory().getPath()
-                + "/GPSLogger/Headers/header_" + currentUser+".jpg";
+        userDao = gpsApplication.getDbService().getUserDao();
+        SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+        String cur_username=sf.getString(Common.current_user,"");
+        current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();
+
+        filePath= Common.HEADER_PATH + "/header_" + current_user.getUser()+".jpg";
         capture_uri=Uri.fromFile(new File(filePath));
 
         File pic_f=new File(filePath);
@@ -123,13 +126,12 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             mf_head.setImageBitmap(AppBitmap.getRoundBitmap(bitmap));
         }
 
-//        user =gpsApplication.getUserLoginInfo(currentUser);
-//        mf_anony.setText(user.getAnonymous().equals("")?"未填写": user.getAnonymous());
-//        mf_phone.setText(user.getPhone().equals("")?"未填写": user.getPhone());
-//        mf_email.setText(user.getEmail().equals("")?"未填写": user.getEmail());
-//        mf_gender.setText(user.getGender().equals("")?"未填写": user.getGender());
-//        mf_addr.setText(user.getAddress().equals("")?"未填写": user.getAddress());
-//        mf_signature.setText(user.getSignature().equals("")?"未填写": user.getSignature());
+        mf_anony.setText(current_user.getAnonymous().equals("")?"未填写": current_user.getAnonymous());
+        mf_phone.setText(current_user.getPhone().equals("")?"未填写": current_user.getPhone());
+        mf_email.setText(current_user.getEmail().equals("")?"未填写": current_user.getEmail());
+        mf_gender.setText(current_user.getGender().equals("")?"未填写": current_user.getGender());
+        mf_addr.setText(current_user.getAddress().equals("")?"未填写": current_user.getAddress());
+        mf_signature.setText(current_user.getSignature().equals("")?"未填写": current_user.getSignature());
 
         us_head.setOnClickListener(this);
         us_anony.setOnClickListener(this);
@@ -182,7 +184,7 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             case R.id.us_gender:
                 String[] items=new String[]{"男","女"};
                 int g_index=0;
-                if(user.getGender().equals("女")){
+                if(current_user.getGender().equals("女")){
                     g_index=1;
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(this)
@@ -224,26 +226,26 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             switch (resultCode){
                 case Common.MODIFY_ANONYMOUS:
                     mf_anony.setText(content);
-                    user.setAnonymous(content);
+                    current_user.setAnonymous(content);
                     break;
                 case Common.MODIFY_PHONE:
                     mf_phone.setText(content);
-                    user.setPhone(content);
+                    current_user.setPhone(content);
                     break;
                 case Common.MODIFY_EMAIL:
                     mf_email.setText(content);
-                    user.setEmail(content);
+                    current_user.setEmail(content);
                     break;
                 case Common.MODIFY_ADDR:
                     mf_addr.setText(content);
-                    user.setAddress(content);
+                    current_user.setAddress(content);
                     break;
                 case Common.MODIFY_SIGNATURE:
                     mf_signature.setText(content);
-                    user.setSignature(content);
+                    current_user.setSignature(content);
                     break;
             }
-//            gpsApplication.updateUserLoginInfo(user);
+            userDao.update(current_user);
         }
         else if(requestCode == Common.CAMERA_CAPTURE && resultCode==RESULT_OK){
             if (data != null)
@@ -266,8 +268,6 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
             Log.d("BitmapDebug",capture_uri.getPath());
             AppBitmap.saveBitmap(this,bitmap,capture_uri.getPath());
         }
-
-
-        //TODO 联网更新到服务端，并发送event/广播给MainActivity更新头像等信息
+        //TODO 联网更新到服务端
     }
 }

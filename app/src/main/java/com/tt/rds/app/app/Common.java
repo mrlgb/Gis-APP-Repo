@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Environment;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -24,6 +25,8 @@ public class Common {
     public static final String login_preference_name="loginstate";
     public static final String current_user="currentuser";
     public static final String login_state="login";
+    public static final String HEADER_PATH = Environment.getExternalStorageDirectory().getPath()+"/GPSLogger/Headers/";
+
 
     public static final int USER_STATE_CHANGE=0x0201;
     public static final int USER_STATE_CHANGE_BACK=0x0202;
