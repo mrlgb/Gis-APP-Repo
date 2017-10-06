@@ -36,7 +36,7 @@ dependencies {
     compile 'com.android.support:design:26+'
     compile 'com.android.support:gridlayout-v7:26+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
+    compile 'com.idescout.sql:sqlscout-server:2.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     //arcgis
     compile 'com.esri.arcgisruntime:arcgis-android:100.1.0'
