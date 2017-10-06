@@ -1,22 +1,20 @@
 package com.tt.rds.app.activity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.tt.rds.app.R;
-import com.tt.rds.app.activity.usersetting.PointSetActivity;
+import com.tt.rds.app.adapter.DataQueryPagerAdapter;
 
 public class DataQueryActivity extends AppCompatActivity {
     //add test commit
@@ -25,7 +23,9 @@ public class DataQueryActivity extends AppCompatActivity {
     Button bt_filter;
     DrawerLayout dl_dq;
     LinearLayout ll_filter_dq;
+    TabLayout mTabLayout;
     Button mbt_df_commit,mbt_df_notcommit;
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,8 @@ public class DataQueryActivity extends AppCompatActivity {
 
     private void initViews() {
         dl_dq=(DrawerLayout)findViewById(R.id.drawer_data_query);
+        mTabLayout= (TabLayout) findViewById(R.id.tab_data_query);
+        mViewPager= (ViewPager) findViewById(R.id.pager_data_query);
         bt_filter=(Button)findViewById(R.id.bt_filter_dq);
         ll_filter_dq=(LinearLayout)findViewById(R.id.ll_right_dq);
 
@@ -90,6 +92,12 @@ public class DataQueryActivity extends AppCompatActivity {
 
             }
         });
+        initData();
+    }
+
+    private void initData(){
+        mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setAdapter(new DataQueryPagerAdapter(this));
     }
 
     private void setOnClickListerForFilter() {

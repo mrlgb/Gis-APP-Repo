@@ -1,9 +1,10 @@
-package com.tt.rds.app.activity.point;
+package com.tt.rds.app.activity.pointcollect;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,20 +14,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.adapter.ImagesAdapter;
 import com.tt.rds.app.app.Application;
-import com.tt.rds.app.bean.PoMaker;
-import com.tt.rds.app.bean.PoMakerDao;
+import com.tt.rds.app.bean.Picture;
+import com.tt.rds.app.bean.PictureDao;
+import com.tt.rds.app.bean.PointMarker;
+import com.tt.rds.app.bean.PointMarkerDao;
 import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.TtPoint;
-import com.tt.rds.app.bean.User;
-import com.tt.rds.app.bean.UserDao;
-import com.tt.rds.app.db.DBService;
 import com.tt.rds.app.util.ToastUtil;
+
+import org.greenrobot.greendao.query.Query;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,6 +41,7 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
+
 
 
 public class MarkerActivity extends BaseSaveActivity {
@@ -52,14 +57,17 @@ public class MarkerActivity extends BaseSaveActivity {
     EditText edtLati;
     EditText edtEleva;
     EditText edtRemark;
+    TextView spinner_error1 ;
+    TextView spinner_error2 ;
     ImageButton btnCamera;
 
     private RecyclerView mRecyclerView;
     private ImagesAdapter imagesAdapter;
+    private ScrollView scrollView;
     private ArrayList<File> photos = new ArrayList<>();
     private static final String PHOTOS_KEY = "easy_image_photos_list";
-    private static final String PHOTOS_FOLDER = "EasyImage sample";
-    private HashMap<Integer,String> photosName;
+    private static final String PHOTOS_FOLDER = "PointMarker";
+    private HashMap<Integer, String> photosName;
 
     @Override
     protected int getLayoutResId() {
@@ -73,7 +81,7 @@ public class MarkerActivity extends BaseSaveActivity {
         //------------------------------
         initView();
         //------------------------------
-        photosName =new HashMap<>();
+        photosName = new HashMap<>();
         Nammu.init(this);
 
         if (savedInstanceState != null) {
@@ -125,6 +133,10 @@ public class MarkerActivity extends BaseSaveActivity {
 
         btnCamera = (ImageButton) findViewById(R.id.camera_button);
         btnCamera.setOnClickListener(takePhotoListener);
+
+        scrollView =(ScrollView)findViewById(R.id.scrollView2);
+        spinner_error1=(TextView) findViewById(R.id.spinner_error1);
+        spinner_error2=(TextView) findViewById(R.id.spinner_error2);
     }
 
     private void initToolbar() {
@@ -163,7 +175,7 @@ public class MarkerActivity extends BaseSaveActivity {
     View.OnClickListener takePhotoListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (photos.size() > 4) {
-                ToastUtil.showToast(MarkerActivity.this,"照片数大于5张！");
+                Snackbar.make(scrollView, "照片数大于5张！", Snackbar.LENGTH_SHORT).show();
             } else
                 EasyImage.openCamera(MarkerActivity.this, 0);
         }
@@ -185,49 +197,66 @@ public class MarkerActivity extends BaseSaveActivity {
 
     private void saveInfo2DB() {
         if (verifyInput()) {
+            PointMarkerDao pMakerDao = gpsApplication.getDbService().getPointMarkerDao();
+            PictureDao pictureDao = gpsApplication.getDbService().getPictureDao();
 
-            PoMaker pMarker = new PoMaker();
-            //name
-            pMarker.setName(edtName.getText().toString());
-            //code
-            pMarker.setCode(edtCode.getText().toString());
-//            pMarker.setCategory(spinType.getSelectedItem().toString());
-//            pMarker.setAdminCode(spinAdminDiv.getSelectedItem().toString());
-
-            PointType pointType =new PointType((long)1,"TYPE1",1);
-
-            TtPoint ttPoint=new TtPoint();
-            //id
-            ttPoint.setId((long)100001);
-            //name
-            ttPoint.setName("TEST-10001");
-            //point type
-            ttPoint.setPointType(pointType);
-            ttPoint.setPointTypeId(pointType.getId());
-
-            //ttpoint
-            pMarker.setPointId(ttPoint.getId());
-            pMarker.setTtPoint(ttPoint);
-
-            PoMakerDao poMakerDao=gpsApplication.getDbService().getPoMakerDao();
-            poMakerDao.insert(pMarker);
-
-            List<PoMaker> list = poMakerDao.queryBuilder()
-                    .where(PoMakerDao.Properties.Id.between(0, 13)).limit(5).build().list();
-            for (int i = 0; i < list.size(); i++) {
-                Log.d(TAG, "PoMaker: [" +i+ "]="+list.get(i).getName());
+            if(photosName.size()!=0){
+                //照片
+                for (int i = 0; i < photosName.size(); i++) {
+                    Picture pic = new Picture();
+                    pic.setPicId(null);
+                    pic.setName(TAG + i);
+                    pic.setPath(photosName.get(i));
+                    //增加pic
+                    pictureDao.insertOrReplaceInTx(pic);
+                }
+            }else{
+                // 创建Snackbar实例
+                Snackbar.make(scrollView, "请至少拍1张照片", Snackbar.LENGTH_SHORT).show();
+                return;
             }
 
-//            pMarker.set(23.001);
-//            pMarker.setLatitude(123.001);
-//            pMarker.setRemarks(edtRemark.getText().toString());
-//
-//            for (int i = 0; i < photosName.size(); i++) {
-//                pMarker.getPicName().add(photosName.get(i));
-//
-//                ToastUtil.showToast(this, "save to db successful!");
-//            }
 
+            PointMarker pMarker = new PointMarker();
+            //id
+            pMarker.setPMarkerId(null);
+            //name
+            pMarker.setName("TEST-PointMarker-10001");
+            //code
+            pMarker.setCode(edtCode.getText().toString());
+            //类别
+            pMarker.setCatergory("标志点");
+            //备注
+            pMarker.setRemark("");
+
+            PointType pType = new PointType((long) 1, "TYPE1", 1);
+            //设置关联点
+            TtPoint ttPoint = new TtPoint();
+            //id
+            ttPoint.setTtPointId((long) 100001);
+            //name
+            ttPoint.setName("TEST-TTPoint-10001");
+            //point type
+            ttPoint.setPointType(pType);
+            ttPoint.setTtPointId(pType.getPTypeId());
+            ttPoint.setLat(23.001);
+            ttPoint.setLon(123.001);
+            ttPoint.setAlt(23.003);
+            //ttpoint
+            pMarker.setTtPointId(ttPoint.getTtPointId());
+            pMarker.setTtPoint(ttPoint);
+
+            //增加标志点
+            pMakerDao.insertOrReplace(pMarker);
+
+            //查询
+            Query<PointMarker> query = pMakerDao.queryBuilder().where(PointMarkerDao.Properties.Name.eq("TEST-PointMarker-10001")).build();
+            for (PointMarker pointMarker : query.list()) {
+                Log.d(TAG, "onCreate: " + pointMarker);
+            }
+
+            // 创建Snackbar实例
+            Snackbar.make(scrollView, "标志点保存成功！", Snackbar.LENGTH_LONG).show();
 
         }
     }
@@ -246,6 +275,21 @@ public class MarkerActivity extends BaseSaveActivity {
             edtCode.setError("请选择正确的编码");
             return false;
         }
+
+        String typeCode =spinType.getSelectedItem().toString();
+        if (typeCode.equals("数据类型")) {
+            TextView errorText = (TextView)spinType.getSelectedView();
+            errorText.setError("请选择标志点类型");
+            return false;
+        }
+
+        String adminCode =spinAdminDiv.getSelectedItem().toString();
+        if (adminCode.equals("行政等级")) {
+            TextView errorText = (TextView)spinAdminDiv.getSelectedView();
+            errorText.setError("请选择行政区划");
+            return false;
+        }
+
 
         return true;
     }
@@ -282,9 +326,9 @@ public class MarkerActivity extends BaseSaveActivity {
         imagesAdapter.notifyDataSetChanged();
         mRecyclerView.scrollToPosition(photos.size() - 1);
 
-        for(int i = 0;i < returnedPhotos.size(); i ++){
-            ToastUtil.showToast(this, (photos.size()-1)+"/"+returnedPhotos.get(i).getAbsolutePath());
-            photosName.put(photos.size()-1,returnedPhotos.get(i).getAbsolutePath());
+        for (int i = 0; i < returnedPhotos.size(); i++) {
+            ToastUtil.showToast(this, (photos.size() - 1) + "/" + returnedPhotos.get(i).getAbsolutePath());
+            photosName.put(photos.size() - 1, returnedPhotos.get(i).getAbsolutePath());
         }
 
     }

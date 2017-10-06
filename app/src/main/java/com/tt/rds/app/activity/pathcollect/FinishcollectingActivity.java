@@ -1,35 +1,35 @@
-package com.tt.rds.app.activity.path;
+package com.tt.rds.app.activity.pathcollect;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-;
+
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.util.ToastUtil;
 
 /**
- * Created by WK on 2017/9/18.
+ * Created by WK on 2017/9/19.
  */
 
-public class BegincollectingActivity extends BaseSaveActivity {
+public class FinishcollectingActivity extends BaseSaveActivity {
 
-    private static final String TAG = BegincollectingActivity.class.getSimpleName();
+    private static final String TAG = FinishcollectingActivity.class.getSimpleName();
     //----------Mine fields----------
 //    EditText edtBridgeName;
 //    EditText edtBridgeNo;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_begincollecting;
+        return R.layout.activity_finishcollecting;
     }
 
     @Override
     protected void initActivity(Bundle savedInstanceState) {
         super.initActivity(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.ferryactivity_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.finishactivity_toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -37,7 +37,7 @@ public class BegincollectingActivity extends BaseSaveActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BegincollectingActivity.this.onBackPressed();
+                FinishcollectingActivity.this.onBackPressed();
             }
         });
 
@@ -74,4 +74,5 @@ public class BegincollectingActivity extends BaseSaveActivity {
     private boolean verifyInput() {
         return true;
     }
+
 }

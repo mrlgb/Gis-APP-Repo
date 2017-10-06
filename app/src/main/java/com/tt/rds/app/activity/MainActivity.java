@@ -45,7 +45,7 @@ import java.io.File;
 import java.util.List;
 import com.tt.rds.app.app.Application;
 import com.tt.rds.app.R;
-import com.tt.rds.app.activity.point.MarkerActivity;
+import com.tt.rds.app.activity.pointcollect.MarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
 import com.tt.rds.app.activity.usersetting.FeedbackActivity;

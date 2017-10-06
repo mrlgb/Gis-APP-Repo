@@ -12,7 +12,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class User {
 
     @Id(autoincrement = true)
-    private Long id;
+    private Long userId;
     @NotNull
     private String user="";
     private String password="";
@@ -22,11 +22,11 @@ public class User {
     private String gender="";
     private String address="";
     private String signature="";
-    @Generated(hash = 834348130)
-    public User(Long id, @NotNull String user, String password, String anonymous,
-            String phone, String email, String gender, String address,
-            String signature) {
-        this.id = id;
+    @Generated(hash = 357744102)
+    public User(Long userId, @NotNull String user, String password,
+            String anonymous, String phone, String email, String gender,
+            String address, String signature) {
+        this.userId = userId;
         this.user = user;
         this.password = password;
         this.anonymous = anonymous;
@@ -39,11 +39,11 @@ public class User {
     @Generated(hash = 586692638)
     public User() {
     }
-    public Long getId() {
-        return this.id;
+    public Long getUserId() {
+        return this.userId;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
     public String getUser() {
         return this.user;
@@ -93,5 +93,4 @@ public class User {
     public void setSignature(String signature) {
         this.signature = signature;
     }
-
 }

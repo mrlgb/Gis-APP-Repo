@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.facebook.stetho.Stetho;
 import com.tt.rds.app.R;
 import com.tt.rds.app.db.DBService;
 import com.tt.rds.app.net.HttpMethods;
@@ -49,61 +50,6 @@ public class Application extends android.app.Application{
         }
 
     }
-
-    //==history
-
-    //----------------CP--------------------------------
-//    //private static final float M_TO_FT = 3.280839895f;
-//    private static final int NOT_AVAILABLE = -100000;
-//
-//    //private static final int UM_METRIC_MS = 0;
-//    private static final int UM_METRIC_KMH = 1;
-//    //private static final int UM_IMPERIAL_FPS = 8;
-//    //private static final int UM_IMPERIAL_MPH = 9;
-//
-//    private static final int STABILIZERVALUE = 3000;            // The application discards fixes for 3000 ms (minimum)
-//    private static final int DEFAULTHANDLERTIMER = 5000;        // The timer for turning off GPS on exit
-//    private static final int GPSUNAVAILABLEHANDLERTIMER = 7000; // The "GPS temporary unavailable" timer
-//    private int StabilizingSamples = 3;
-//
-//    private static final int GPS_DISABLED = 0;
-//    private static final int GPS_OUTOFSERVICE = 1;
-//    private static final int GPS_TEMPORARYUNAVAILABLE = 2;
-//    private static final int GPS_SEARCHING = 3;
-//    private static final int GPS_STABILIZING = 4;
-//    private static final int GPS_OK = 5;
-//
-//    // Preferences Variables
-//    // private boolean prefKeepScreenOn = true;                 // DONE in GPSActivity
-//    private boolean prefShowDecimalCoordinates = false;
-//    private int prefUM = UM_METRIC_KMH;
-//    private float prefGPSdistance = 0f;
-//    private long prefGPSupdatefrequency = 1000L;
-//    private boolean prefEGM96AltitudeCorrection = false;
-//    private double prefAltitudeCorrection = 0d;
-//    private boolean prefExportKML = true;
-//    private boolean prefExportGPX = true;
-//    private boolean prefExportTXT = false;
-//    private int prefKMLAltitudeMode = 0;
-//    private int prefShowTrackStatsType = 0;
-//    private int prefShowDirections = 0;
-//    private SharedPreferences sf_login;
-//
-//    private boolean PermissionsChecked = false;                 // If the flag is false the GPSActivity will check for permissions
-//
-//    private LocationExtended PrevFix = null;
-//    private boolean isPrevFixRecorded = false;
-//
-//    private LocationExtended PrevRecordedFix = null;
-//
-//    private boolean MustUpdatePrefs = true;                     // True if preferences needs to be updated
-//
-//    private boolean isCurrentTrackVisible = false;
-//    private boolean isContextMenuShareVisible = false;          // True if "Share with ..." menu is visible
-//    private boolean isContextMenuViewVisible = false;           // True if "View in *" menu is visible
-//    private boolean isContextMenuEnabled = false;               // True if the Share + View + Export menus are enabled (Permission to write storage)
-//    private String ViewInApp = "";                              // The string of default app name for "View"
-    // "" in case of selector
 
     // Singleton instance
     private static Application singleton;
@@ -298,6 +244,7 @@ public class Application extends android.app.Application{
     private void initGreenDAO() {
         dbService = new DBService();
         dbService.init(this);
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override

@@ -2,54 +2,57 @@ package com.tt.rds.app.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
+
+import java.util.Date;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
-
+/**
+ * Created by Xinxin on 2017/10/3.
+ */
 @Entity
-public class PoMaker {
+public class Picture {
 
     @Id(autoincrement = true)
-    private Long id;
-
+    private Long picId;
+    @Index(unique = true)
+    private String name="";
     @NotNull
-    private String name;//* 名称
-    @NotNull
-    private String code;//* 编号
-    private String category; //类型
-    private String adminCode;  //行政区划
+    private String path="";//路径
+    private Date date;
 
-    private Long pointId;
+    private long userId; //用户
+
+    private long pointId;//点id
     @ToOne(joinProperty = "pointId")
     private TtPoint ttPoint;
-
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-
     /** Used for active entity operations. */
-    @Generated(hash = 267884567)
-    private transient PoMakerDao myDao;
-    @Generated(hash = 701478188)
-    public PoMaker(Long id, @NotNull String name, @NotNull String code,
-            String category, String adminCode, Long pointId) {
-        this.id = id;
+    @Generated(hash = 220989104)
+    private transient PictureDao myDao;
+    @Generated(hash = 284768540)
+    public Picture(Long picId, String name, @NotNull String path, Date date,
+            long userId, long pointId) {
+        this.picId = picId;
         this.name = name;
-        this.code = code;
-        this.category = category;
-        this.adminCode = adminCode;
+        this.path = path;
+        this.date = date;
+        this.userId = userId;
         this.pointId = pointId;
     }
-    @Generated(hash = 1324495132)
-    public PoMaker() {
+    @Generated(hash = 1602548376)
+    public Picture() {
     }
-    public Long getId() {
-        return this.id;
+    public Long getPicId() {
+        return this.picId;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setPicId(Long picId) {
+        this.picId = picId;
     }
     public String getName() {
         return this.name;
@@ -57,36 +60,36 @@ public class PoMaker {
     public void setName(String name) {
         this.name = name;
     }
-    public String getCode() {
-        return this.code;
+    public String getPath() {
+        return this.path;
     }
-    public void setCode(String code) {
-        this.code = code;
+    public void setPath(String path) {
+        this.path = path;
     }
-    public String getCategory() {
-        return this.category;
+    public Date getDate() {
+        return this.date;
     }
-    public void setCategory(String category) {
-        this.category = category;
+    public void setDate(Date date) {
+        this.date = date;
     }
-    public String getAdminCode() {
-        return this.adminCode;
+    public long getUserId() {
+        return this.userId;
     }
-    public void setAdminCode(String adminCode) {
-        this.adminCode = adminCode;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
-    public Long getPointId() {
+    public long getPointId() {
         return this.pointId;
     }
-    public void setPointId(Long pointId) {
+    public void setPointId(long pointId) {
         this.pointId = pointId;
     }
     @Generated(hash = 2065984785)
     private transient Long ttPoint__resolvedKey;
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1574933194)
+    @Generated(hash = 2078476435)
     public TtPoint getTtPoint() {
-        Long __key = this.pointId;
+        long __key = this.pointId;
         if (ttPoint__resolvedKey == null || !ttPoint__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -102,11 +105,15 @@ public class PoMaker {
         return ttPoint;
     }
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 268520224)
-    public void setTtPoint(TtPoint ttPoint) {
+    @Generated(hash = 119492710)
+    public void setTtPoint(@NotNull TtPoint ttPoint) {
+        if (ttPoint == null) {
+            throw new DaoException(
+                    "To-one property 'pointId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.ttPoint = ttPoint;
-            pointId = ttPoint == null ? null : ttPoint.getId();
+            pointId = ttPoint.getTtPointId();
             ttPoint__resolvedKey = pointId;
         }
     }
@@ -144,10 +151,9 @@ public class PoMaker {
         myDao.update(this);
     }
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 283625515)
+    @Generated(hash = 1412175658)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getPoMakerDao() : null;
+        myDao = daoSession != null ? daoSession.getPictureDao() : null;
     }
-    
 }
