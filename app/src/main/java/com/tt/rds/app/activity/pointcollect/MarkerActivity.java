@@ -1,4 +1,4 @@
-package com.tt.rds.app.activity.point;
+package com.tt.rds.app.activity.pointcollect;
 
 import android.Manifest;
 import android.content.Intent;
