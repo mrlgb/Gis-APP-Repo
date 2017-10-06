@@ -4,7 +4,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
-
 /**
  * Created by Xinxin on 2017/9/30.
  */
@@ -12,7 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class PointType {
     @Id(autoincrement = true)
-    private Long id;
+    private Long pTypeId;
 
     @NotNull
     private String name;//* 名称
@@ -20,9 +19,9 @@ public class PointType {
     @NotNull
     private int usually;   // 1: 常用
 
-    @Generated(hash = 1314763509)
-    public PointType(Long id, @NotNull String name, int usually) {
-        this.id = id;
+    @Generated(hash = 1155645018)
+    public PointType(Long pTypeId, @NotNull String name, int usually) {
+        this.pTypeId = pTypeId;
         this.name = name;
         this.usually = usually;
     }
@@ -31,12 +30,12 @@ public class PointType {
     public PointType() {
     }
 
-    public Long getId() {
-        return this.id;
+    public Long getPTypeId() {
+        return this.pTypeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPTypeId(Long pTypeId) {
+        this.pTypeId = pTypeId;
     }
 
     public String getName() {
@@ -54,6 +53,8 @@ public class PointType {
     public void setUsually(int usually) {
         this.usually = usually;
     }
+
+
 
 
 

@@ -30,6 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/point_marker_toolbar"
+        android:padding="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/point_marker_toolbar">
@@ -86,6 +87,7 @@
                 app:layout_columnSpan="3" />
 
             <TextView
+                android:id="@+id/spinner_error1"
                 style="@style/info_title"
                 android:text="标志点类型："
                 app:layout_columnWeight="1" />
@@ -94,9 +96,11 @@
                 android:id="@+id/point_marker_type"
                 style="@style/info_content_spinner"
                 android:hint="被调标志点的类型"
+                android:entries="@array/spinner_type"
                 app:layout_columnWeight="3.5" />
 
             <TextView
+                android:id="@+id/spinner_error2"
                 style="@style/info_x"
                 app:layout_columnWeight="0.5" />
 
@@ -113,6 +117,7 @@
                 android:id="@+id/admin_divison_code"
                 style="@style/info_content_spinner"
                 android:hint="行政区划"
+                android:entries="@array/spinner_govern"
                 app:layout_columnWeight="3.5" />
 
             <TextView
@@ -203,10 +208,6 @@
                 style="@style/info_title"
                 android:text="图片："
                 app:layout_columnWeight="1" />
-
-            <View
-                style="@style/info_splitter_line"
-                app:layout_columnSpan="3" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/galleryRecyclerView"

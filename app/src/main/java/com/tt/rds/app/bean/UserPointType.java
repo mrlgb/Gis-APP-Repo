@@ -3,9 +3,8 @@ package com.tt.rds.app.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
 /**
@@ -89,7 +88,7 @@ public class UserPointType {
         return user;
     }
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 462495677)
+    @Generated(hash = 1622843587)
     public void setUser(@NotNull User user) {
         if (user == null) {
             throw new DaoException(
@@ -97,7 +96,7 @@ public class UserPointType {
         }
         synchronized (this) {
             this.user = user;
-            userId = user.getId();
+            userId = user.getUserId();
             user__resolvedKey = userId;
         }
     }

@@ -5,7 +5,8 @@ import android.content.Context;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.DaoMaster;
 import com.tt.rds.app.bean.DaoSession;
-import com.tt.rds.app.bean.PoMakerDao;
+import com.tt.rds.app.bean.PictureDao;
+import com.tt.rds.app.bean.PointMarkerDao;
 import com.tt.rds.app.bean.PointTypeDao;
 import com.tt.rds.app.bean.TtPointDao;
 import com.tt.rds.app.bean.UserDao;
@@ -60,7 +61,12 @@ public class DBService {
         return daoSession.getTtPointDao();
     }
 
-    public PoMakerDao getPoMakerDao(){
-        return daoSession.getPoMakerDao();
+    public PointMarkerDao getPointMarkerDao(){
+        return daoSession.getPointMarkerDao();
     }
+
+    public PictureDao getPictureDao(){
+        return daoSession.getPictureDao();
+    }
+
 }
