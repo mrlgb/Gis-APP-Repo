@@ -6,8 +6,23 @@ import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.DaoMaster;
 import com.tt.rds.app.bean.DaoSession;
 import com.tt.rds.app.bean.PictureDao;
+import com.tt.rds.app.bean.PointBridge;
+import com.tt.rds.app.bean.PointBridgeDao;
+import com.tt.rds.app.bean.PointCulvertDao;
+import com.tt.rds.app.bean.PointFerryDao;
 import com.tt.rds.app.bean.PointMarkerDao;
+import com.tt.rds.app.bean.PointSchoolDao;
+import com.tt.rds.app.bean.PointSign;
+import com.tt.rds.app.bean.PointSignDao;
+import com.tt.rds.app.bean.PointStandardVillage;
+import com.tt.rds.app.bean.PointStandardVillageDao;
+import com.tt.rds.app.bean.PointTown;
+import com.tt.rds.app.bean.PointTownDao;
+import com.tt.rds.app.bean.PointTunnel;
+import com.tt.rds.app.bean.PointTunnelDao;
 import com.tt.rds.app.bean.PointTypeDao;
+import com.tt.rds.app.bean.PointVillage;
+import com.tt.rds.app.bean.PointVillageDao;
 import com.tt.rds.app.bean.TtPointDao;
 import com.tt.rds.app.bean.UserDao;
 import com.tt.rds.app.bean.UserPointTypeDao;
@@ -49,24 +64,60 @@ public class DBService {
         return daoSession.getUserDao();
     }
 
-    public PointTypeDao getPointTypeDao(){
-        return daoSession.getPointTypeDao();
-    }
-
     public UserPointTypeDao getUserPointTypeDao(){
         return daoSession.getUserPointTypeDao();
+    }
+
+    public PointTypeDao getPointTypeDao(){
+        return daoSession.getPointTypeDao();
     }
 
     public TtPointDao getTtPointDao(){
         return daoSession.getTtPointDao();
     }
 
+    public PictureDao getPictureDao(){
+        return daoSession.getPictureDao();
+    }
+
     public PointMarkerDao getPointMarkerDao(){
         return daoSession.getPointMarkerDao();
     }
 
-    public PictureDao getPictureDao(){
-        return daoSession.getPictureDao();
+    public PointBridgeDao getPointBridgeDao(){
+        return daoSession.getPointBridgeDao();
+    }
+
+    public PointCulvertDao getPointCulvertDao(){
+        return daoSession.getPointCulvertDao();
+    }
+
+    public PointFerryDao getPointFerryDao(){
+        return daoSession.getPointFerryDao();
+    }
+
+    public PointSchoolDao getPointSchoolDao(){
+        return daoSession.getPointSchoolDao();
+    }
+
+    public PointSignDao getPointSignDao(){
+        return daoSession.getPointSignDao();
+    }
+
+    public PointStandardVillageDao getPointStandardVillageDao(){
+        return daoSession.getPointStandardVillageDao();
+    }
+
+    public PointTownDao getPointTownDao(){
+        return daoSession.getPointTownDao();
+    }
+
+    public PointTunnelDao getPointTunnelDao(){
+        return daoSession.getPointTunnelDao();
+    }
+
+    public PointVillageDao getPointVillageDao(){
+        return daoSession.getPointVillageDao();
     }
 
 }
