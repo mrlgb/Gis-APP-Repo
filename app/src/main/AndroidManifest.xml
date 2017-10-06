@@ -76,6 +76,7 @@
             android:name=".activity.pointcollect.MarkerActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".activity.DataQueryDetailActivity"/>
     </application>
 
 </manifest>
