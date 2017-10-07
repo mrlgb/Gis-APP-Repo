@@ -2,6 +2,7 @@ package com.tt.rds.app.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,7 +14,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -158,7 +161,6 @@ public class MainActivity extends AppCompatActivity
             file_photo.mkdirs();
         Constant.myCaptureFile = file_photo.getPath() + "/";
     }
-
 
     private void initBottomGridView() {
         // Populate a List from Array elements
@@ -497,10 +499,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initHeadersInDrawer();
-
-
     }
-
 
     //Init the headers, user name, user address in drawer
     private void initHeadersInDrawer() {
@@ -664,7 +663,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
     @Override
     public void onResume() {
 
@@ -742,39 +740,38 @@ public class MainActivity extends AppCompatActivity
 
 
     private void ShutdownApp() {
-//        if ((GPSApplication.getInstance().getCurrentTrack().getNumberOfLocations() > 0)
-//                || (GPSApplication.getInstance().getCurrentTrack().getNumberOfPlacemarks() > 0)
-//                || (GPSApplication.getInstance().getRecording())
-//                || (GPSApplication.getInstance().getPlacemarkRequest())) {
+        if ((GPSApplication.getInstance().getCurrentTrack().getNumberOfLocations() > 0)
+                || (GPSApplication.getInstance().getCurrentTrack().getNumberOfPlacemarks() > 0)
+                || (GPSApplication.getInstance().getRecording())
+                || (GPSApplication.getInstance().getPlacemarkRequest())) {
 
-//            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.StyledDialog));
-//            builder.setMessage(getResources().getString(R.string.message_exit_confirmation));
-//            builder.setIcon(android.R.drawable.ic_menu_info_details);
-//            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    GPSApplication.getInstance().setRecording(false);
-//                    GPSApplication.getInstance().setPlacemarkRequest(false);
-//                    EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
-//                    GPSApplication.getInstance().StopAndUnbindGPSService();
-//
-//                    dialog.dismiss();
-//                    finish();
-//                }
-//            });
-//            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            AlertDialog dialog = builder.create();
-//            dialog.show();
-//        } else {
-        GPSApplication.getInstance().setRecording(false);
-        GPSApplication.getInstance().setPlacemarkRequest(false);
-        GPSApplication.getInstance().StopAndUnbindGPSService();
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+            builder.setTitle("Material Design Dialog");
+            builder.setMessage(getResources().getString(R.string.message_exit_confirmation));
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    gpsGPSApplication.setRecording(false);
+                    gpsGPSApplication.setPlacemarkRequest(false);
+                    EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
+                    gpsGPSApplication.StopAndUnbindGPSService();
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+            builder.show();
+
+        } else {
+            gpsGPSApplication.setRecording(false);
+            gpsGPSApplication.setPlacemarkRequest(false);
+            gpsGPSApplication.StopAndUnbindGPSService();
 
         finish();
-//        }
+        }
     }
 
 }
