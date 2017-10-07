@@ -335,32 +335,35 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
         singleton = this;
 
-        StartAndBindGPSService();
-
-//        EventBus.getDefault().register(this);
-
         Stetho.initializeWithDefaults(this);
 
-//        mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);     // Location Manager
+        StartAndBindGPSService();
+
+        EventBus.getDefault().register(this);
+
+        mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);     // Location Manager
 
         //............
         // Initialize the Database
         InitGreenDAO();
 
+        Log.d(TAG, "----------------------------------------------------------------------------------------\n");
         // Prepare the current track
-//        if (dbService.getLastTrackID() == 0)
-//            dbService.addTrack(new Track());       // Creation of the first track if the DB is empty
-//        _currentTrack = dbService.getLastTrack();                                     // Get the last track
+        if (dbService.getLastTrackID() == 0)
+            dbService.addTrack(new Track());       // Creation of the first track if the DB is empty
 
+        _currentTrack = dbService.getLastTrack();                                     // Get the last track
+        Log.d(TAG,_currentTrack.getName()+"/"+_currentTrack.getId()+"------");
+        Log.d(TAG, "----------------------------------------------------------------------------------------\n");
         // Load Settings
         //................
         // ----------------------------------------------------------------------------------------
 
-//        asyncUpdateThread.start();
-//        AsyncTODO ast = new AsyncTODO();
-//        ast.TaskType = "TASK_NEWTRACK";
-//        ast.location = null;
-//        AsyncTODOQueue.add(ast);
+        asyncUpdateThread.start();
+        AsyncTODO ast = new AsyncTODO();
+        ast.TaskType = "TASK_NEWTRACK";
+        ast.location = null;
+        AsyncTODOQueue.add(ast);
     }
 
 
@@ -738,7 +741,6 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
 
 // PREFERENCES LOADER ------------------------------------------------------------------------------
-
 
 
 // THE THREAD THAT DOES ASYNCHRONOUS OPERATIONS ---------------------------------------------------

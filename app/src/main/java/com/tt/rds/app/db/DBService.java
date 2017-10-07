@@ -8,6 +8,7 @@ import android.location.Location;
 import android.util.Log;
 
 import com.tt.rds.app.app.Common;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.DaoMaster;
 import com.tt.rds.app.bean.DaoSession;
 import com.tt.rds.app.bean.PictureDao;
@@ -55,6 +56,7 @@ import static android.media.MediaFormat.KEY_TRACK_ID;
  */
 
 public class DBService {
+    private static final String TAG = DBService.class.getSimpleName();
     private static final String DB_NAME = Common.DATABASE_NAME;
     private DaoSession daoSession;
     private static DBService mInstance = null;
@@ -303,13 +305,13 @@ public class DBService {
 
         //Update the corresponding Track
 
-        TtTrack ttTrack =TtTrack4Track(track);
+        TtTrack ttTrack = TtTrack4Track(track);
 
         TtTrack ttTrack1 = getTtTrackDao().queryBuilder()
                 .where(TtTrackDao.Properties.TrackId.eq(track.getId())).build().unique();
         if (ttTrack1 == null) {
-        //            Toast.makeText(MainActivity.this, "用户不存在!", Toast.LENGTH_SHORT).show();
-        }else{
+            //            Toast.makeText(MainActivity.this, "用户不存在!", Toast.LENGTH_SHORT).show();
+        } else {
 
             getTtTrackDao().update(ttTrack);
         }
@@ -327,8 +329,8 @@ public class DBService {
         ttPlaceMark.setLatitude(placemark.getLatitude());
         ttPlaceMark.setLongitude(placemark.getLongitude());
         ttPlaceMark.setAltitude(placemark.getAltitude());
-        ttPlaceMark.setSpeed( placemark.getSpeed() );
-        ttPlaceMark.setBearing( placemark.getAccuracy());
+        ttPlaceMark.setSpeed(placemark.getSpeed());
+        ttPlaceMark.setBearing(placemark.getAccuracy());
         ttPlaceMark.setTime(placemark.getTime());
         ttPlaceMark.setTime(placemark.getNumberOfSatellites());
         ttPlaceMark.setType(LOCATION_TYPE_LOCATION);
@@ -339,13 +341,13 @@ public class DBService {
 
         //Update the corresponding Track
 
-        TtTrack ttTrack =TtTrack4Track(track);
+        TtTrack ttTrack = TtTrack4Track(track);
 
         TtTrack ttTrack1 = getTtTrackDao().queryBuilder()
                 .where(TtTrackDao.Properties.TrackId.eq(track.getId())).build().unique();
         if (ttTrack1 == null) {
             //            Toast.makeText(MainActivity.this, "用户不存在!", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
 
             getTtTrackDao().update(ttTrack);
         }
@@ -521,8 +523,10 @@ public class DBService {
 
     // Add a new Track, returns the TrackID
     public long addTrack(Track track) {
-        TtTrack ttTrack=TtTrack4Track(track);
-        return getTtTrackDao().insert(ttTrack);
+        TtTrack ttTrack = TtTrack4Track(track);
+        long trackid = getTtTrackDao().insertOrReplace(ttTrack);
+        Log.d(TAG, "----" + trackid);
+        return trackid;
 
     }
 
@@ -531,13 +535,10 @@ public class DBService {
     public Track getTrack(long TrackID) {
         Track track = null;
 
-        Query<TtTrack> query = getTtTrackDao().queryBuilder().where(TtTrackDao.Properties.
-                TrackId.eq(TrackID)).build();
-
-        for (TtTrack tra : query.list()) {
-            //....
-        }
-
+        TtTrack ttTrack = getTtTrackDao().queryBuilder()
+                .where(TtTrackDao.Properties.TrackId.eq(TrackID)).build().unique();
+        track=Track4TtTrack(ttTrack);
+        Log.d(TAG, track.getId()+"/"+track.getName());
         return track != null ? track : null;
 
     }
@@ -551,7 +552,9 @@ public class DBService {
         for (TtTrack track : query.list()) {
             trackId = track.getTrackId();
         }
+        Log.d(TAG, "getLastTrackID:[" + trackId + "]");
         return trackId;
+
     }
 
 

@@ -77,6 +77,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".activity.DataQueryDetailActivity"/>
+        <service
+            android:name=".common.GPSService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.tt.rds.app.common.GPSService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

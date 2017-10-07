@@ -1,6 +1,7 @@
 package com.tt.rds.app.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -42,6 +44,7 @@ import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +68,7 @@ import com.tt.rds.app.bean.UserDao;
 import com.tt.rds.app.common.EventBusMSG;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 
 public class MainActivity extends AppCompatActivity
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     private int count = 0;
     private MapView mMapView;
     private ImageView mHeader;
-    private TextView mUsername,mAddress;
+    private TextView mUsername, mAddress;
     private NavigationView navigationView;
 
     private Button showall_button, hide_button;
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity
     private UserDao userDao;
 
     //-----------------------------
-    String[] permissions= new String[]{
+    String[] permissions = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET};
@@ -353,23 +357,23 @@ public class MainActivity extends AppCompatActivity
                     // Check for permissions
                     if (perms.containsKey(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            Log.w("myApp", "[#] GPSActivity.java - ACCESS_FINE_LOCATION = PERMISSION_GRANTED");
+                            Log.w("myApp", "[#] MainActivity - ACCESS_FINE_LOCATION = PERMISSION_GRANTED");
                         } else {
-                            Log.w("myApp", "[#] GPSActivity.java - ACCESS_FINE_LOCATION = PERMISSION_DENIED");
+                            Log.w("myApp", "[#] MainActivity - ACCESS_FINE_LOCATION = PERMISSION_DENIED");
                         }
                     }
 
                     if (perms.containsKey(Manifest.permission.INTERNET)) {
                         if (perms.get(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
-                            Log.w("myApp", "[#] GPSActivity.java - INTERNET = PERMISSION_GRANTED");
+                            Log.w("myApp", "[#] MainActivity - INTERNET = PERMISSION_GRANTED");
                         } else {
-                            Log.w("myApp", "[#] GPSActivity.java - INTERNET = PERMISSION_DENIED");
+                            Log.w("myApp", "[#] MainActivity - INTERNET = PERMISSION_DENIED");
                         }
                     }
 
                     if (perms.containsKey(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         if (perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                            Log.w("myApp", "[#] GPSActivity.java - WRITE_EXTERNAL_STORAGE = PERMISSION_GRANTED");
+                            Log.w("myApp", "[#] MainActivity - WRITE_EXTERNAL_STORAGE = PERMISSION_GRANTED");
                             // ---------------------------------------------------- Create the Directories if not exist
                             File sd = new File(Environment.getExternalStorageDirectory() + "/GPSLogger");
                             if (!sd.exists()) {
@@ -394,9 +398,8 @@ public class MainActivity extends AppCompatActivity
 
                         if (perms.containsKey(PackageManager.PERMISSION_GRANTED)) {
                             mLocationDisplay.startAsync();
-                        }
-                        else {
-                            Log.w("myApp", "[#] GPSActivity.java - WRITE_EXTERNAL_STORAGE = PERMISSION_DENIED");
+                        } else {
+                            Log.w("myApp", "[#] MainActivity - WRITE_EXTERNAL_STORAGE = PERMISSION_DENIED");
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.location_permission_denied), Toast
                                     .LENGTH_SHORT).show();
                         }
@@ -496,16 +499,15 @@ public class MainActivity extends AppCompatActivity
         initHeadersInDrawer();
 
 
-
     }
 
 
     //Init the headers, user name, user address in drawer
-    private void initHeadersInDrawer(){
-        View headerView=navigationView.getHeaderView(0);
-        mHeader=headerView.findViewById(R.id.user_head_img);
-        mUsername=headerView.findViewById(R.id.user_anonymus);
-        mAddress=headerView.findViewById(R.id.user_address);
+    private void initHeadersInDrawer() {
+        View headerView = navigationView.getHeaderView(0);
+        mHeader = headerView.findViewById(R.id.user_head_img);
+        mUsername = headerView.findViewById(R.id.user_anonymus);
+        mAddress = headerView.findViewById(R.id.user_address);
 
 
         updateHeaderView();
@@ -513,44 +515,40 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                if(!judgeIfLogin()){
-                    Intent intent =new Intent(MainActivity.this, LoginActivity.class);
-                    startActivityForResult(intent,Common.USER_STATE_CHANGE);
-                }
-                else{
-                    Intent intent =new Intent(MainActivity.this, UserSettingActivity.class);
-                    startActivityForResult(intent,Common.USER_STATE_CHANGE);
+                if (!judgeIfLogin()) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, Common.USER_STATE_CHANGE);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, UserSettingActivity.class);
+                    startActivityForResult(intent, Common.USER_STATE_CHANGE);
                 }
                 drawer.closeDrawer(Gravity.START);
             }
         });
     }
 
-    private void updateHeaderView(){
-        if(!judgeIfLogin()){
+    private void updateHeaderView() {
+        if (!judgeIfLogin()) {
             mHeader.setImageResource(R.drawable.ic_launcher_logo);
             mUsername.setText("未登录");
             mAddress.setText("");
-        }
-        else {
+        } else {
             userDao = gpsGPSApplication.getDbService().getUserDao();
-            SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
-            String cur_username=sf.getString(Common.current_user,"");
+            SharedPreferences sf = getSharedPreferences(Common.login_preference_name, MODE_PRIVATE);
+            String cur_username = sf.getString(Common.current_user, "");
             current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();
 
-            String fileName=Common.HEADER_PATH+"header_"+current_user.getUser()+".jpg";
+            String fileName = Common.HEADER_PATH + "header_" + current_user.getUser() + ".jpg";
             File file = new File(fileName);
-            if(file.exists()){
-                Bitmap bitmap= AppBitmap.getBitmapFromFilePath(fileName);
+            if (file.exists()) {
+                Bitmap bitmap = AppBitmap.getBitmapFromFilePath(fileName);
                 mHeader.setImageBitmap(AppBitmap.getRoundBitmap(bitmap));
-            }
-            else{
+            } else {
                 mHeader.setImageResource(R.drawable.ic_launcher_logo);
             }
-            if(current_user.getAnonymous().equals("")){
+            if (current_user.getAnonymous().equals("")) {
                 mUsername.setText(current_user.getUser());
-            }
-            else {
+            } else {
                 mUsername.setText(current_user.getAnonymous());
             }
             mAddress.setText(current_user.getAddress());
@@ -560,7 +558,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==Common.USER_STATE_CHANGE && resultCode==Common.USER_STATE_CHANGE_BACK){
+        if (requestCode == Common.USER_STATE_CHANGE && resultCode == Common.USER_STATE_CHANGE_BACK) {
             //update headerView
             updateHeaderView();
         }
@@ -605,47 +603,47 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_about) {
-            Log.d(TAG,"Launch AboutActivity");
+            Log.d(TAG, "Launch AboutActivity");
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
             drawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
-        Log.d(TAG,"Check if it's login state");
-        if(!judgeIfLogin()){
+        Log.d(TAG, "Check if it's login state");
+        if (!judgeIfLogin()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivityForResult(intent,Common.USER_STATE_CHANGE);
+            startActivityForResult(intent, Common.USER_STATE_CHANGE);
             drawer.closeDrawer(Gravity.START);
             return false;
         }
 
         if (id == R.id.nav_collectsum) {
-            Log.d(TAG,"Launch CollectStaticActivity");
+            Log.d(TAG, "Launch CollectStaticActivity");
             Intent intent = new Intent(MainActivity.this, CollectStaticActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_pointsetting) {
-            Log.d(TAG,"Launch PointSetActivity");
+            Log.d(TAG, "Launch PointSetActivity");
             Intent intent = new Intent(MainActivity.this, PointSetActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_emptystorage) {
 
         } else if (id == R.id.nav_feedback) {
-            Log.d(TAG,"Launch FeedBackActivity");
+            Log.d(TAG, "Launch FeedBackActivity");
             Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_switchuser) {
-            Log.d(TAG,"Launch LoginActivity");
+            Log.d(TAG, "Launch LoginActivity");
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivityForResult(intent,Common.USER_STATE_CHANGE);
+            startActivityForResult(intent, Common.USER_STATE_CHANGE);
 
         } else if (id == R.id.nav_exit) {
-            Log.d(TAG,"Logout");
-            SharedPreferences sf= getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
+            Log.d(TAG, "Logout");
+            SharedPreferences sf = getSharedPreferences(Common.login_preference_name, MODE_PRIVATE);
             SharedPreferences.Editor editor = sf.edit();
-            editor.putInt(Common.login_state,0);
+            editor.putInt(Common.login_state, 0);
             editor.commit();
             updateHeaderView();
             //----exit
@@ -656,7 +654,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //judge if it's login state, yes: do nothing; No: start login activity
-    private boolean judgeIfLogin(){
+    private boolean judgeIfLogin() {
         SharedPreferences sf = getSharedPreferences(Common.login_preference_name, MODE_PRIVATE);
         int loginState = sf.getInt(Common.login_state, 0);
         if (loginState == 0) {
@@ -669,12 +667,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onResume() {
-        super.onResume();
-        mMapView.resume();
-//        EventBus.getDefault().register(this);
-        Log.w("myApp", "[#] GPSActivity.java - onResume()");
-//        EventBus.getDefault().post(EventBusMSG.APP_RESUME);
-        super.onResume();
+
+        EventBus.getDefault().register(this);
+        Log.w("myApp", "[#] MainActivity - onResume()");
+        EventBus.getDefault().post(EventBusMSG.APP_RESUME);
 //        if (menutrackfinished != null) menutrackfinished.setVisible(!GPSApplication.getInstance().getCurrentTrack().getName().equals(""));
 
         // Check for runtime Permissions (for Android 23+)
@@ -682,14 +678,18 @@ public class MainActivity extends AppCompatActivity
 //            GPSApplication.getInstance().setPermissionsChecked(true);
 //            CheckPermissions();
 //        }
+
+        mMapView.resume();
+        super.onResume();
+
     }
 
-    public void CheckPermissions () {
+    public void CheckPermissions() {
         List<String> listPermissionsNeeded = new ArrayList<>();
 
-        for (String p:permissions) {
-            int result = ContextCompat.checkSelfPermission(this,p);
-            Log.w("myApp", "[#] GPSActivity.java - " + p + " = PERMISSION_" + (result == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
+        for (String p : permissions) {
+            int result = ContextCompat.checkSelfPermission(this, p);
+            Log.w("myApp", "[#] MainActivity - " + p + " = PERMISSION_" + (result == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
             if (result != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(p);
             }
@@ -701,21 +701,51 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPause() {
+        EventBus.getDefault().post(EventBusMSG.APP_PAUSE);
+        Log.w("myApp", "[#] MainActivity - onPause()");
+        EventBus.getDefault().unregister(this);
+
         super.onPause();
         mMapView.pause();
-//        EventBus.getDefault().post(EventBusMSG.APP_PAUSE);
-        Log.w("myApp", "[#] GPSActivity.java - onPause()");
-//        EventBus.getDefault().unregister(this);
-        super.onPause();
+    }
+
+    @Subscribe
+    public void onEvent(Short msg) {
+
+        if (msg == EventBusMSG.REQUEST_ADD_PLACEMARK) {
+            // Show Placemark Dialog
+//            FragmentManager fm = getSupportFragmentManager();
+//            FragmentPlacemarkDialog placemarkDialog = new FragmentPlacemarkDialog();
+//            placemarkDialog.show(fm, "");
+            return;
+        }
+
+        if (msg == EventBusMSG.UPDATE_TRACK) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+//                    if (menutrackfinished != null) menutrackfinished.setVisible(!GPSApplication.getInstance().getCurrentTrack().getName().equals(""));
+                }
+            });
+            return;
+        }
+        if (msg == EventBusMSG.TOAST_UNABLE_TO_WRITE_THE_FILE) {
+            final Context context = this;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, getString(R.string.export_unable_to_write_file), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
 
-    private void ShutdownApp()
-    {
-        if ((GPSApplication.getInstance().getCurrentTrack().getNumberOfLocations() > 0)
-                || (GPSApplication.getInstance().getCurrentTrack().getNumberOfPlacemarks() > 0)
-                || (GPSApplication.getInstance().getRecording())
-                || (GPSApplication.getInstance().getPlacemarkRequest())) {
+    private void ShutdownApp() {
+//        if ((GPSApplication.getInstance().getCurrentTrack().getNumberOfLocations() > 0)
+//                || (GPSApplication.getInstance().getCurrentTrack().getNumberOfPlacemarks() > 0)
+//                || (GPSApplication.getInstance().getRecording())
+//                || (GPSApplication.getInstance().getPlacemarkRequest())) {
 
 //            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.StyledDialog));
 //            builder.setMessage(getResources().getString(R.string.message_exit_confirmation));
@@ -738,13 +768,13 @@ public class MainActivity extends AppCompatActivity
 //            });
 //            AlertDialog dialog = builder.create();
 //            dialog.show();
-        } else {
-            GPSApplication.getInstance().setRecording(false);
-            GPSApplication.getInstance().setPlacemarkRequest(false);
-            GPSApplication.getInstance().StopAndUnbindGPSService();
+//        } else {
+        GPSApplication.getInstance().setRecording(false);
+        GPSApplication.getInstance().setPlacemarkRequest(false);
+        GPSApplication.getInstance().StopAndUnbindGPSService();
 
-            finish();
-        }
+        finish();
+//        }
     }
 
 }
