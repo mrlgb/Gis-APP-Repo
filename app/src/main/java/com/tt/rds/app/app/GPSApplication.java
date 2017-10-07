@@ -78,14 +78,19 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     private static final int GPS_OK = 5;
 
     // Preferences Variables
-    //.......................................
-    private boolean prefShowDecimalCoordinates = false;
-    private int prefUM = UM_METRIC_KMH;
-    private float prefGPSdistance = 0f;
-    private long prefGPSupdatefrequency = 1000L;
-    //....................................
-    private int prefShowTrackStatsType = 0;
-    private int prefShowDirections = 0;
+    // private boolean prefKeepScreenOn = true;                 // DONE in GPSActivity
+    private boolean prefShowDecimalCoordinates  = false;
+    private int     prefUM                      = UM_METRIC_KMH;
+    private float   prefGPSdistance             = 0f;
+    private long    prefGPSupdatefrequency      = 1000L;
+    private boolean prefEGM96AltitudeCorrection = false;
+    private double  prefAltitudeCorrection      = 0d;
+    private boolean prefExportKML               = true;
+    private boolean prefExportGPX               = true;
+    private boolean prefExportTXT               = false;
+    private int     prefKMLAltitudeMode         = 0;
+    private int     prefShowTrackStatsType      = 0;
+    private int     prefShowDirections          = 0;
 
     private boolean PermissionsChecked = false;                 // If the flag is false the GPSActivity will check for permissions
 
@@ -256,6 +261,32 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
 
     // ------------------------------------------------------------------------ Getters and Setters
+    public boolean getNewTrackFlag() {
+        return NewTrackFlag;
+    }
+
+    public void setNewTrackFlag(boolean newTrackFlag) {
+        if (newTrackFlag) {
+            NewTrackFlag = true;
+            newtrackhandler.removeCallbacks(newtrackr);         // Cancel the previous newtrackr handler
+            newtrackhandler.postDelayed(newtrackr, 1500);       // starts the new handler
+        } else {
+            NewTrackFlag = false;
+            newtrackhandler.removeCallbacks(newtrackr);         // Cancel the previous newtrackr handler
+        }
+    }
+
+    public boolean isContextMenuShareVisible() {
+        return isContextMenuShareVisible;
+    }
+
+    public boolean isContextMenuViewVisible() {
+        return isContextMenuViewVisible;
+    }
+
+    public String getViewInApp() {
+        return ViewInApp;
+    }
 
     public boolean isPermissionsChecked() {
         return PermissionsChecked;
@@ -273,11 +304,53 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         return HandlerTimer;
     }
 
+    public int getGPSStatus() {
+        return GPSStatus;
+    }
+
+    public int getPrefKMLAltitudeMode() {
+        return prefKMLAltitudeMode;
+    }
+
+    public void setOpenInViewer(long openInViewer) {
+        OpenInViewer = openInViewer;
+    }
+
+    public long getOpenInViewer() {
+        return OpenInViewer;
+    }
+
+    public long getShare() {
+        return Share;
+    }
+
+    public void setShare(long share) {
+        Share = share;
+    }
+
+    public double getPrefAltitudeCorrection() {
+        return prefAltitudeCorrection;
+    }
+
+    public boolean getPrefEGM96AltitudeCorrection() {
+        return prefEGM96AltitudeCorrection;
+    }
 
     public boolean getPrefShowDecimalCoordinates() {
         return prefShowDecimalCoordinates;
     }
 
+    public boolean getPrefExportKML() {
+        return prefExportKML;
+    }
+
+    public boolean getPrefExportGPX() {
+        return prefExportGPX;
+    }
+
+    public boolean getPrefExportTXT() {
+        return prefExportTXT;
+    }
 
     public int getPrefUM() {
         return prefUM;
@@ -291,6 +364,13 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         return prefShowDirections;
     }
 
+    public LocationExtended getCurrentLocationExtended() {
+        return _currentLocationExtended == null ? null : _currentLocationExtended;
+    }
+
+    public void setPlacemarkDescription(String Description) {
+        this.PlacemarkDescription = Description;
+    }
 
     public Track getCurrentTrack() {
         return _currentTrack == null ? null : _currentTrack;
@@ -313,12 +393,24 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         Recording = recordingState;
     }
 
-    public boolean getPlacemarkRequest() {
-        return PlacemarkRequest;
+    public boolean getPlacemarkRequest() { return PlacemarkRequest; }
+
+    public void setPlacemarkRequest(boolean placemarkRequest) { PlacemarkRequest = placemarkRequest; }
+
+    public List<Track> getTrackList() {
+        return _ArrayListTracks;
     }
 
-    public void setPlacemarkRequest(boolean placemarkRequest) {
-        PlacemarkRequest = placemarkRequest;
+    public boolean isCurrentTrackVisible() {
+        return isCurrentTrackVisible;
+    }
+
+    public void setisCurrentTrackVisible(boolean currentTrackVisible) {
+        isCurrentTrackVisible = currentTrackVisible;
+    }
+
+    public boolean isContextMenuEnabled() {
+        return isContextMenuEnabled;
     }
 
     // --------------------------------------------------------------------------------------------
@@ -399,32 +491,32 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
     @Subscribe
     public void onEvent(EventBusMSGNormal msg) {
-        if (msg.MSGType == EventBusMSG.TRACK_EXPORTED) {
-            long trackid = msg.id;
-            if (trackid > 0) {
-                synchronized (_ArrayListTracks) {
-                    for (Track T : _ArrayListTracks) {
-                        if (T.getId() == trackid) {
-                            T.setProgress(0);
-                            EventBus.getDefault().post(EventBusMSG.UPDATE_TRACKLIST);
-                            if (trackid == OpenInViewer) {
-                                OpenInViewer = -1;
-                                File file = new File(Environment.getExternalStorageDirectory() + "/GPSLogger/AppData/", T.getName() + ".kml");
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.setDataAndType(Uri.fromFile(file), "application/vnd.google-earth.kml+xml");
-                                startActivity(intent);
-                            }
-                            if (trackid == Share) {
-                                Share = -1;
-                                EventBus.getDefault().post(new EventBusMSGNormal(EventBusMSG.INTENT_SEND, trackid));
-                            }
-                        }
-                    }
-                }
-            }
-            return;
-        }
+//        if (msg.MSGType == EventBusMSG.TRACK_EXPORTED) {
+//            long trackid = msg.id;
+//            if (trackid > 0) {
+//                synchronized (_ArrayListTracks) {
+//                    for (Track T : _ArrayListTracks) {
+//                        if (T.getId() == trackid) {
+//                            T.setProgress(0);
+//                            EventBus.getDefault().post(EventBusMSG.UPDATE_TRACKLIST);
+//                            if (trackid == OpenInViewer) {
+//                                OpenInViewer = -1;
+//                                File file = new File(Environment.getExternalStorageDirectory() + "/GPSLogger/AppData/", T.getName() + ".kml");
+//                                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                intent.setDataAndType(Uri.fromFile(file), "application/vnd.google-earth.kml+xml");
+//                                startActivity(intent);
+//                            }
+//                            if (trackid == Share) {
+//                                Share = -1;
+//                                EventBus.getDefault().post(new EventBusMSGNormal(EventBusMSG.INTENT_SEND, trackid));
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            return;
+//        }
         if (msg.MSGType == EventBusMSG.DELETE_TRACK) {
             AsyncTODO ast = new AsyncTODO();
             ast.TaskType = "TASK_DELETE_TRACK " + msg.id;
@@ -432,26 +524,26 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             AsyncTODOQueue.add(ast);
             return;
         }
-        if (msg.MSGType == EventBusMSG.TOAST_UNABLE_TO_WRITE_THE_FILE) {
-            long trackid = msg.id;
-            if (trackid > 0) {
-                synchronized (_ArrayListTracks) {
-                    for (Track T : _ArrayListTracks) {
-                        if (T.getId() == trackid) {
-                            T.setProgress(0);
-                            EventBus.getDefault().post(EventBusMSG.UPDATE_TRACKLIST);
-                            if (trackid == OpenInViewer) {
-                                OpenInViewer = -1;
-                            }
-                            if (trackid == Share) {
-                                Share = -1;
-                            }
-                        }
-                    }
-                }
-            }
-            return;
-        }
+//        if (msg.MSGType == EventBusMSG.TOAST_UNABLE_TO_WRITE_THE_FILE) {
+//            long trackid = msg.id;
+//            if (trackid > 0) {
+//                synchronized (_ArrayListTracks) {
+//                    for (Track T : _ArrayListTracks) {
+//                        if (T.getId() == trackid) {
+//                            T.setProgress(0);
+//                            EventBus.getDefault().post(EventBusMSG.UPDATE_TRACKLIST);
+//                            if (trackid == OpenInViewer) {
+//                                OpenInViewer = -1;
+//                            }
+//                            if (trackid == Share) {
+//                                Share = -1;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            return;
+//        }
     }
 
     @Subscribe
@@ -479,8 +571,8 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         }
         if (msg == EventBusMSG.APP_RESUME) {
             //Log.w("GisApp", "[#] GPSApplication - Received EventBusMSG.APP_RESUME");
-            AsyncPrepareTracklistContextMenu asyncPrepareTracklistContextMenu = new AsyncPrepareTracklistContextMenu();
-            asyncPrepareTracklistContextMenu.start();
+//            AsyncPrepareTracklistContextMenu asyncPrepareTracklistContextMenu = new AsyncPrepareTracklistContextMenu();
+//            asyncPrepareTracklistContextMenu.start();
             handler.removeCallbacks(r);                 // Cancel the switch-off handler
             setHandlerTimer(DEFAULTHANDLERTIMER);
             setGPSLocationUpdates(true);
@@ -537,7 +629,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             for (GpsSatellite sat : sats) {
                 sats_inview++;
                 if (sat.usedInFix()) sats_used++;
-                //Log.w("GisApp", "[#] GPSApplication - updateSats: i=" + i);
+//                Log.w("GisApp", "[#] GPSApplication - updateSats: i=" + i);
             }
             _NumberOfSatellites = sats_inview;
             _NumberOfSatellitesUsedInFix = sats_used;
@@ -545,56 +637,56 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             _NumberOfSatellites = NOT_AVAILABLE;
             _NumberOfSatellitesUsedInFix = NOT_AVAILABLE;
         }
-        //Log.w("GisApp", "[#] GPSApplication - updateSats: Total=" + _NumberOfSatellites + " Used=" + _NumberOfSatellitesUsedInFix);
+        Log.w("GisApp", "[#] GPSApplication - updateSats: Total=" + _NumberOfSatellites + " Used=" + _NumberOfSatellitesUsedInFix);
     }
 
 
-    private class AsyncPrepareTracklistContextMenu extends Thread {
-
-        public AsyncPrepareTracklistContextMenu() {
-        }
-
-        public void run() {
-            isContextMenuShareVisible = false;
-            isContextMenuViewVisible = false;
-            isContextMenuEnabled = false;
-            ViewInApp = "";
-
-            final PackageManager pm = getPackageManager();
-
-            // Check permissions
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                isContextMenuEnabled = true;
-
-
-            // ----- menu share
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-            intent.setType("text/xml");
-            // Verify the intent will resolve to at least one activity
-            if ((intent.resolveActivity(pm) != null)) isContextMenuShareVisible = true;
-
-            // ----- menu view
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setType("application/vnd.google-earth.kml+xml");
-            ResolveInfo ri = pm.resolveActivity(intent, 0); // Find default app
-            if (ri != null) {
-                //Log.w("GisApp", "[#] FragmentTracklist.java - Open with: " + ri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
-                List<ResolveInfo> lri = pm.queryIntentActivities(intent, 0);
-                //Log.w("GisApp", "[#] FragmentTracklist.java - Found " + lri.size() + " viewers:");
-                for (ResolveInfo tmpri : lri) {
-                    //Log.w("GisApp", "[#] " + ri.activityInfo.applicationInfo.packageName + " - " + tmpri.activityInfo.applicationInfo.packageName);
-                    if (ri.activityInfo.applicationInfo.packageName.equals(tmpri.activityInfo.applicationInfo.packageName)) {
-                        ViewInApp = ri.activityInfo.applicationInfo.loadLabel(pm).toString();
-                        //Log.w("GisApp", "[#]                              DEFAULT --> " + tmpri.activityInfo.applicationInfo.loadLabel(getPackageManager()));
-                    }   //else Log.w("GisApp", "[#]                                          " + tmpri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
-                }
-                isContextMenuViewVisible = true;
-            }
-            Log.w("GisApp", "[#] GPSApplication - Tracklist ContextMenu prepared");
-        }
-    }
+//    private class AsyncPrepareTracklistContextMenu extends Thread {
+//
+//        public AsyncPrepareTracklistContextMenu() {
+//        }
+//
+//        public void run() {
+//            isContextMenuShareVisible = false;
+//            isContextMenuViewVisible = false;
+//            isContextMenuEnabled = false;
+//            ViewInApp = "";
+//
+//            final PackageManager pm = getPackageManager();
+//
+//            // Check permissions
+//            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+//                isContextMenuEnabled = true;
+//
+//
+//            // ----- menu share
+//            Intent intent = new Intent();
+//            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+//            intent.setType("text/xml");
+//            // Verify the intent will resolve to at least one activity
+//            if ((intent.resolveActivity(pm) != null)) isContextMenuShareVisible = true;
+//
+//            // ----- menu view
+//            intent = new Intent(Intent.ACTION_VIEW);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.setType("application/vnd.google-earth.kml+xml");
+//            ResolveInfo ri = pm.resolveActivity(intent, 0); // Find default app
+//            if (ri != null) {
+//                //Log.w("GisApp", "[#] FragmentTracklist.java - Open with: " + ri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
+//                List<ResolveInfo> lri = pm.queryIntentActivities(intent, 0);
+//                //Log.w("GisApp", "[#] FragmentTracklist.java - Found " + lri.size() + " viewers:");
+//                for (ResolveInfo tmpri : lri) {
+//                    //Log.w("GisApp", "[#] " + ri.activityInfo.applicationInfo.packageName + " - " + tmpri.activityInfo.applicationInfo.packageName);
+//                    if (ri.activityInfo.applicationInfo.packageName.equals(tmpri.activityInfo.applicationInfo.packageName)) {
+//                        ViewInApp = ri.activityInfo.applicationInfo.loadLabel(pm).toString();
+//                        //Log.w("GisApp", "[#]                              DEFAULT --> " + tmpri.activityInfo.applicationInfo.loadLabel(getPackageManager()));
+//                    }   //else Log.w("GisApp", "[#]                                          " + tmpri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
+//                }
+//                isContextMenuViewVisible = true;
+//            }
+//            Log.w("GisApp", "[#] GPSApplication - Tracklist ContextMenu prepared");
+//        }
+//    }
 
     // ------------------------------------------------------------------------- GpsStatus.Listener
     @Override
@@ -614,7 +706,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     public void onLocationChanged(Location loc) {
         //if ((loc != null) && (loc.getProvider().equals(LocationManager.GPS_PROVIDER)) {
         if (loc != null) {      // Location data is valid
-            //Log.w("GisApp", "[#] GPSApplication - onLocationChanged: provider=" + loc.getProvider());
+//            Log.w("GisApp", "[#] GPSApplication - onLocationChanged: provider=" + loc.getProvider());
             LocationExtended eloc = new LocationExtended(loc);
             eloc.setNumberOfSatellites(getNumberOfSatellites());
             eloc.setNumberOfSatellitesUsedInFix(getNumberOfSatellitesUsedInFix());
@@ -696,14 +788,14 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         // This is called when the GPS status changes
         switch (status) {
             case LocationProvider.OUT_OF_SERVICE:
-                //Log.w("GisApp", "[#] GPSApplication - GPS Out of Service");
+                Log.w("GisApp", "[#] GPSApplication - GPS Out of Service");
                 gpsunavailablehandler.removeCallbacks(unavailr);            // Cancel the previous unavail countdown handler
                 GPSStatus = GPS_OUTOFSERVICE;
                 EventBus.getDefault().post(EventBusMSG.UPDATE_FIX);
                 //Toast.makeText( getApplicationContext(), "GPS Out of Service", Toast.LENGTH_SHORT).show();
                 break;
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                //Log.w("GisApp", "[#] GPSApplication - GPS Temporarily Unavailable");
+                Log.w("GisApp", "[#] GPSApplication - GPS Temporarily Unavailable");
                 gpsunavailablehandler.removeCallbacks(unavailr);            // Cancel the previous unavail countdown handler
                 GPSStatus = GPS_TEMPORARYUNAVAILABLE;
                 EventBus.getDefault().post(EventBusMSG.UPDATE_FIX);
@@ -711,7 +803,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                 break;
             case LocationProvider.AVAILABLE:
                 gpsunavailablehandler.removeCallbacks(unavailr);            // Cancel the previous unavail countdown handler
-                //Log.w("GisApp", "[#] GPSApplication - GPS Available: " + _NumberOfSatellites + " satellites");
+                Log.w("GisApp", "[#] GPSApplication - GPS Available: " + _NumberOfSatellites + " satellites");
                 break;
         }
     }
@@ -780,18 +872,18 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                 if (asyncTODO.TaskType.equals("TASK_NEWTRACK")) {
                     if ((track.getNumberOfLocations() != 0) || (track.getNumberOfPlacemarks() != 0)) {
                         // ---- Delete 2 thumbs files forward - in case of user deleted DB in App manager (pngs could be already presents for the new IDS)
-                        String fname = (track.getId() + 1) + ".png";
-                        File file = new File(getApplicationContext().getFilesDir() + "/Thumbnails/", fname);
-                        if (file.exists()) file.delete();
-                        fname = (track.getId() + 2) + ".png";
-                        file = new File(getApplicationContext().getFilesDir() + "/Thumbnails/", fname);
-                        if (file.exists()) file.delete();
+//                        String fname = (track.getId() + 1) + ".png";
+//                        File file = new File(getApplicationContext().getFilesDir() + "/Thumbnails/", fname);
+//                        if (file.exists()) file.delete();
+//                        fname = (track.getId() + 2) + ".png";
+//                        file = new File(getApplicationContext().getFilesDir() + "/Thumbnails/", fname);
+//                        if (file.exists()) file.delete();
                         track = new Track();
                         // ----
                         track.setId(dbService.addTrack(track));
                         Log.w("GisApp", "[#] GPSApplication - TASK_NEWTRACK: " + track.getId());
                         _currentTrack = track;
-                        UpdateTrackList();
+//                        UpdateTrackList();
                     } else
                         Log.w("GisApp", "[#] GPSApplication - TASK_NEWTRACK: Track " + track.getId() + " already empty (New track not created)");
                     _currentTrack = track;

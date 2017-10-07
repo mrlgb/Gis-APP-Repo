@@ -175,7 +175,6 @@ public class DataQueryDetailActivity extends AppCompatActivity {
             public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
                 if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
                     progressBar.setVisibility(View.VISIBLE);
-                    Log.d("drawStatusChanged", "spinner visible");
                 } else if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
                     progressBar.setVisibility(View.INVISIBLE);
                 }

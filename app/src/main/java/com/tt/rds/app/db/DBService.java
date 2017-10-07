@@ -524,8 +524,10 @@ public class DBService {
     // Add a new Track, returns the TrackID
     public long addTrack(Track track) {
         TtTrack ttTrack = TtTrack4Track(track);
-        long trackid = getTtTrackDao().insertOrReplace(ttTrack);
-        Log.d(TAG, "----" + trackid);
+        //add new track (not modify!!!!)
+        ttTrack.setTrackId(null);
+        long trackid = getTtTrackDao().insert(ttTrack);
+        Log.d(TAG, "--after add --t:[trackid]"+trackid);
         return trackid;
 
     }
