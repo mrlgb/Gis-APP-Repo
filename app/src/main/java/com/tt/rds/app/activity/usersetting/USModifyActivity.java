@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.app.Common;
@@ -22,7 +22,7 @@ import com.tt.rds.app.bean.UserDao;
 public class USModifyActivity extends BaseSaveActivity
 {
 
-    private final Application gpsApplication= Application.getInstance();
+    private final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
 
     EditText et_input;
     TextView toolbar_title;
@@ -67,7 +67,7 @@ public class USModifyActivity extends BaseSaveActivity
         et_input=(EditText)findViewById(R.id.us_new_info);
         toolbar_title=(TextView)findViewById(R.id.us_title);
 
-        userDao = gpsApplication.getDbService().getUserDao();
+        userDao = gpsGPSApplication.getDbService().getUserDao();
         SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         String cur_username=sf.getString(Common.current_user,"");
         current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();

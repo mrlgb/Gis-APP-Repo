@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -42,8 +43,12 @@ import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import com.tt.rds.app.app.Application;
+import java.util.Map;
+
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.pointcollect.MarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
@@ -57,9 +62,12 @@ import com.tt.rds.app.app.Constant;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.User;
 import com.tt.rds.app.bean.UserDao;
+import com.tt.rds.app.common.EventBusMSG;
+
+import org.greenrobot.eventbus.EventBus;
 
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -78,7 +86,7 @@ public class MainActivity extends BaseActivity
     private List<String> collectPointList;
     private ArrayAdapter<String> gridViewArrayAdapter;
 
-    final Application gpsApplication = Application.getInstance();
+    final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
     DrawerLayout drawer;
     private LocationDisplay mLocationDisplay;
     double mScale = 0.0;
@@ -87,23 +95,40 @@ public class MainActivity extends BaseActivity
     String[] reqPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
             .ACCESS_COARSE_LOCATION};
 
+
     private User current_user;
     private UserDao userDao;
 
+    //-----------------------------
+    String[] permissions= new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET};
+
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    private static final int RESULT_SETTINGS = 1;
+
+    private boolean prefKeepScreenOn = true;
+
+    //-----------------------------
+
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initActivity(Bundle savedInstanceState) {
-        super.initActivity(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         initToolBarAnDrawerLayout();
 
         initArcgisMap();
 
+        initView();
+
+        initBottomSheet();
+
+    }
+
+    private void initView() {
         findViewById(R.id.bSearch).setOnClickListener(this);
         //Implement click listeners
         findViewById(R.id.BtnPointCollect_main).setOnClickListener(this);
@@ -120,10 +145,6 @@ public class MainActivity extends BaseActivity
 
         findViewById(R.id.btnLineClear).setOnClickListener(this);
         findViewById(R.id.btnMyLocation).setOnClickListener(this);
-//
-        initBottomSheet();
-
-        createPhotoPath();
     }
 
     private void createPhotoPath() {
@@ -137,7 +158,7 @@ public class MainActivity extends BaseActivity
 
     private void initBottomGridView() {
         // Populate a List from Array elements
-        collectPointList = getApp().getCollectPointList();
+        collectPointList = gpsGPSApplication.getCollectPointList();
 
         // Create a new ArrayAdapter
         gridViewArrayAdapter = new ArrayAdapter<String>
@@ -225,11 +246,11 @@ public class MainActivity extends BaseActivity
     private void changeInGV(ArrayAdapter<String> gridViewArrayAdapter) {
         // Get the second item from ArrayAdapter
         if (showall_button.getText().equals("全部")) {
-            getApp().switchCollectPointList(false);
+            gpsGPSApplication.switchCollectPointList(false);
             showall_button.setText("常用");
         } else {
             showall_button.setText("全部");
-            getApp().switchCollectPointList(true);
+            gpsGPSApplication.switchCollectPointList(true);
         }
 
         // Update the GridView
@@ -321,18 +342,84 @@ public class MainActivity extends BaseActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // Location permission was granted. This would have been triggered in response to failing to start the
-            // LocationDisplay, so try starting this again.
-            mLocationDisplay.startAsync();
-        } else {
-            // If permission was denied, show toast to inform user what was chosen. If LocationDisplay is started again,
-            // request permission UX will be shown again, option should be shown to allow never showing the UX again.
-            // Alternative would be to disable functionality so request is not shown again.
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.location_permission_denied), Toast
-                    .LENGTH_SHORT).show();
+        switch (requestCode) {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
+                Map<String, Integer> perms = new HashMap<>();
 
+                if (grantResults.length > 0) {
+                    // Fill with actual results from user
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for permissions
+                    if (perms.containsKey(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            Log.w("myApp", "[#] GPSActivity.java - ACCESS_FINE_LOCATION = PERMISSION_GRANTED");
+                        } else {
+                            Log.w("myApp", "[#] GPSActivity.java - ACCESS_FINE_LOCATION = PERMISSION_DENIED");
+                        }
+                    }
+
+                    if (perms.containsKey(Manifest.permission.INTERNET)) {
+                        if (perms.get(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                            Log.w("myApp", "[#] GPSActivity.java - INTERNET = PERMISSION_GRANTED");
+                        } else {
+                            Log.w("myApp", "[#] GPSActivity.java - INTERNET = PERMISSION_DENIED");
+                        }
+                    }
+
+                    if (perms.containsKey(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            Log.w("myApp", "[#] GPSActivity.java - WRITE_EXTERNAL_STORAGE = PERMISSION_GRANTED");
+                            // ---------------------------------------------------- Create the Directories if not exist
+                            File sd = new File(Environment.getExternalStorageDirectory() + "/GPSLogger");
+                            if (!sd.exists()) {
+                                sd.mkdir();
+                            }
+                            sd = new File(Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
+                            if (!sd.exists()) {
+                                sd.mkdir();
+                            }
+                            sd = new File(getApplicationContext().getFilesDir() + "/Thumbnails");
+                            if (!sd.exists()) {
+                                sd.mkdir();
+                            }
+//                            EGM96 egm96 = EGM96.getInstance();
+//                            if (egm96 != null) {
+//                                if (!egm96.isEGMGridLoaded()) {
+//                                    //Log.w("myApp", "[#] GPSApplication.java - Loading EGM Grid...");
+//                                    egm96.LoadGridFromFile(Environment.getExternalStorageDirectory() + "/GPSLogger/AppData/WW15MGH.DAC", getApplicationContext().getFilesDir() + "/WW15MGH.DAC");
+//                                }
+//                            }
+                        }
+
+                        if (perms.containsKey(PackageManager.PERMISSION_GRANTED)) {
+                            mLocationDisplay.startAsync();
+                        }
+                        else {
+                            Log.w("myApp", "[#] GPSActivity.java - WRITE_EXTERNAL_STORAGE = PERMISSION_DENIED");
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.location_permission_denied), Toast
+                                    .LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                break;
+            }
+            default: {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
+//        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//            // Location permission was granted. This would have been triggered in response to failing to start the
+//            // LocationDisplay, so try starting this again.
+//            mLocationDisplay.startAsync();
+//        } else {
+//            // If permission was denied, show toast to inform user what was chosen. If LocationDisplay is started again,
+//            // request permission UX will be shown again, option should be shown to allow never showing the UX again.
+//            // Alternative would be to disable functionality so request is not shown again.
+//            Toast.makeText(MainActivity.this, getResources().getString(R.string.location_permission_denied), Toast
+//                    .LENGTH_SHORT).show();
+//
+//        }
     }
 
     @Override
@@ -348,9 +435,9 @@ public class MainActivity extends BaseActivity
                 Log.d(TAG, "Click button Begin Line collect main");
 //                Intent intent1 = new Intent(MainActivity.this,BegincollectingActivity.class);
 //                startActivity(intent1);
-//                final Boolean grs = gpsApplication.getRecording();
+//                final Boolean grs = gpsGPSApplication.getRecording();
 //                boolean newRecordingState = !grs;
-//                gpsApplication.setRecording(newRecordingState);
+//                gpsGPSApplication.setRecording(newRecordingState);
                 break;
             case R.id.BtnQuery_main:
                 //
@@ -366,8 +453,8 @@ public class MainActivity extends BaseActivity
                 Log.d(TAG, "Click button stop main");
 //                Intent intent3 = new Intent(MainActivity.this,FinishcollectingActivity.class);
 //                startActivity(intent3);
-//                gpsApplication.setNewTrackFlag(false);
-//                gpsApplication.setRecording(false);
+//                gpsGPSApplication.setNewTrackFlag(false);
+//                gpsGPSApplication.setRecording(false);
 //                EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
 //                Toast.makeText(this, "STOP Collecting", Toast.LENGTH_SHORT).show();
                 break;
@@ -446,7 +533,7 @@ public class MainActivity extends BaseActivity
             mAddress.setText("");
         }
         else {
-            userDao = gpsApplication.getDbService().getUserDao();
+            userDao = gpsGPSApplication.getDbService().getUserDao();
             SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
             String cur_username=sf.getString(Common.current_user,"");
             current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();
@@ -511,7 +598,6 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -562,6 +648,8 @@ public class MainActivity extends BaseActivity
             editor.putInt(Common.login_state,0);
             editor.commit();
             updateHeaderView();
+            //----exit
+            ShutdownApp();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -578,15 +666,85 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
+
     @Override
-    protected void onPause() {
-        super.onPause();
-        mMapView.pause();
+    public void onResume() {
+        super.onResume();
+        mMapView.resume();
+//        EventBus.getDefault().register(this);
+        Log.w("myApp", "[#] GPSActivity.java - onResume()");
+//        EventBus.getDefault().post(EventBusMSG.APP_RESUME);
+        super.onResume();
+//        if (menutrackfinished != null) menutrackfinished.setVisible(!GPSApplication.getInstance().getCurrentTrack().getName().equals(""));
+
+        // Check for runtime Permissions (for Android 23+)
+//        if (!GPSApplication.getInstance().isPermissionsChecked()) {
+//            GPSApplication.getInstance().setPermissionsChecked(true);
+//            CheckPermissions();
+//        }
+    }
+
+    public void CheckPermissions () {
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        for (String p:permissions) {
+            int result = ContextCompat.checkSelfPermission(this,p);
+            Log.w("myApp", "[#] GPSActivity.java - " + p + " = PERMISSION_" + (result == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+        }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mMapView.resume();
+    public void onPause() {
+        super.onPause();
+        mMapView.pause();
+//        EventBus.getDefault().post(EventBusMSG.APP_PAUSE);
+        Log.w("myApp", "[#] GPSActivity.java - onPause()");
+//        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
+
+
+    private void ShutdownApp()
+    {
+        if ((GPSApplication.getInstance().getCurrentTrack().getNumberOfLocations() > 0)
+                || (GPSApplication.getInstance().getCurrentTrack().getNumberOfPlacemarks() > 0)
+                || (GPSApplication.getInstance().getRecording())
+                || (GPSApplication.getInstance().getPlacemarkRequest())) {
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.StyledDialog));
+//            builder.setMessage(getResources().getString(R.string.message_exit_confirmation));
+//            builder.setIcon(android.R.drawable.ic_menu_info_details);
+//            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int id) {
+//                    GPSApplication.getInstance().setRecording(false);
+//                    GPSApplication.getInstance().setPlacemarkRequest(false);
+//                    EventBus.getDefault().post(EventBusMSG.NEW_TRACK);
+//                    GPSApplication.getInstance().StopAndUnbindGPSService();
+//
+//                    dialog.dismiss();
+//                    finish();
+//                }
+//            });
+//            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int id) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            AlertDialog dialog = builder.create();
+//            dialog.show();
+        } else {
+            GPSApplication.getInstance().setRecording(false);
+            GPSApplication.getInstance().setPlacemarkRequest(false);
+            GPSApplication.getInstance().StopAndUnbindGPSService();
+
+            finish();
+        }
+    }
+
 }

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.adapter.ImagesAdapter;
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.Picture;
 import com.tt.rds.app.bean.PictureDao;
 import com.tt.rds.app.bean.PointMarker;
@@ -47,7 +47,7 @@ import pl.tajchert.nammu.PermissionCallback;
 public class MarkerActivity extends BaseSaveActivity {
     private static final String TAG = MarkerActivity.class.getSimpleName();
 
-    final Application gpsApplication = Application.getInstance();
+    final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
     //----------Mine fields----------
     EditText edtName;
     EditText edtCode;
@@ -197,8 +197,8 @@ public class MarkerActivity extends BaseSaveActivity {
 
     private void saveInfo2DB() {
         if (verifyInput()) {
-            PointMarkerDao pMakerDao = gpsApplication.getDbService().getPointMarkerDao();
-            PictureDao pictureDao = gpsApplication.getDbService().getPictureDao();
+            PointMarkerDao pMakerDao = gpsGPSApplication.getDbService().getPointMarkerDao();
+            PictureDao pictureDao = gpsGPSApplication.getDbService().getPictureDao();
 
             if(photosName.size()!=0){
                 //照片

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.DataQueryDetailActivity;
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.PointMarker;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
         mContext = context;
         mType = type;
         mResultDataPoint=new ArrayList<>();
-        mDataPoints = Application.getInstance().getDbService().getPointMarkerDao().loadAll();
+        mDataPoints = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadAll();
         if(mDataPoints!=null)
         switch (mType) {
             case 0:

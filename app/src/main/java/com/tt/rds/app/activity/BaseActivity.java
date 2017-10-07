@@ -12,20 +12,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected Application app;
+    protected GPSApplication app;
 
-    public Application getApp() {
+    public GPSApplication getApp() {
         return app;
     }
 
-    public void setApp(Application app) {
+    public void setApp(GPSApplication app) {
         this.app = app;
     }
 
@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(layoutResId);
 
         ButterKnife.bind(this);
-        app = (Application) getApplication(); // 获得MainApplication对象
+        app = (GPSApplication) getApplication(); // 获得MainApplication对象
         initActivity(savedInstanceState);
     }
 

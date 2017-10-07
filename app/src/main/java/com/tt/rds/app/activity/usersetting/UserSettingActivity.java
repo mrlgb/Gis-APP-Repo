@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -21,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.AppBitmap;
@@ -32,7 +31,7 @@ import java.io.File;
 
 public class UserSettingActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private final Application gpsApplication= Application.getInstance();
+    private final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
     private final int GENDER_MALE=0x0041;
     private final int GENDER_FEMALE=0x0042;
 
@@ -112,7 +111,7 @@ public class UserSettingActivity extends AppCompatActivity implements View.OnCli
         mf_addr=(TextView)findViewById(R.id.mf_addr);
         mf_signature=(TextView)findViewById(R.id.mf_signature);
 
-        userDao = gpsApplication.getDbService().getUserDao();
+        userDao = gpsGPSApplication.getDbService().getUserDao();
         SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         String cur_username=sf.getString(Common.current_user,"");
         current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();

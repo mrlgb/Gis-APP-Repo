@@ -38,7 +38,7 @@ public class EventBusMSG {
     public static final short TRACK_EXPORTED                   =  24;  // The exporter has finished to process the track (given id)
     public static final short TRACKLIST_SELECTION              =  25;  // The user select (into the tracklist) the track with a given id
     public static final short INTENT_SEND                      =  26;  // Request to
-    public static final short TOAST_UNABLE_TO_WRITE_THE_FILE   =  27;  // Exporter fails to export the Track (given id)
+    public static final short TOAST_UNABLE_TO_WRITE_THE_FILE   =  27;  // Exporter fails to export the TtTrack (given id)
 
-    public static final short TRACK_SETPROGRESS                =  30;  // Change the progress value of the Track (given id)
+    public static final short TRACK_SETPROGRESS                =  30;  // Change the progress value of the TtTrack (given id)
 }

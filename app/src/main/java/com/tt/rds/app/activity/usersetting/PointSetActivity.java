@@ -3,7 +3,6 @@ package com.tt.rds.app.activity.usersetting;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.BaseSaveActivity;
 import com.tt.rds.app.app.Common;
-import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.User;
 import com.tt.rds.app.bean.UserDao;
 import com.tt.rds.app.bean.UserPointType;
@@ -33,7 +31,7 @@ public class PointSetActivity extends BaseSaveActivity {
     private UserDao userDao;
     private User current_user;
 
-    final Application gpsApplication = Application.getInstance();
+    final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
 
     @Override
     protected int getLayoutResId() {
@@ -66,8 +64,8 @@ public class PointSetActivity extends BaseSaveActivity {
         mListView=(ListView)findViewById(R.id.pt_list);
         checkpoints=new ArrayList<CheckBox>();
 
-        userPointTypeDao=gpsApplication.getDbService().getUserPointTypeDao();
-        userDao = gpsApplication.getDbService().getUserDao();
+        userPointTypeDao= gpsGPSApplication.getDbService().getUserPointTypeDao();
+        userDao = gpsGPSApplication.getDbService().getUserDao();
         SharedPreferences sf=getSharedPreferences(Common.login_preference_name,MODE_PRIVATE);
         String cur_username=sf.getString(Common.current_user,"");
         current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(cur_username)).build().unique();

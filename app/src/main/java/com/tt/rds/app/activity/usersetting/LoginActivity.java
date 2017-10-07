@@ -23,7 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tt.rds.app.app.Application;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.R;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.bean.User;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ConstraintLayout mCstr;
     User current_user;
 
-    final Application gpsApplication = Application.getInstance();
+    final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //get user info from db
     private void getAllUserInfo(){
-        UserDao userDao = gpsApplication.getDbService().getUserDao();
+        UserDao userDao = gpsGPSApplication.getDbService().getUserDao();
         allusers = userDao.queryBuilder().build().list();
 
         if(allusers.size()==0){
@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //TODO 从Server获得用户数据，并插入数据库
         String mUserName=et_user.getText().toString();
         String mPwd=et_pwd.getText().toString();
-        UserDao userDao=gpsApplication.getDbService().getUserDao();
+        UserDao userDao= gpsGPSApplication.getDbService().getUserDao();
         current_user = userDao.queryBuilder().where(UserDao.Properties.User.eq(mUserName)).build().unique();
         if(current_user!=null){
             //TODO 更新数据
@@ -281,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initPointSettingForUser(){
         //TODO 暂时只保存本地设置
-        UserPointTypeDao userPointTypeDao=gpsApplication.getDbService().getUserPointTypeDao();
+        UserPointTypeDao userPointTypeDao= gpsGPSApplication.getDbService().getUserPointTypeDao();
         List<UserPointType> userPTs=userPointTypeDao.queryBuilder().where(UserPointTypeDao.Properties.UserId.eq(current_user.getUserId())).build().list();
         if(userPTs.size()==0){
             for(int i=0;i<Common.points_all.length;i++){
