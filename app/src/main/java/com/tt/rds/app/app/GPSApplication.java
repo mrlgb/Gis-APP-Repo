@@ -211,13 +211,13 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                                        IBinder service) {
             GPSService.LocalBinder binder = (GPSService.LocalBinder) service;
             GPSLoggerService = binder.getServiceInstance();                     //Get instance of your service!
-            Log.w("myApp", "[#] GPSApplication.java - GPSSERVICE CONNECTED - onServiceConnected event");
+            Log.w("GisApp", "[#] GPSApplication - GPSSERVICE CONNECTED - onServiceConnected event");
             isGPSServiceBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-            Log.w("myApp", "[#] GPSApplication.java - GPSSERVICE DISCONNECTED - onServiceDisconnected event");
+            Log.w("GisApp", "[#] GPSApplication - GPSSERVICE DISCONNECTED - onServiceDisconnected event");
             isGPSServiceBound = false;
         }
     };
@@ -226,31 +226,31 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         GPSServiceIntent = new Intent(GPSApplication.this, GPSService.class);
         startService(GPSServiceIntent);                                                    //Starting the service
         bindService(GPSServiceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE);     //Binding to the service!
-        Log.w("myApp", "[#] GPSApplication.java - StartAndBindGPSService");
+        Log.w("GisApp", "[#] GPSApplication - StartAndBindGPSService");
     }
 
 
     /* private void UnbindGPSService() {                                                //UNUSED
         try {
             unbindService(GPSServiceConnection);                                        //Unbind to the service
-            Log.w("myApp", "[#] GPSApplication.java - Service unbound");
+            Log.w("GisApp", "[#] GPSApplication - Service unbound");
         } catch (Exception e) {
-            Log.w("myApp", "[#] GPSApplication.java - Unable to unbind the GPSService");
+            Log.w("GisApp", "[#] GPSApplication - Unable to unbind the GPSService");
         }
     } */
 
     public void StopAndUnbindGPSService() {
         try {
             unbindService(GPSServiceConnection);                                        //Unbind to the service
-            Log.w("myApp", "[#] GPSApplication.java - Service unbound");
+            Log.w("GisApp", "[#] GPSApplication - Service unbound");
         } catch (Exception e) {
-            Log.w("myApp", "[#] GPSApplication.java - Unable to unbind the GPSService");
+            Log.w("GisApp", "[#] GPSApplication - Unable to unbind the GPSService");
         }
         try {
             stopService(GPSServiceIntent);                                                  //Stop the service
-            Log.w("myApp", "[#] GPSApplication.java - Service stopped");
+            Log.w("GisApp", "[#] GPSApplication - Service stopped");
         } catch (Exception e) {
-            Log.w("myApp", "[#] GPSApplication.java - Unable to stop GPSService");
+            Log.w("GisApp", "[#] GPSApplication - Unable to stop GPSService");
         }
     }
 
@@ -375,7 +375,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
     @Override
     public void onTerminate() {
-        Log.w("myApp", "[#] GPSApplication.java - onTerminate");
+        Log.w("GisApp", "[#] GPSApplication - onTerminate");
         EventBus.getDefault().unregister(this);
         StopAndUnbindGPSService();
         super.onTerminate();
@@ -478,7 +478,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             return;
         }
         if (msg == EventBusMSG.APP_RESUME) {
-            //Log.w("myApp", "[#] GPSApplication.java - Received EventBusMSG.APP_RESUME");
+            //Log.w("GisApp", "[#] GPSApplication - Received EventBusMSG.APP_RESUME");
             AsyncPrepareTracklistContextMenu asyncPrepareTracklistContextMenu = new AsyncPrepareTracklistContextMenu();
             asyncPrepareTracklistContextMenu.start();
             handler.removeCallbacks(r);                 // Cancel the switch-off handler
@@ -537,7 +537,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             for (GpsSatellite sat : sats) {
                 sats_inview++;
                 if (sat.usedInFix()) sats_used++;
-                //Log.w("myApp", "[#] GPSApplication.java - updateSats: i=" + i);
+                //Log.w("GisApp", "[#] GPSApplication - updateSats: i=" + i);
             }
             _NumberOfSatellites = sats_inview;
             _NumberOfSatellitesUsedInFix = sats_used;
@@ -545,7 +545,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             _NumberOfSatellites = NOT_AVAILABLE;
             _NumberOfSatellitesUsedInFix = NOT_AVAILABLE;
         }
-        //Log.w("myApp", "[#] GPSApplication.java - updateSats: Total=" + _NumberOfSatellites + " Used=" + _NumberOfSatellitesUsedInFix);
+        //Log.w("GisApp", "[#] GPSApplication - updateSats: Total=" + _NumberOfSatellites + " Used=" + _NumberOfSatellitesUsedInFix);
     }
 
 
@@ -580,19 +580,19 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             intent.setType("application/vnd.google-earth.kml+xml");
             ResolveInfo ri = pm.resolveActivity(intent, 0); // Find default app
             if (ri != null) {
-                //Log.w("myApp", "[#] FragmentTracklist.java - Open with: " + ri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
+                //Log.w("GisApp", "[#] FragmentTracklist.java - Open with: " + ri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
                 List<ResolveInfo> lri = pm.queryIntentActivities(intent, 0);
-                //Log.w("myApp", "[#] FragmentTracklist.java - Found " + lri.size() + " viewers:");
+                //Log.w("GisApp", "[#] FragmentTracklist.java - Found " + lri.size() + " viewers:");
                 for (ResolveInfo tmpri : lri) {
-                    //Log.w("myApp", "[#] " + ri.activityInfo.applicationInfo.packageName + " - " + tmpri.activityInfo.applicationInfo.packageName);
+                    //Log.w("GisApp", "[#] " + ri.activityInfo.applicationInfo.packageName + " - " + tmpri.activityInfo.applicationInfo.packageName);
                     if (ri.activityInfo.applicationInfo.packageName.equals(tmpri.activityInfo.applicationInfo.packageName)) {
                         ViewInApp = ri.activityInfo.applicationInfo.loadLabel(pm).toString();
-                        //Log.w("myApp", "[#]                              DEFAULT --> " + tmpri.activityInfo.applicationInfo.loadLabel(getPackageManager()));
-                    }   //else Log.w("myApp", "[#]                                          " + tmpri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
+                        //Log.w("GisApp", "[#]                              DEFAULT --> " + tmpri.activityInfo.applicationInfo.loadLabel(getPackageManager()));
+                    }   //else Log.w("GisApp", "[#]                                          " + tmpri.activityInfo.applicationInfo.loadLabel(getContext().getPackageManager()));
                 }
                 isContextMenuViewVisible = true;
             }
-            Log.w("myApp", "[#] GPSApplication.java - Tracklist ContextMenu prepared");
+            Log.w("GisApp", "[#] GPSApplication - Tracklist ContextMenu prepared");
         }
     }
 
@@ -614,7 +614,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     public void onLocationChanged(Location loc) {
         //if ((loc != null) && (loc.getProvider().equals(LocationManager.GPS_PROVIDER)) {
         if (loc != null) {      // Location data is valid
-            //Log.w("myApp", "[#] GPSApplication.java - onLocationChanged: provider=" + loc.getProvider());
+            //Log.w("GisApp", "[#] GPSApplication - onLocationChanged: provider=" + loc.getProvider());
             LocationExtended eloc = new LocationExtended(loc);
             eloc.setNumberOfSatellites(getNumberOfSatellites());
             eloc.setNumberOfSatellitesUsedInFix(getNumberOfSatellitesUsedInFix());
@@ -696,14 +696,14 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         // This is called when the GPS status changes
         switch (status) {
             case LocationProvider.OUT_OF_SERVICE:
-                //Log.w("myApp", "[#] GPSApplication.java - GPS Out of Service");
+                //Log.w("GisApp", "[#] GPSApplication - GPS Out of Service");
                 gpsunavailablehandler.removeCallbacks(unavailr);            // Cancel the previous unavail countdown handler
                 GPSStatus = GPS_OUTOFSERVICE;
                 EventBus.getDefault().post(EventBusMSG.UPDATE_FIX);
                 //Toast.makeText( getApplicationContext(), "GPS Out of Service", Toast.LENGTH_SHORT).show();
                 break;
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                //Log.w("myApp", "[#] GPSApplication.java - GPS Temporarily Unavailable");
+                //Log.w("GisApp", "[#] GPSApplication - GPS Temporarily Unavailable");
                 gpsunavailablehandler.removeCallbacks(unavailr);            // Cancel the previous unavail countdown handler
                 GPSStatus = GPS_TEMPORARYUNAVAILABLE;
                 EventBus.getDefault().post(EventBusMSG.UPDATE_FIX);
@@ -711,7 +711,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                 break;
             case LocationProvider.AVAILABLE:
                 gpsunavailablehandler.removeCallbacks(unavailr);            // Cancel the previous unavail countdown handler
-                //Log.w("myApp", "[#] GPSApplication.java - GPS Available: " + _NumberOfSatellites + " satellites");
+                //Log.w("GisApp", "[#] GPSApplication - GPS Available: " + _NumberOfSatellites + " satellites");
                 break;
         }
     }
@@ -729,13 +729,13 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 //                    if (!file.exists()) Th = new Thumbnailer(ID - 1);
 //                }
                 if (_currentTrack.getNumberOfLocations() + _currentTrack.getNumberOfPlacemarks() > 0) {
-                    Log.w("myApp", "[#] GPSApplication.java - Update Tracklist: current track (" + _currentTrack.getId() + ") visible into the tracklist");
+                    Log.w("GisApp", "[#] GPSApplication - Update Tracklist: current track (" + _currentTrack.getId() + ") visible into the tracklist");
                     _ArrayListTracks.add(0, _currentTrack);
                 } else
-                    Log.w("myApp", "[#] GPSApplication.java - Update Tracklist: current track not visible into the tracklist");
+                    Log.w("GisApp", "[#] GPSApplication - Update Tracklist: current track not visible into the tracklist");
             }
             EventBus.getDefault().post(EventBusMSG.UPDATE_TRACKLIST);
-            //Log.w("myApp", "[#] GPSApplication.java - Update Tracklist: Added " + _ArrayListTracks.size() + " tracks");
+            //Log.w("GisApp", "[#] GPSApplication - Update Tracklist: Added " + _ArrayListTracks.size() + " tracks");
         }
     }
 
@@ -772,7 +772,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                 try {
                     asyncTODO = AsyncTODOQueue.take();
                 } catch (InterruptedException e) {
-                    Log.w("myApp", "[!] Buffer not available: " + e.getMessage());
+                    Log.w("GisApp", "[!] Buffer not available: " + e.getMessage());
                     break;
                 }
 
@@ -789,11 +789,11 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                         track = new Track();
                         // ----
                         track.setId(dbService.addTrack(track));
-                        Log.w("myApp", "[#] GPSApplication.java - TASK_NEWTRACK: " + track.getId());
+                        Log.w("GisApp", "[#] GPSApplication - TASK_NEWTRACK: " + track.getId());
                         _currentTrack = track;
                         UpdateTrackList();
                     } else
-                        Log.w("myApp", "[#] GPSApplication.java - TASK_NEWTRACK: Track " + track.getId() + " already empty (New track not created)");
+                        Log.w("GisApp", "[#] GPSApplication - TASK_NEWTRACK: Track " + track.getId() + " already empty (New track not created)");
                     _currentTrack = track;
                     EventBus.getDefault().post(EventBusMSG.UPDATE_TRACK);
                 }
@@ -836,7 +836,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                 }
 
 //                if (asyncTODO.TaskType.contains("TASK_DELETE_TRACK")) {
-//                    Log.w("myApp", "[#] GPSApplication.java - Deleting Track ID = " + asyncTODO.TaskType.split(" ")[1]);
+//                    Log.w("GisApp", "[#] GPSApplication - Deleting Track ID = " + asyncTODO.TaskType.split(" ")[1]);
 //                    if (Integer.valueOf(asyncTODO.TaskType.split(" ")[1]) >= 0) {
 //                        long selectedtrackID = Integer.valueOf(asyncTODO.TaskType.split(" ")[1]);
 //                        synchronized(_ArrayListTracks) {
@@ -847,12 +847,12 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 //                                    if (_ArrayListTracks.get(i).getId() == selectedtrackID) {
 //                                        found = true;
 //                                        GPSDataBase.DeleteTrack(_ArrayListTracks.get(i).getId());
-//                                        Log.w("myApp", "[#] GPSApplication.java - Track " + _ArrayListTracks.get(i).getId() + " deleted.");
+//                                        Log.w("GisApp", "[#] GPSApplication - Track " + _ArrayListTracks.get(i).getId() + " deleted.");
 //                                        _ArrayListTracks.remove(i);
 //                                    }
 //                                    i++;
 //                                } while ((i < _ArrayListTracks.size()) && !found);
-//                                //Log.w("myApp", "[#] GPSApplication.java - now DB Contains " + GPSDataBase.getLocationsTotalCount() + " locations");
+//                                //Log.w("GisApp", "[#] GPSApplication - now DB Contains " + GPSDataBase.getLocationsTotalCount() + " locations");
 //                                //if (found) UpdateTrackList();
 //                            }
 //                        }
