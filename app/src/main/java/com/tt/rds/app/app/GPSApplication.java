@@ -7,31 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.util.SparseArray;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import com.facebook.stetho.Stetho;
 import com.tt.rds.app.R;
@@ -45,6 +32,13 @@ import com.tt.rds.app.db.DBService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class GPSApplication extends Application implements GpsStatus.Listener, LocationListener {
 
@@ -146,10 +140,9 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     private Track _currentTrack = null;
     private List<Track> _ArrayListTracks = Collections.synchronizedList(new ArrayList<Track>());
 
-    static SparseArray<Bitmap> thumbsArray = new SparseArray<>();       // The Array containing the Tracks Thumbnail
 
     //   ...............................................
-    //    ...............................................
+    //
     private AsyncUpdateThreadClass asyncUpdateThread = new AsyncUpdateThreadClass();
     //    ................................................
 
@@ -176,6 +169,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     };
 
     //------------------------history------------------------
+    private Location realtimeLoc;
     private String[] normal;
     private String[] all;
     private List<String> collectPointList;
@@ -200,6 +194,14 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             }
         }
 
+    }
+
+    public Location getRealtimeLoc() {
+        return realtimeLoc;
+    }
+
+    public void setRealtimeLoc(Location realtimeLoc) {
+        this.realtimeLoc = realtimeLoc;
     }
     //------------------------history------------------------
 
@@ -434,7 +436,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         EventBus.getDefault().register(this);
 
         mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);     // Location Manager
-
+        realtimeLoc =new Location("GisAPP");
         //............
         // Initialize the Database
         InitGreenDAO();
@@ -707,6 +709,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         //if ((loc != null) && (loc.getProvider().equals(LocationManager.GPS_PROVIDER)) {
         if (loc != null) {      // Location data is valid
 //            Log.w("GisApp", "[#] GPSApplication - onLocationChanged: provider=" + loc.getProvider());
+            realtimeLoc=new Location(loc);
             LocationExtended eloc = new LocationExtended(loc);
             eloc.setNumberOfSatellites(getNumberOfSatellites());
             eloc.setNumberOfSatellitesUsedInFix(getNumberOfSatellitesUsedInFix());

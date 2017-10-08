@@ -50,12 +50,10 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-//        @BindView(R.id.image_view)
         public ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-//            ButterKnife.bind(this, itemView);
             imageView =itemView.findViewById(R.id.image_view);
         }
 
