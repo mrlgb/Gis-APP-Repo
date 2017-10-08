@@ -213,10 +213,9 @@
                 android:id="@+id/galleryRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                app:layout_columnSpan="3"
-                app:orientation="horizontal" />
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                app:layout_columnSpan="3" />
 
             <View
                 style="@style/info_splitter_line"

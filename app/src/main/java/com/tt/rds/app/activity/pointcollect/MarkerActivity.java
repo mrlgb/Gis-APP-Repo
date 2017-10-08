@@ -3,6 +3,7 @@ package com.tt.rds.app.activity.pointcollect;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -28,14 +29,18 @@ import com.tt.rds.app.bean.PointMarker;
 import com.tt.rds.app.bean.PointMarkerDao;
 import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.TtPoint;
+import com.tt.rds.app.bean.TtPointDao;
 import com.tt.rds.app.util.ToastUtil;
 
 import org.greenrobot.greendao.query.Query;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -55,7 +60,7 @@ public class MarkerActivity extends BaseSaveActivity {
     Spinner spinType;
     EditText edtLong;
     EditText edtLati;
-    EditText edtEleva;
+    EditText edtAlti;
     EditText edtRemark;
     TextView spinner_error1 ;
     TextView spinner_error2 ;
@@ -67,7 +72,8 @@ public class MarkerActivity extends BaseSaveActivity {
     private ArrayList<File> photos = new ArrayList<>();
     private static final String PHOTOS_KEY = "easy_image_photos_list";
     private static final String PHOTOS_FOLDER = "PointMarker";
-    private HashMap<Integer, String> photosName;
+    private HashMap<String, String> photosName;
+    private Location loc;
 
     @Override
     protected int getLayoutResId() {
@@ -79,6 +85,8 @@ public class MarkerActivity extends BaseSaveActivity {
         super.initActivity(savedInstanceState);
         initToolbar();
         //------------------------------
+        if(gpsGPSApplication.getRealtimeLoc()!=null)
+            loc=new Location(gpsGPSApplication.getRealtimeLoc());
         initView();
         //------------------------------
         photosName = new HashMap<>();
@@ -125,7 +133,7 @@ public class MarkerActivity extends BaseSaveActivity {
         edtCode = (EditText) findViewById(R.id.point_marker_code);
         edtLong = (EditText) findViewById(R.id.point_longitude);
         edtLati = (EditText) findViewById(R.id.point_latitude);
-        edtEleva = (EditText) findViewById(R.id.point_elevation);
+        edtAlti = (EditText) findViewById(R.id.point_elevation);
         edtRemark = (EditText) findViewById(R.id.point_marker_remark);
 
         spinAdminDiv = (Spinner) findViewById(R.id.admin_divison_code);
@@ -137,6 +145,17 @@ public class MarkerActivity extends BaseSaveActivity {
         scrollView =(ScrollView)findViewById(R.id.scrollView2);
         spinner_error1=(TextView) findViewById(R.id.spinner_error1);
         spinner_error2=(TextView) findViewById(R.id.spinner_error2);
+
+        if(loc!=null){
+            edtLati.setText(loc.getLatitude()+"");
+            edtLong.setText(loc.getLongitude()+"");
+            edtAlti.setText(loc.getAltitude()+"");
+        }else
+        {
+            ToastUtil.showToast(this, "GPS信号弱，请重试！");
+        }
+
+
     }
 
     private void initToolbar() {
@@ -199,17 +218,36 @@ public class MarkerActivity extends BaseSaveActivity {
         if (verifyInput()) {
             PointMarkerDao pMakerDao = gpsGPSApplication.getDbService().getPointMarkerDao();
             PictureDao pictureDao = gpsGPSApplication.getDbService().getPictureDao();
+            TtPointDao ttPointDao= gpsGPSApplication.getDbService().getTtPointDao();
+
+            PointType pType = new PointType((long) 1, "TYPE1", 1);
+            //设置关联点
+            TtPoint ttPoint = new TtPoint();
+            //id
+            ttPoint.setTtPointId(null);
+            //name
+            ttPoint.setName("TEST-TTPoint-10001");
+            //point type
+            ttPoint.setPointType(pType);
+            ttPoint.setTtPointId(pType.getPTypeId());
+            ttPoint.setLat(loc.getLatitude());
+            ttPoint.setLon(loc.getLongitude());
+            ttPoint.setAlt(loc.getAltitude());
+            ttPoint.setAdminCode("");//行政编码
+            ttPointDao.insert(ttPoint);
 
             if(photosName.size()!=0){
                 //照片
-                for (int i = 0; i < photosName.size(); i++) {
+                for (Map.Entry<String, String> entry : photosName.entrySet()) {
                     Picture pic = new Picture();
                     pic.setPicId(null);
-                    pic.setName(TAG + i);
-                    pic.setPath(photosName.get(i));
+                    pic.setName(TAG + entry.getKey());
+                    pic.setPath(entry.getValue());
+                    pic.setTtPoint(ttPoint);
                     //增加pic
                     pictureDao.insertOrReplaceInTx(pic);
                 }
+
             }else{
                 // 创建Snackbar实例
                 Snackbar.make(scrollView, "请至少拍1张照片", Snackbar.LENGTH_SHORT).show();
@@ -229,25 +267,13 @@ public class MarkerActivity extends BaseSaveActivity {
             //备注
             pMarker.setRemark("");
 
-            PointType pType = new PointType((long) 1, "TYPE1", 1);
-            //设置关联点
-            TtPoint ttPoint = new TtPoint();
-            //id
-            ttPoint.setTtPointId((long) 100001);
-            //name
-            ttPoint.setName("TEST-TTPoint-10001");
-            //point type
-            ttPoint.setPointType(pType);
-            ttPoint.setTtPointId(pType.getPTypeId());
-            ttPoint.setLat(23.001);
-            ttPoint.setLon(123.001);
-            ttPoint.setAlt(23.003);
+
             //ttpoint
             pMarker.setTtPointId(ttPoint.getTtPointId());
             pMarker.setTtPoint(ttPoint);
 
             //增加标志点
-            pMakerDao.insertOrReplace(pMarker);
+            pMakerDao.insert(pMarker);
 
             //查询
             Query<PointMarker> query = pMakerDao.queryBuilder().where(PointMarkerDao.Properties.Name.eq("TEST-PointMarker-10001")).build();
@@ -328,7 +354,9 @@ public class MarkerActivity extends BaseSaveActivity {
 
         for (int i = 0; i < returnedPhotos.size(); i++) {
             ToastUtil.showToast(this, (photos.size() - 1) + "/" + returnedPhotos.get(i).getAbsolutePath());
-            photosName.put(photos.size() - 1, returnedPhotos.get(i).getAbsolutePath());
+            SimpleDateFormat formatter   =   new   SimpleDateFormat   ("yyyy-MM-dd--HH:mm:ss");
+            Date curDate =  new Date(System.currentTimeMillis());
+            photosName.put(formatter.format(curDate).toString(), returnedPhotos.get(i).getAbsolutePath());
         }
 
     }
