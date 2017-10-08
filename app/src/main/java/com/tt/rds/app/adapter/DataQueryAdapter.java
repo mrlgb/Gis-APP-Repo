@@ -2,23 +2,29 @@ package com.tt.rds.app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.DataQueryDetailActivity;
 import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.PointMarker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,32 +41,33 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
     public DataQueryAdapter(Context context, int type) {
         mContext = context;
         mType = type;
-        mResultDataPoint=new ArrayList<>();
+        mResultDataPoint = new ArrayList<>();
         mDataPoints = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadAll();
-        if(mDataPoints!=null)
-        switch (mType) {
-            case 0:
-                mResultDataPoint.addAll(mDataPoints);
-                break;
-            case 2:
-                for (PointMarker bean : mDataPoints) {
-                    if ("0123".contains(bean.getTtPoint().getPTypeId().toString()))
-                        mResultDataPoint.add(bean);
-                }
-                break;
-            case 3:
-                for(PointMarker bean : mDataPoints) {
-                    if ("4567".contains(bean.getTtPoint().getPTypeId().toString()))
-                        mResultDataPoint.add(bean);
-                }
-                break;
-            case 4:
-                for(PointMarker bean : mDataPoints) {
-                    if ("89".contains(bean.getTtPoint().getPTypeId().toString()))
-                        mResultDataPoint.add(bean);
-                }
-                break;
-        }
+        Toast.makeText(context, "总共有" + mDataPoints.size()+"条数据", Toast.LENGTH_SHORT).show();
+        if (mDataPoints != null)
+            switch (mType) {
+                case 0:
+                    mResultDataPoint.addAll(mDataPoints);
+                    break;
+                case 2:
+                    for (PointMarker bean : mDataPoints) {
+                        if (bean.getTtPoint() != null && "0123".contains(bean.getTtPoint().getPTypeId().toString()))
+                            mResultDataPoint.add(bean);
+                    }
+                    break;
+                case 3:
+                    for (PointMarker bean : mDataPoints) {
+                        if (bean.getTtPoint() != null && "4567".contains(bean.getTtPoint().getPTypeId().toString()))
+                            mResultDataPoint.add(bean);
+                    }
+                    break;
+                case 4:
+                    for (PointMarker bean : mDataPoints) {
+                        if (bean.getTtPoint() != null && "89".contains(bean.getTtPoint().getPTypeId().toString()))
+                            mResultDataPoint.add(bean);
+                    }
+                    break;
+            }
     }
 
     @Override
@@ -82,7 +89,7 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        Spinner ivdropdown;
+        ImageView ivdropdown;
         TextView tvabout;
         TextView tvlong;
         TextView tvcode;
@@ -91,7 +98,7 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ivdropdown = (Spinner) itemView.findViewById(R.id.iv_dropdown);
+            ivdropdown = (ImageView) itemView.findViewById(R.id.iv_dropdown);
             tvabout = (TextView) itemView.findViewById(R.id.tv_about);
             tvlong = (TextView) itemView.findViewById(R.id.tv_long);
             tvcode = (TextView) itemView.findViewById(R.id.tv_code);
@@ -100,6 +107,7 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
         }
 
         void render(final Context context, final PointMarker bean) {
+            if(bean.getTtPoint()!=null)
             switch (bean.getTtPoint().getPTypeId().intValue()) {
                 case 0:
                     tvlong.setText("桥梁全长：");
@@ -128,8 +136,8 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
                     break;
                 case 5:
                     tvlong.setText("建制村行政区划：" + bean.getTtPoint().getAdminCode());
-                    tvcode.setText("建制村编码：" +bean.getCode());
-                    tvname.setText("建制村名称：" +bean.getName());
+                    tvcode.setText("建制村编码：" + bean.getCode());
+                    tvname.setText("建制村名称：" + bean.getName());
                     break;
                 case 6:
                     tvlong.setText("自然村行政区划：" + bean.getTtPoint().getAdminCode());
@@ -157,11 +165,25 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DataQueryDetailActivity.class);
-                    intent.putExtra("id",bean.getPMarkerId());
+                    intent.putExtra("id", bean.getPMarkerId());
                     context.startActivity(intent);
                 }
             });
-            String name = String.format("采集相关: %s ",bean.getUserId());
+
+            Bitmap bitmap = null;
+            try
+            {
+                File file = new File(bean.getPictures().get(0).getPath());
+                if(file.exists())
+                {
+                    bitmap = BitmapFactory.decodeFile(bean.getPictures().get(0).getPath());
+                    ivimg.setImageBitmap(bitmap);
+                }
+            } catch (Exception e)
+            {
+                // TODO: handle exception
+            }
+            String name = String.format("采集相关: %s ", bean.getUserId());
             String now = 0 == 0 ? "未上报" : "已上报";
             SpannableString ss = new SpannableString(name + now);
             if (0 == 0)
@@ -169,6 +191,27 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
             else
                 ss.setSpan(new ForegroundColorSpan(Color.GREEN), name.length(), (name + now).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             tvabout.setText(ss);
+            ivdropdown.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View view=LayoutInflater.from(context).inflate(R.layout.popup_data_query,null);
+                    final PopupWindow popupWindow=new PopupWindow(view,ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                    popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+                    popupWindow.setTouchable(true);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                                popupWindow.dismiss();
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    popupWindow.showAsDropDown(ivdropdown);
+                }
+            });
         }
     }
 }
