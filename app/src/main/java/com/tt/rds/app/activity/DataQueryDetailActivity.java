@@ -60,6 +60,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
     private View welcomdot1;
     private View welcomdot2;
     private View welcomdot3;
+    private TextView mTvTitle;
     private android.widget.LinearLayout llimgs;
     private com.github.mikephil.charting.charts.LineChart chart1;
     private com.github.mikephil.charting.charts.LineChart chart2;
@@ -148,6 +149,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTvTitle= (TextView) findViewById(R.id.tv_title);
         llcharts = (LinearLayout) findViewById(R.id.ll_charts);
         chart2 = (LineChart) findViewById(R.id.chart2);
         chart1 = (LineChart) findViewById(R.id.chart1);
@@ -241,6 +243,8 @@ public class DataQueryDetailActivity extends AppCompatActivity {
 
     private void initData() {
         mPointMarker = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id", 0));
+
+        mTvTitle.setText(mPointMarker.getName());
         String string[] = {"名称:   " + mPointMarker.getName(), "编码:   " + mPointMarker.getCode(), "类别:   " + mPointMarker.getCatergory(), "路线名称:   " + mPointMarker.getTtPoint().getPathName(), "路线代码:   "
                 + mPointMarker.getTtPoint().getPathCode(), "路段序列号:   " + mPointMarker.getTtPoint().getSectionNo(), "行政区划:   " + mPointMarker.getTtPoint().getAdminCode()};
 

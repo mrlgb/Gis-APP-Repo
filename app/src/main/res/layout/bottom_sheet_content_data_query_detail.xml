@@ -78,23 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/welcome1"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/welcome2"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/welcome3"/>
         </ViewFlipper>
 
         <LinearLayout
@@ -104,6 +87,18 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <View
+                android:id="@+id/welcom_dot1"
+                style="@style/dot_style"/>
+
+            <View
+                android:id="@+id/welcom_dot2"
+                style="@style/dot_style"/>
+
+            <View
+                android:id="@+id/welcom_dot3"
+                style="@style/dot_style"/>
 
         </LinearLayout>
     </LinearLayout>
