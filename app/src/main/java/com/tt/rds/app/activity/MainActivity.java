@@ -11,20 +11,20 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,15 +47,7 @@ import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.tt.rds.app.R;
-import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.activity.pointcollect.MarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
 import com.tt.rds.app.activity.usersetting.CollectStaticActivity;
@@ -65,6 +57,7 @@ import com.tt.rds.app.activity.usersetting.PointSetActivity;
 import com.tt.rds.app.activity.usersetting.UserSettingActivity;
 import com.tt.rds.app.app.Common;
 import com.tt.rds.app.app.Constant;
+import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.AppBitmap;
 import com.tt.rds.app.bean.User;
 import com.tt.rds.app.bean.UserDao;
@@ -77,6 +70,11 @@ import com.tt.rds.app.common.Track;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -93,81 +91,22 @@ public class MainActivity extends AppCompatActivity
     private final int GPS_STABILIZING = 4;
     private final int GPS_OK = 5;
 
-    private PhysicalDataFormatter phdformatter = new PhysicalDataFormatter();
-
-    private TextView TVLatitude;
-    private TextView TVLongitude;
-    private TextView TVLatitudeUM;
-    private TextView TVLongitudeUM;
-    private TextView TVAltitude;
-    private TextView TVAltitudeUM;
-    private TextView TVSpeed;
-    private TextView TVSpeedUM;
-    private TextView TVBearing;
-    private TextView TVAccuracy;
-    private TextView TVAccuracyUM;
     private TextView TVGPSFixStatus;
-    private TextView TVDirectionUM1;
-
-    private TableLayout TLCoordinates;
-    private TableLayout TLAltitude;
-    private TableLayout TLSpeed;
-    private TableLayout TLBearing;
-    private TableLayout TLAccuracy;
-
-    public PhysicalData phdLatitude;
-    public PhysicalData phdLongitude;
-    public PhysicalData phdAltitude;
-    public PhysicalData phdSpeed;
-    public PhysicalData phdBearing;
-    public PhysicalData phdAccuracy;
-
     private LocationExtended location;
-    private double AltitudeManualCorrection;
-    private int prefDirections;
     private int GPSStatus;
-    private boolean EGMAltitudeCorrection;
-    private boolean isValidAltitude;
     //-----------------------------
     private PhysicalDataFormatter phdformatter2 = new PhysicalDataFormatter();
 
     private TextView TVDuration;
-    private TextView TVTrackName;
-    private TextView TVTrackID;
     private TextView TVDistance;
-    private TextView TVDistanceUM;
-    private TextView TVMaxSpeed;
-    private TextView TVMaxSpeedUM;
-    private TextView TVAverageSpeed;
-    private TextView TVAverageSpeedUM;
-    private TextView TVAltitudeGap;
-    private TextView TVAltitudeGapUM;
-    private TextView TVOverallDirection;
-    private TextView TVTrackStatus;
-    private TextView TVDirectionUM2;
-
-    private TableLayout TLTrack;
     private TableLayout TLDuration;
-    private TableLayout TLSpeedMax;
-    private TableLayout TLSpeedAvg;
     private TableLayout TLDistance;
-    private TableLayout TLAltitudeGap;
-    private TableLayout TLOverallDirection;
 
     private PhysicalData phdDuration2;
-    private PhysicalData phdSpeedMax2;
-    private PhysicalData phdSpeedAvg2;
     private PhysicalData phdDistance2;
-    private PhysicalData phdAltitudeGap2;
-    private PhysicalData phdOverallDirection2;
-
-    private String FTrackID = "";
-    private String FTrackName = "";
 
     private Track track;
     private int prefDirections2;
-    private boolean EGMAltitudeCorrection2;
-    private boolean isValidAltitude2;
 
     //-----------------------------
 
@@ -222,54 +161,10 @@ public class MainActivity extends AppCompatActivity
     public void Update() {
 //        Log.w("myApp", "[#] GPSFix - Update(Location location)");
         location = gpsGPSApplication.getCurrentLocationExtended();
-        AltitudeManualCorrection = gpsGPSApplication.getPrefAltitudeCorrection();
-        prefDirections = gpsGPSApplication.getPrefShowDirections();
         GPSStatus = gpsGPSApplication.getGPSStatus();
-
         if ((location != null) && (GPSStatus == GPS_OK)) {
-
-            phdLatitude = phdformatter.format(location.getLatitude(), PhysicalDataFormatter.FORMAT_LATITUDE);
-            phdLongitude = phdformatter.format(location.getLongitude(), PhysicalDataFormatter.FORMAT_LONGITUDE);
-            phdSpeed = phdformatter.format(location.getSpeed(), PhysicalDataFormatter.FORMAT_SPEED);
-            phdAltitude = phdformatter.format(location.getAltitudeCorrected(AltitudeManualCorrection, EGMAltitudeCorrection), PhysicalDataFormatter.FORMAT_ALTITUDE);
-            phdBearing = phdformatter.format(location.getBearing(), PhysicalDataFormatter.FORMAT_BEARING);
-            phdAccuracy = phdformatter.format(location.getAccuracy(), PhysicalDataFormatter.FORMAT_ACCURACY);
-
-            TVLatitude.setText(phdLatitude.Value);
-            TVLongitude.setText(phdLongitude.Value);
-            TVLatitudeUM.setText(phdLatitude.UM);
-            TVLongitudeUM.setText(phdLongitude.UM);
-            TVAltitude.setText(phdAltitude.Value);
-            TVAltitudeUM.setText(phdAltitude.UM);
-            TVSpeed.setText(phdSpeed.Value);
-            TVSpeedUM.setText(phdSpeed.UM);
-            TVBearing.setText(phdBearing.Value);
-            TVAccuracy.setText(phdAccuracy.Value);
-            TVAccuracyUM.setText(phdAccuracy.UM);
-
-            // Colorize the Altitude textview depending on the altitude EGM Correction
-
-            TVAltitude.setTextColor(isValidAltitude ? getResources().getColor(R.color.red) : getResources().getColor(R.color.green));
-            TVAltitudeUM.setTextColor(isValidAltitude ? getResources().getColor(R.color.red) : getResources().getColor(R.color.green));
-
-
             TVGPSFixStatus.setVisibility(View.GONE);
-
-            TVDirectionUM1.setVisibility(prefDirections == 0 ? View.GONE : View.VISIBLE);
-
-            TLCoordinates.setVisibility(phdLatitude.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLAltitude.setVisibility(phdAltitude.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLSpeed.setVisibility(phdSpeed.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLBearing.setVisibility(phdBearing.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLAccuracy.setVisibility(phdAccuracy.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-
         } else {
-            TLCoordinates.setVisibility(View.INVISIBLE);
-            TLAltitude.setVisibility(View.INVISIBLE);
-            TLSpeed.setVisibility(View.INVISIBLE);
-            TLBearing.setVisibility(View.INVISIBLE);
-            TLAccuracy.setVisibility(View.INVISIBLE);
-
             TVGPSFixStatus.setVisibility(View.VISIBLE);
             switch (GPSStatus) {
                 case GPS_DISABLED:
@@ -288,67 +183,29 @@ public class MainActivity extends AppCompatActivity
                     TVGPSFixStatus.setText(R.string.gps_stabilizing);
                     break;
             }
-
         }
 
         track = gpsGPSApplication.getCurrentTrack();
         prefDirections2 = gpsGPSApplication.getPrefShowDirections();
-        EGMAltitudeCorrection2 = gpsGPSApplication.getPrefEGM96AltitudeCorrection();
-
         if ((track != null) && (track.getNumberOfLocations() + track.getNumberOfPlacemarks() > 0)) {
 
-            FTrackID = getString(R.string.track_id) + " " + String.valueOf(track.getId());
-            FTrackName = track.getName();
             phdDuration2 = phdformatter2.format(track.getPrefTime(), PhysicalDataFormatter.FORMAT_DURATION);
-            phdSpeedMax2 = phdformatter2.format(track.getSpeedMax(), PhysicalDataFormatter.FORMAT_SPEED);
-            phdSpeedAvg2 = phdformatter2.format(track.getPrefSpeedAverage(), PhysicalDataFormatter.FORMAT_SPEED_AVG);
             phdDistance2 = phdformatter2.format(track.getEstimatedDistance(), PhysicalDataFormatter.FORMAT_DISTANCE);
-            phdAltitudeGap2 = phdformatter.format(track.getEstimatedAltitudeGap(EGMAltitudeCorrection2), PhysicalDataFormatter.FORMAT_ALTITUDE);
-            phdOverallDirection2 = phdformatter2.format(track.getBearing(), PhysicalDataFormatter.FORMAT_BEARING);
 
-            TVTrackID.setText(FTrackID);
-            TVTrackName.setText(FTrackName);
             TVDuration.setText(phdDuration2.Value);
-            TVMaxSpeed.setText(phdSpeedMax2.Value);
-            TVAverageSpeed.setText(phdSpeedAvg2.Value);
+
             TVDistance.setText(phdDistance2.Value);
-            TVAltitudeGap.setText(phdAltitudeGap2.Value);
-            TVOverallDirection.setText(phdOverallDirection2.Value);
 
-            TVMaxSpeedUM.setText(phdSpeedMax2.UM);
-            TVAverageSpeedUM.setText(phdSpeedAvg2.UM);
-            TVDistanceUM.setText(phdDistance2.UM);
-            TVAltitudeGapUM.setText(phdAltitudeGap2.UM);
-
-            // Colorize the Altitude Gap textview depending on the altitude filter
-            isValidAltitude2 = track.isValidAltitude();
-            TVAltitudeGap.setTextColor(isValidAltitude2 ? getResources().getColor(R.color.colorAccent) : getResources().getColor(R.color.colorPrimary));
-            TVAltitudeGapUM.setTextColor(isValidAltitude2 ? getResources().getColor(R.color.colorAccent) : getResources().getColor(R.color.colorPrimary));
-
-
-            TVDirectionUM2.setVisibility(prefDirections == 0 ? View.GONE : View.VISIBLE);
-
-            TLTrack.setVisibility(FTrackName.equals("") ? View.INVISIBLE : View.VISIBLE);
             TLDuration.setVisibility(phdDuration2.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLSpeedMax.setVisibility(phdSpeedMax2.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLSpeedAvg.setVisibility(phdSpeedAvg2.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
+
             TLDistance.setVisibility(phdDistance2.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLOverallDirection.setVisibility(phdOverallDirection2.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
-            TLAltitudeGap.setVisibility(phdAltitudeGap2.Value.equals("") ? View.INVISIBLE : View.VISIBLE);
 
         } else {
-
-            TLTrack.setVisibility(View.INVISIBLE);
             TLDuration.setVisibility(View.INVISIBLE);
-            TLSpeedMax.setVisibility(View.INVISIBLE);
-            TLSpeedAvg.setVisibility(View.INVISIBLE);
             TLDistance.setVisibility(View.INVISIBLE);
-            TLOverallDirection.setVisibility(View.INVISIBLE);
-            TLAltitudeGap.setVisibility(View.INVISIBLE);
         }
 
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -367,19 +224,23 @@ public class MainActivity extends AppCompatActivity
 
     private void initView() {
         findViewById(R.id.bSearch).setOnClickListener(this);
-
-
         startPathCollectBtn = (Button) findViewById(R.id.BtnLineCollect_main);
-        addPlaceMarkBtn = (Button) findViewById(R.id.btnAddspliter);
 
         //Implement click listeners
         findViewById(R.id.BtnPointCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnLineCollect_main).setOnClickListener(this);
         findViewById(R.id.BtnQuery_main).setOnClickListener(this);
 
+        pauseCollectBtn=(Button)  findViewById(R.id.btnLinePause);
         findViewById(R.id.btnLinePause).setOnClickListener(this);
+
+        cancelCollectBtn=(Button) findViewById(R.id.btnLineCancel);
         findViewById(R.id.btnLineCancel).setOnClickListener(this);
+
+        stopCollectBtn=(Button)  findViewById(R.id.btnPathCollectStop);
         findViewById(R.id.btnPathCollectStop).setOnClickListener(this);
+
+        addPlaceMarkBtn=(Button)findViewById(R.id.btnAddspliter);
         findViewById(R.id.btnAddspliter).setOnClickListener(this);
 
         findViewById(R.id.btnZoomIn).setOnClickListener(this);
@@ -387,56 +248,21 @@ public class MainActivity extends AppCompatActivity
 
         clearUIBtn = (Button) findViewById(R.id.btnLineClear);
         findViewById(R.id.btnLineClear).setOnClickListener(this);
-        findViewById(R.id.btnMyLocation).setOnClickListener(this);
 
-        TVLatitude = (TextView) findViewById(R.id.id_textView_Latitude);
-        TVLongitude = (TextView) findViewById(R.id.id_textView_Longitude);
-        TVLatitudeUM = (TextView) findViewById(R.id.id_textView_LatitudeUM);
-        TVLongitudeUM = (TextView) findViewById(R.id.id_textView_LongitudeUM);
-        TVAltitude = (TextView) findViewById(R.id.id_textView_Altitude);
-        TVAltitudeUM = (TextView) findViewById(R.id.id_textView_AltitudeUM);
-        TVSpeed = (TextView) findViewById(R.id.id_textView_Speed);
-        TVSpeedUM = (TextView) findViewById(R.id.id_textView_SpeedUM);
-        TVBearing = (TextView) findViewById(R.id.id_textView_Bearing);
-        TVAccuracy = (TextView) findViewById(R.id.id_textView_Accuracy);
-        TVAccuracyUM = (TextView) findViewById(R.id.id_textView_AccuracyUM);
+        findViewById(R.id.btnNearby).setOnClickListener(this);
+        findViewById(R.id.btnLocate).setOnClickListener(this);
+
         TVGPSFixStatus = (TextView) findViewById(R.id.id_textView_GPSFixStatus);
-        TVDirectionUM1 = (TextView) findViewById(R.id.id_textView_BearingUM);
-
-        TLCoordinates = (TableLayout) findViewById(R.id.id_TableLayout_Coordinates);
-        TLAltitude = (TableLayout) findViewById(R.id.id_TableLayout_Altitude);
-        TLSpeed = (TableLayout) findViewById(R.id.id_TableLayout_Speed);
-        TLBearing = (TableLayout) findViewById(R.id.id_TableLayout_Bearing);
-        TLAccuracy = (TableLayout) findViewById(R.id.id_TableLayout_Accuracy);
-
-
         TVDuration = (TextView) findViewById(R.id.id_textView_Duration);
-        TVTrackID = (TextView) findViewById(R.id.id_textView_TrackIDLabel);
-        TVTrackName = (TextView) findViewById(R.id.id_textView_TrackName);
         TVDistance = (TextView) findViewById(R.id.id_textView_Distance);
-        TVMaxSpeed = (TextView) findViewById(R.id.id_textView_SpeedMax);
-        TVAverageSpeed = (TextView) findViewById(R.id.id_textView_SpeedAvg);
-        TVAltitudeGap = (TextView) findViewById(R.id.id_textView_AltitudeGap);
-        TVOverallDirection = (TextView) findViewById(R.id.id_textView_OverallDirection);
-        TVDirectionUM2 = (TextView) findViewById(R.id.id_textView_OverallDirectionUM);
-
-        TVDistanceUM = (TextView) findViewById(R.id.id_textView_DistanceUM);
-        TVMaxSpeedUM = (TextView) findViewById(R.id.id_textView_SpeedMaxUM);
-        TVAverageSpeedUM = (TextView) findViewById(R.id.id_textView_SpeedAvgUM);
-        TVAltitudeGapUM = (TextView) findViewById(R.id.id_textView_AltitudeGapUM);
-
-        TLTrack = (TableLayout) findViewById(R.id.id_tableLayout_TrackName);
         TLDuration = (TableLayout) findViewById(R.id.id_tableLayout_Duration);
-        TLSpeedMax = (TableLayout) findViewById(R.id.id_tableLayout_SpeedMax);
         TLDistance = (TableLayout) findViewById(R.id.id_tableLayout_Distance);
-        TLSpeedAvg = (TableLayout) findViewById(R.id.id_tableLayout_SpeedAvg);
-        TLAltitudeGap = (TableLayout) findViewById(R.id.id_tableLayout_AltitudeGap);
-        TLOverallDirection = (TableLayout) findViewById(R.id.id_tableLayout_OverallDirection);
-
         ToastClickAgain = Toast.makeText(this, getString(R.string.toast_track_finished_click_again), Toast.LENGTH_SHORT);
 
         gpsfixLayout = (FrameLayout) findViewById(R.id.gpsfixFrameLayout);
         trackLayout = (FrameLayout) findViewById(R.id.trackFrameLayout);
+
+        refreshui(false);
 
     }
 
@@ -727,6 +553,7 @@ public class MainActivity extends AppCompatActivity
 //                startActivity(intent1);
                 onPlacemarkRequest();
                 ontoggleRecordGeoPoint();
+
                 break;
             case R.id.btnAddspliter:
                 Log.d(TAG, "path collect--add placemark!");
@@ -742,6 +569,7 @@ public class MainActivity extends AppCompatActivity
                     ToastClickAgain.cancel();
 //                    Toast.makeText(this, getString(R.string.toast_track_saved_into_tracklist), Toast.LENGTH_SHORT).show();
                     Snackbar.make(mMapView, "路线保存成功！", Snackbar.LENGTH_LONG).show();
+                    refreshui(false);
                 } else {
                     // This is the first click
                     gpsGPSApplication.setNewTrackFlag(true); // Start the timer
@@ -772,7 +600,7 @@ public class MainActivity extends AppCompatActivity
 //                }
                 break;
 
-            case R.id.btnMyLocation:
+            case R.id.btnLocate:
                 //
                 mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.RECENTER);
                 if (!mLocationDisplay.isStarted())
@@ -780,6 +608,8 @@ public class MainActivity extends AppCompatActivity
                 else {
                     mLocationDisplay.stop();
                 }
+                break;
+            case R.id.btnNearby:
                 break;
             case R.id.btnZoomIn:
                 mScale = mMapView.getMapScale();
@@ -791,6 +621,13 @@ public class MainActivity extends AppCompatActivity
                 break;
 
         }
+    }
+
+    public void refreshui(boolean recording){
+            cancelCollectBtn.setVisibility(recording?View.VISIBLE:View.INVISIBLE);
+            addPlaceMarkBtn.setVisibility(recording?View.VISIBLE:View.INVISIBLE);
+            pauseCollectBtn.setVisibility(recording?View.VISIBLE:View.INVISIBLE);
+            stopCollectBtn.setVisibility(recording?View.VISIBLE:View.INVISIBLE);
     }
 
     public void initToolBarAnDrawerLayout() {
@@ -1061,9 +898,7 @@ public class MainActivity extends AppCompatActivity
         final Boolean grs = gpsGPSApplication.getRecording();
         boolean newRecordingState = !grs;
         gpsGPSApplication.setRecording(newRecordingState);
-//        tableLayoutGeoPoints.setBackgroundColor(newRecordingState ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.colorTrackBackground));
-        startPathCollectBtn.setBackgroundColor(newRecordingState ?
-                getResources().getColor(R.color.colorAccent) : getResources().getColor(R.color.green));
+        refreshui(newRecordingState);
     }
 
     public void onPlacemarkRequest() {
@@ -1071,8 +906,6 @@ public class MainActivity extends AppCompatActivity
         final Boolean pr = gpsGPSApplication.getPlacemarkRequest();
         boolean newPlacemarkRequestState = !pr;
         gpsGPSApplication.setPlacemarkRequest(newPlacemarkRequestState);
-        addPlaceMarkBtn.setBackgroundColor(newPlacemarkRequestState ?
-                getResources().getColor(R.color.colorAccent) : getResources().getColor(R.color.green));
 
     }
 
@@ -1084,7 +917,7 @@ public class MainActivity extends AppCompatActivity
                 || (GPSApplication.getInstance().getPlacemarkRequest())) {
 
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-            builder.setTitle("Material Design Dialog");
+            builder.setTitle("退出");
             builder.setMessage(getResources().getString(R.string.message_exit_confirmation));
             builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
