@@ -43,31 +43,30 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
         mType = type;
         mResultDataPoint = new ArrayList<>();
         mDataPoints = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadAll();
-        Toast.makeText(context, "总共有" + mDataPoints.size()+"条数据", Toast.LENGTH_SHORT).show();
-        if (mDataPoints != null)
-            switch (mType) {
-                case 0:
-                    mResultDataPoint.addAll(mDataPoints);
-                    break;
-                case 2:
-                    for (PointMarker bean : mDataPoints) {
-                        if (bean.getTtPoint() != null && "0123".contains(bean.getTtPoint().getPTypeId().toString()))
-                            mResultDataPoint.add(bean);
-                    }
-                    break;
-                case 3:
-                    for (PointMarker bean : mDataPoints) {
-                        if (bean.getTtPoint() != null && "4567".contains(bean.getTtPoint().getPTypeId().toString()))
-                            mResultDataPoint.add(bean);
-                    }
-                    break;
-                case 4:
-                    for (PointMarker bean : mDataPoints) {
-                        if (bean.getTtPoint() != null && "89".contains(bean.getTtPoint().getPTypeId().toString()))
-                            mResultDataPoint.add(bean);
-                    }
-                    break;
-            }
+        if(mDataPoints!=null)
+        switch (mType) {
+            case 0:
+                mResultDataPoint.addAll(mDataPoints);
+                break;
+            case 2:
+                for (PointMarker bean : mDataPoints) {
+                    if ("0123".contains(bean.getTtPointId().toString()))
+                        mResultDataPoint.add(bean);
+                }
+                break;
+            case 3:
+                for(PointMarker bean : mDataPoints) {
+                    if ("4567".contains(bean.getTtPointId().toString()))
+                        mResultDataPoint.add(bean);
+                }
+                break;
+            case 4:
+                for(PointMarker bean : mDataPoints) {
+                    if ("89".contains(bean.getTtPointId().toString()))
+                        mResultDataPoint.add(bean);
+                }
+                break;
+        }
     }
 
     @Override

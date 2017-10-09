@@ -17,6 +17,7 @@
             android:background="@color/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Light">
             <TextView
+                android:id="@+id/tv_title"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,8 +29,8 @@
 
     <include layout="@layout/content_data_query_detail" />
 
-    <include
-        android:id="@+id/bottomSheet"
-        layout="@layout/bottom_sheet_content_data_query_detail"/>
+    <!--<include-->
+        <!--android:id="@+id/bottomSheet"-->
+        <!--layout="@layout/bottom_sheet_content_data_query_detail"/>-->
 
 </android.support.design.widget.CoordinatorLayout>
