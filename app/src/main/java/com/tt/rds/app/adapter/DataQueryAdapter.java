@@ -2,6 +2,8 @@ package com.tt.rds.app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -19,6 +21,7 @@ import com.tt.rds.app.activity.DataQueryDetailActivity;
 import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.PointMarker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,19 +47,19 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
                 break;
             case 2:
                 for (PointMarker bean : mDataPoints) {
-                    if ("0123".contains(bean.getTtPoint().getPTypeId().toString()))
+                    if ("0123".contains(bean.getTtPointId().toString()))
                         mResultDataPoint.add(bean);
                 }
                 break;
             case 3:
                 for(PointMarker bean : mDataPoints) {
-                    if ("4567".contains(bean.getTtPoint().getPTypeId().toString()))
+                    if ("4567".contains(bean.getTtPointId().toString()))
                         mResultDataPoint.add(bean);
                 }
                 break;
             case 4:
                 for(PointMarker bean : mDataPoints) {
-                    if ("89".contains(bean.getTtPoint().getPTypeId().toString()))
+                    if ("89".contains(bean.getTtPointId().toString()))
                         mResultDataPoint.add(bean);
                 }
                 break;
@@ -169,6 +172,20 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
             else
                 ss.setSpan(new ForegroundColorSpan(Color.GREEN), name.length(), (name + now).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             tvabout.setText(ss);
+
+            Bitmap bitmap = null;
+            try
+            {
+                File file = new File(bean.getPictures().get(0).getPath());
+                if(file.exists())
+                {
+                    bitmap = BitmapFactory.decodeFile(bean.getPictures().get(0).getPath());
+                    ivimg.setImageBitmap(bitmap);
+                }
+            } catch (Exception e)
+            {
+                // TODO: handle exception
+            }
         }
     }
 }

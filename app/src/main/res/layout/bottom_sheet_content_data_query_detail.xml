@@ -41,7 +41,7 @@
 
     <LinearLayout
         android:id="@+id/ll_attribute"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:orientation="vertical"

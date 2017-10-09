@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,6 +32,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.github.mikephil.charting.charts.LineChart;
 import com.tt.rds.app.R;
+import com.tt.rds.app.app.GPSApplication;
+import com.tt.rds.app.bean.PointMarker;
 
 /**
  * Created by Alpha Dog on 2017/10/3.
@@ -41,6 +42,7 @@ import com.tt.rds.app.R;
 public class DataQueryDetailActivity extends AppCompatActivity {
     private com.esri.arcgisruntime.mapping.view.MapView mapView;
     private android.widget.ProgressBar progressBar;
+    private PointMarker mPointMarker;
     private android.support.design.widget.TabLayout relativelayout;
     private android.widget.TableLayout tlattribute;
     private android.widget.TextView tvmore;
@@ -60,7 +62,9 @@ public class DataQueryDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_query_detail);
         initToolBar();
         initView();
+
         initArcgisMap();
+
     }
 
     @Override
@@ -181,6 +185,11 @@ public class DataQueryDetailActivity extends AppCompatActivity {
             }
         });
         //[DocRef: END]
+
+    }
+
+    private void initData(){
+        mPointMarker= GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id",0));
 
     }
 
