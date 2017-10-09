@@ -24,13 +24,13 @@ public class LoadingDialog extends BaseDialog {
 
     public void dismiss() {
         super.dismiss();
-        this.mainApplication = null;
+        this.mainGPSApplication = null;
         this.context = null;
     }
 
     public void cancel() {
         super.cancel();
-        this.mainApplication = null;
+        this.mainGPSApplication = null;
         this.context = null;
     }
 

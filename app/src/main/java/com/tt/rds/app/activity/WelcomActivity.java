@@ -98,6 +98,8 @@ public class WelcomActivity extends AppCompatActivity {
 
     public void onJumpToMain(View v){
         startMainActivity();
+        mHandler.removeMessages(AUTO);
+        finish();
     }
 
     private void startMainActivity(){

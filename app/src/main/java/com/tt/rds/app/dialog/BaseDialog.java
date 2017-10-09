@@ -5,24 +5,25 @@ import android.content.Context;
 import android.os.Bundle;
 
 import butterknife.ButterKnife;
-import com.tt.rds.app.MainApplication;
+
+import com.tt.rds.app.app.GPSApplication;
 
 public abstract class BaseDialog extends Dialog {
     protected Context context;
-    protected MainApplication mainApplication;
+    protected GPSApplication mainGPSApplication;
 
     protected abstract int getLayoutResId();
 
     public BaseDialog(Context context) {
         super(context);
         this.context = context;
-        this.mainApplication = (MainApplication) context.getApplicationContext();
+        this.mainGPSApplication = (GPSApplication) context.getApplicationContext();
     }
 
     public BaseDialog(Context context, int themeResId) {
         super(context, themeResId);
         this.context = context;
-        this.mainApplication = (MainApplication) context.getApplicationContext();
+        this.mainGPSApplication = (GPSApplication) context.getApplicationContext();
     }
 
     protected void onCreate(Bundle savedInstanceState) {

@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.tt.rds.app.R;
-import com.tt.rds.app.adapter.DataQueryPageAdapter;
+import com.tt.rds.app.adapter.DataQueryPagerAdapter;
 
 public class DataQueryActivity extends AppCompatActivity {
     //add test commit
@@ -23,30 +23,18 @@ public class DataQueryActivity extends AppCompatActivity {
     Button bt_filter;
     DrawerLayout dl_dq;
     LinearLayout ll_filter_dq;
+    TabLayout mTabLayout;
     Button mbt_df_commit,mbt_df_notcommit;
     ViewPager mViewPager;
-    TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dataquery_main);
 
+        initToolBar();
         initViews();
         setOnClickListerForFilter();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataQueryActivity.this.onBackPressed();
-
-            }
-        });
 
         DisplayMetrics dm=getResources().getDisplayMetrics();
         int wd_width=dm.widthPixels;
@@ -57,9 +45,22 @@ public class DataQueryActivity extends AppCompatActivity {
 
     }
 
+    private void initToolBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataQueryActivity.this.onBackPressed();
+            }
+        });
+    }
+
     private void initViews() {
-        mTabLayout= (TabLayout) findViewById(R.id.tab_data_query);
         dl_dq=(DrawerLayout)findViewById(R.id.drawer_data_query);
+        mTabLayout= (TabLayout) findViewById(R.id.tab_data_query);
         mViewPager= (ViewPager) findViewById(R.id.pager_data_query);
         bt_filter=(Button)findViewById(R.id.bt_filter_dq);
         ll_filter_dq=(LinearLayout)findViewById(R.id.ll_right_dq);
@@ -92,12 +93,11 @@ public class DataQueryActivity extends AppCompatActivity {
             }
         });
         initData();
-
     }
 
     private void initData(){
-        mViewPager.setAdapter(new DataQueryPageAdapter(this));
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setAdapter(new DataQueryPagerAdapter(this));
     }
 
     private void setOnClickListerForFilter() {

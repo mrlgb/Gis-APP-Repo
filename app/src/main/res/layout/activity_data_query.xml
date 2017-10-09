@@ -25,6 +25,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="数据管理" />
+            <Button
+                android:id="@+id/bt_filter_dq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="筛选"
+                android:gravity="center"
+                android:background="@color/white"/>
         </android.support.v7.widget.Toolbar>
         <include
             layout="@layout/line_item"/>
@@ -40,8 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:background="@android:color/background_light"
-                app:tabGravity="fill"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabIndicatorColor="@color/darkorange"
                 app:tabSelectedTextColor="@color/darkorange"
                 app:tabTextColor="@android:color/black"
@@ -50,31 +57,32 @@
                     android:id="@+id/a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部"
+                    android:text=" 全部 "
+                    />
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 路线 "
+                    />
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="构造物"
                     />
                 <android.support.design.widget.TabItem
                     android:id="@+id/b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="点位"
+                    android:text="沿线设施"
                     />
                 <android.support.design.widget.TabItem
                     android:id="@+id/c"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="路段"
+                    android:text=" 地名 "
                     />
             </android.support.design.widget.TabLayout>
-            <Button
-                android:id="@+id/bt_filter_dq"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="筛选"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:background="@android:color/white"/>
+
 
         </LinearLayout>
         <include

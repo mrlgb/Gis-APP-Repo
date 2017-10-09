@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.path.BegincollectingActivity">
+    tools:context=".activity.pathcollect.BegincollectingActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/ferryactivity_toolbar"
         android:layout_width="match_parent"
@@ -80,8 +80,7 @@
 
             <View
                 app:layout_columnSpan="3"
-                android:layout_height="4px"
-                android:background="@color/silver"
+                style="@style/info_splitter_line"
                 />
 
             <TextView

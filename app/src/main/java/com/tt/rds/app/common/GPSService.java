@@ -71,7 +71,7 @@ public class GPSService extends Service {
             while (i) {
                 try {
                     sleep(1000);
-                    Log.w("myApp", "[#] GPSService.java - ** RUNNING **");
+                    Log.w("myApp", "[#] GPSService- ** RUNNING **");
                 } catch (InterruptedException e) {
                     i = false;
                 }
@@ -87,26 +87,26 @@ public class GPSService extends Service {
         //if (!t.isAlive()) {
         //    t.start();
         //}
-        Log.w("myApp", "[#] GPSService.java - CREATE = onCreate");
+        Log.w("myApp", "[#] GPSService - CREATE = onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(1, getNotification());
-        Log.w("myApp", "[#] GPSService.java - START = onStartCommand");
+        Log.w("myApp", "[#] GPSService - START = onStartCommand");
         return START_NOT_STICKY;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.w("myApp", "[#] GPSService.java - BIND = onBind");
+        Log.w("myApp", "[#] GPSService- BIND = onBind");
         return mBinder;
         //return null;
     }
 
     @Override
     public void onDestroy() {
-        Log.w("myApp", "[#] GPSService.java - DESTROY = onDestroy");
+        Log.w("myApp", "[#] GPSService- DESTROY = onDestroy");
         // THREAD FOR DEBUG PURPOSE
         //if (t.isAlive()) t.interrupt();
         super.onDestroy();

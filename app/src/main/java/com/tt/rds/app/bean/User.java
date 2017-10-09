@@ -1,146 +1,96 @@
 package com.tt.rds.app.bean;
 
-import java.util.List;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Generated;
 
-
+/**
+ * Created by Xinxin on 2017/10/3.
+ */
+@Entity
 public class User {
 
-    /**
-     * result : true
-     * studentNotice : [{"noticeContent":"你收到一个调查问卷-\u201c测试问卷\u201d。请速去评教！谢谢","createTime":"2017-08-25 09:07:32","isRead":false,"id":1,"noticeId":"2017082570","noticeTitle":"\u201c测试问卷\u201d问卷调查通知"},{"noticeContent":"你收到一个调查问卷-\u201c测试\u201d。请速去评教！谢谢","createTime":"2017-08-25 09:07:32","isRead":true,"id":3,"noticeId":"2017082595","noticeTitle":"\u201c测试\u201d问卷调查通知"}]
-     * name : 袁杰
-     * className : 17信息安全与管理（1）
-     * user : 1304092008
-     * NotReadNoticeNum : 1
-     */
-
-    private int code;
-    private boolean result;
-    private String name;
-    private String className;
-    private String user;
-    private int NotReadNoticeNum;
-    private List<StudentNoticeBean> studentNotice;
-
-    public int getCode() {
-        return code;
+    @Id(autoincrement = true)
+    private Long userId;
+    @NotNull
+    private String user="";
+    private String password="";
+    private String anonymous="";
+    private String phone="";
+    private String email="";
+    private String gender="";
+    private String address="";
+    private String signature="";
+    @Generated(hash = 357744102)
+    public User(Long userId, @NotNull String user, String password,
+            String anonymous, String phone, String email, String gender,
+            String address, String signature) {
+        this.userId = userId;
+        this.user = user;
+        this.password = password;
+        this.anonymous = anonymous;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+        this.address = address;
+        this.signature = signature;
     }
-
-    public void setCode(int code) {
-        this.code = code;
+    @Generated(hash = 586692638)
+    public User() {
     }
-
-    public boolean isResult() {
-        return result;
+    public Long getUserId() {
+        return this.userId;
     }
-
-    public void setResult(boolean result) {
-        this.result = result;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
     public String getUser() {
-        return user;
+        return this.user;
     }
-
     public void setUser(String user) {
         this.user = user;
     }
-
-    public int getNotReadNoticeNum() {
-        return NotReadNoticeNum;
+    public String getPassword() {
+        return this.password;
     }
-
-    public void setNotReadNoticeNum(int NotReadNoticeNum) {
-        this.NotReadNoticeNum = NotReadNoticeNum;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    public List<StudentNoticeBean> getStudentNotice() {
-        return studentNotice;
+    public String getAnonymous() {
+        return this.anonymous;
     }
-
-    public void setStudentNotice(List<StudentNoticeBean> studentNotice) {
-        this.studentNotice = studentNotice;
+    public void setAnonymous(String anonymous) {
+        this.anonymous = anonymous;
     }
-
-    public static class StudentNoticeBean {
-        /**
-         * noticeContent : 你收到一个调查问卷-“测试问卷”。请速去评教！谢谢
-         * createTime : 2017-08-25 09:07:32
-         * isRead : false
-         * id : 1
-         * noticeId : 2017082570
-         * noticeTitle : “测试问卷”问卷调查通知
-         */
-
-        private String noticeContent;
-        private String createTime;
-        private boolean isRead;
-        private int id;
-        private String noticeId;
-        private String noticeTitle;
-
-        public String getNoticeContent() {
-            return noticeContent;
-        }
-
-        public void setNoticeContent(String noticeContent) {
-            this.noticeContent = noticeContent;
-        }
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public boolean isIsRead() {
-            return isRead;
-        }
-
-        public void setIsRead(boolean isRead) {
-            this.isRead = isRead;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getNoticeId() {
-            return noticeId;
-        }
-
-        public void setNoticeId(String noticeId) {
-            this.noticeId = noticeId;
-        }
-
-        public String getNoticeTitle() {
-            return noticeTitle;
-        }
-
-        public void setNoticeTitle(String noticeTitle) {
-            this.noticeTitle = noticeTitle;
-        }
+    public String getPhone() {
+        return this.phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getGender() {
+        return this.gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public String getAddress() {
+        return this.address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getSignature() {
+        return this.signature;
+    }
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

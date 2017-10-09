@@ -20,19 +20,19 @@ package com.tt.rds.app.common;
 
 import android.location.Location;
 
-import com.tt.rds.app.MainApplication;
 import com.tt.rds.app.R;
+import com.tt.rds.app.app.GPSApplication;
 
 public class PhysicalDataFormatter {
 
-    private final int NOT_AVAILABLE = -100000;
+    public final int NOT_AVAILABLE = -100000;
 
-    private final int UM_METRIC_MS       = 0;
-    private final int UM_METRIC_KMH      = 1;
-    private final int UM_IMPERIAL_FPS    = 8;
-    private final int UM_IMPERIAL_MPH    = 9;
-    private final int UM_NAUTICAL_KN     = 16;
-    private final int UM_NAUTICAL_MPH    = 17;
+    public final int UM_METRIC_MS       = 0;
+    public final int UM_METRIC_KMH      = 1;
+    public final int UM_IMPERIAL_FPS    = 8;
+    public final int UM_IMPERIAL_MPH    = 9;
+    public final int UM_NAUTICAL_KN     = 16;
+    public final int UM_NAUTICAL_MPH    = 17;
 
     public static final byte FORMAT_LATITUDE    = 1;
     public static final byte FORMAT_LONGITUDE   = 2;
@@ -43,16 +43,16 @@ public class PhysicalDataFormatter {
     public static final byte FORMAT_DURATION    = 7;
     public static final byte FORMAT_SPEED_AVG   = 8;
     public static final byte FORMAT_DISTANCE    = 9;
-    
-    private final float M_TO_FT   = 3.280839895f;
-    private final float M_TO_NM   = 0.000539957f;
-    private final float MS_TO_MPH = 2.2369363f;
-    private final float MS_TO_KMH = 3.6f;
-    private final float MS_TO_KN  = 1.943844491f;
-    private final float KM_TO_MI  = 0.621371192237f;
+
+    public final float M_TO_FT   = 3.280839895f;
+    public final float M_TO_NM   = 0.000539957f;
+    public final float MS_TO_MPH = 2.2369363f;
+    public final float MS_TO_KMH = 3.6f;
+    public final float MS_TO_KN  = 1.943844491f;
+    public final float KM_TO_MI  = 0.621371192237f;
     
     //private PhysicalData _PhysicalData = new PhysicalData();
-    private MainApplication gpsApplication = MainApplication.getInstance();
+    private GPSApplication gpsApplication = GPSApplication.getInstance();
         
     
     public PhysicalData format(float Number, byte Format) {

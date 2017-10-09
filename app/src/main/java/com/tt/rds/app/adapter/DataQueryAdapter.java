@@ -1,6 +1,7 @@
 package com.tt.rds.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -10,68 +11,164 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tt.rds.app.R;
+import com.tt.rds.app.activity.DataQueryDetailActivity;
+import com.tt.rds.app.app.GPSApplication;
+import com.tt.rds.app.bean.PointMarker;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Alpha Dog on 2017/9/30.
+ * Created by Alpha Dog on 2017/10/2.
  */
 
-public class DataQueryAdapter extends RecyclerView.Adapter <DataQueryAdapter.DataViewHolder>{
-    Context mContext;
+public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.ViewHolder> {
+    private Context mContext;
+    private int mType;
+    List<PointMarker> mDataPoints, mResultDataPoint;
+//    private String[] pointType = {"Point_Bridge", "Point_Tunnel", "Point_Ferry", "Point_Culvert", "Point_Town", "Point_Village", "Point_StandardVillage", "Point_School", "Point_Sign"};
 
-    public DataQueryAdapter(Context context) {
+    public DataQueryAdapter(Context context, int type) {
         mContext = context;
+        mType = type;
+        mResultDataPoint=new ArrayList<>();
+        mDataPoints = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadAll();
+        if(mDataPoints!=null)
+        switch (mType) {
+            case 0:
+                mResultDataPoint.addAll(mDataPoints);
+                break;
+            case 2:
+                for (PointMarker bean : mDataPoints) {
+                    if ("0123".contains(bean.getTtPoint().getPTypeId().toString()))
+                        mResultDataPoint.add(bean);
+                }
+                break;
+            case 3:
+                for(PointMarker bean : mDataPoints) {
+                    if ("4567".contains(bean.getTtPoint().getPTypeId().toString()))
+                        mResultDataPoint.add(bean);
+                }
+                break;
+            case 4:
+                for(PointMarker bean : mDataPoints) {
+                    if ("89".contains(bean.getTtPoint().getPTypeId().toString()))
+                        mResultDataPoint.add(bean);
+                }
+                break;
+        }
     }
 
     @Override
-    public DataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.listitem_data_query, parent, false);
-        return new DataViewHolder(view);
+    public DataQueryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_data_query, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(DataViewHolder holder, int position) {
-        holder.render();
+    public void onBindViewHolder(DataQueryAdapter.ViewHolder holder, int position) {
+        if (mType != 1 && !mResultDataPoint.isEmpty())
+            holder.render(mContext, mResultDataPoint.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        if (mResultDataPoint == null)
+            return 0;
+        return mResultDataPoint.size();
     }
 
-    static class DataViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.iv_image)
-        ImageView mIvImage;
-        @BindView(R.id.tv_name)
-        TextView mTvName;
-        @BindView(R.id.tv_code)
-        TextView mTvCode;
-        @BindView(R.id.tv_long)
-        TextView mTvLong;
-        @BindView(R.id.tv_about)
-        TextView mTvAbout;
-        @BindView(R.id.iv_dropdown)
-        ImageView mIvDropdown;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        Spinner ivdropdown;
+        TextView tvabout;
+        TextView tvlong;
+        TextView tvcode;
+        TextView tvname;
+        ImageView ivimg;
 
-        DataViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ivdropdown = (Spinner) itemView.findViewById(R.id.iv_dropdown);
+            tvabout = (TextView) itemView.findViewById(R.id.tv_about);
+            tvlong = (TextView) itemView.findViewById(R.id.tv_long);
+            tvcode = (TextView) itemView.findViewById(R.id.tv_code);
+            tvname = (TextView) itemView.findViewById(R.id.tv_name);
+            ivimg = (ImageView) itemView.findViewById(R.id.iv_img);
         }
-        void render(){
-            mIvImage.setBackgroundColor(Color.parseColor("#000000"));
-            mTvName.setText("桥梁名称：收梁沟桥");
-            mTvCode.setText("桥梁编码：C0019L28123216");
-            mTvLong.setText("桥梁全长：48(m)");
-            String base="采集相关：2017-3-1 15：30 张三 ";
-            String type="未上报";
-            SpannableString ss=new SpannableString(base+type);
-            ss.setSpan(new ForegroundColorSpan(Color.RED),base.length(),(base+type).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mTvAbout.setText(ss);
+
+        void render(final Context context, final PointMarker bean) {
+            switch (bean.getTtPoint().getPTypeId().intValue()) {
+                case 0:
+                    tvlong.setText("桥梁全长：");
+                    tvcode.setText("桥梁编码：" + bean.getCode());
+                    tvname.setText("桥梁名称：" + bean.getName());
+                    break;
+                case 1:
+                    tvlong.setText("隧道长度：");
+                    tvcode.setText("隧道编码：" + bean.getCode());
+                    tvname.setText("隧道名称：" + bean.getName());
+                    break;
+                case 2:
+                    tvlong.setText("渡口类型：" + bean.getCatergory());
+                    tvcode.setText("渡口编码：" + bean.getCode());
+                    tvname.setText("渡口名称：" + bean.getName());
+                    break;
+                case 3:
+                    tvlong.setText("涵洞跨径：");
+                    tvcode.setText("涵洞编码：" + bean.getCode());
+                    tvname.setText("涵洞名称：" + bean.getName());
+                    break;
+                case 4:
+                    tvlong.setText("乡镇行政区：" + bean.getTtPoint().getAdminCode());
+                    tvcode.setText("乡镇编码：" + bean.getCode());
+                    tvname.setText("乡镇名称：" + bean.getName());
+                    break;
+                case 5:
+                    tvlong.setText("建制村行政区划：" + bean.getTtPoint().getAdminCode());
+                    tvcode.setText("建制村编码：" +bean.getCode());
+                    tvname.setText("建制村名称：" +bean.getName());
+                    break;
+                case 6:
+                    tvlong.setText("自然村行政区划：" + bean.getTtPoint().getAdminCode());
+                    tvcode.setText("自然村编码：" + bean.getCode());
+                    tvname.setText("自然村名称：" + bean.getName());
+                    break;
+                case 7:
+                    tvlong.setText("学校类别：" + bean.getCatergory());
+                    tvcode.setText("学校编码：" + bean.getCode());
+                    tvname.setText("学校名称：" + bean.getName());
+                    break;
+                case 8:
+                    tvlong.setText("标志标牌类型：" + bean.getCatergory());
+                    tvcode.setText("标志标牌编码：" + bean.getCode());
+                    tvname.setText("标志标牌类型：" + bean.getName());
+                    break;
+                case 9:
+                    tvlong.setText("标志点类型：" + bean.getCatergory());
+                    tvcode.setText("标志点编码：" + bean.getCode());
+                    tvname.setText("标志点名称：" + bean.getName());
+                    break;
+            }
+
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DataQueryDetailActivity.class);
+                    intent.putExtra("id",bean.getPMarkerId());
+                    context.startActivity(intent);
+                }
+            });
+            String name = String.format("采集相关: %s ",bean.getUserId());
+            String now = 0 == 0 ? "未上报" : "已上报";
+            SpannableString ss = new SpannableString(name + now);
+            if (0 == 0)
+                ss.setSpan(new ForegroundColorSpan(Color.RED), name.length(), (name + now).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            else
+                ss.setSpan(new ForegroundColorSpan(Color.GREEN), name.length(), (name + now).length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            tvabout.setText(ss);
         }
     }
 }

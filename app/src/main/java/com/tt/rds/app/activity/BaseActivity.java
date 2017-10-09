@@ -1,8 +1,6 @@
 package com.tt.rds.app.activity;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -10,24 +8,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+
+import com.tt.rds.app.app.GPSApplication;
+
 import butterknife.ButterKnife;
-import com.tt.rds.app.MainApplication;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected MainApplication app;
+    protected GPSApplication app;
 
-    public MainApplication getApp() {
+    public GPSApplication getApp() {
         return app;
     }
 
-    public void setApp(MainApplication app) {
+    public void setApp(GPSApplication app) {
         this.app = app;
     }
 
@@ -40,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(layoutResId);
 
         ButterKnife.bind(this);
-        app = (MainApplication) getApplication(); // 获得MainApplication对象
+        app = (GPSApplication) getApplication(); // 获得MainApplication对象
         initActivity(savedInstanceState);
     }
 

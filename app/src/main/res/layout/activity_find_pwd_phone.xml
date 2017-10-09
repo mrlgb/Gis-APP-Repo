@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tt.rds.app.activity.usersetting.FindPwdPhoneActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Light" >
+        <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="找回登录密码" />
+    </android.support.v7.widget.Toolbar>
+    <include
+        layout="@layout/line_item_l"/>
+
+
+
+    <TextView
+        style="@style/text_p_common"
+        android:layout_width="match_parent"
+        android:text="请输入您要找回密码的手机号"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <EditText
+            android:id="@+id/find_phone"
+            style="@style/text_p_common"
+            android:layout_width="match_parent"
+            android:background="@drawable/select_et_bg_focused"
+            android:hint="请输入手机号"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:layout_marginBottom="30dp"
+            />
+
+        <Button
+            android:id="@+id/find_next"
+            style="@style/text_p_common"
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:text="下一步"
+            android:enabled="false"
+            android:textColor="@color/whitesmoke"
+            android:background="@drawable/bg_rectangle_solid_grey"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
