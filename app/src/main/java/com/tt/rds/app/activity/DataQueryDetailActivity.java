@@ -1,7 +1,12 @@
 package com.tt.rds.app.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -35,6 +42,9 @@ import com.tt.rds.app.R;
 import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.PointMarker;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * Created by Alpha Dog on 2017/10/3.
  */
@@ -44,7 +54,6 @@ public class DataQueryDetailActivity extends AppCompatActivity {
     private android.widget.ProgressBar progressBar;
     private PointMarker mPointMarker;
     private android.support.design.widget.TabLayout relativelayout;
-    private android.widget.TableLayout tlattribute;
     private android.widget.TextView tvmore;
     private android.widget.LinearLayout llattribute;
     private android.widget.ViewFlipper welcomeflipper;
@@ -55,6 +64,27 @@ public class DataQueryDetailActivity extends AppCompatActivity {
     private com.github.mikephil.charting.charts.LineChart chart1;
     private com.github.mikephil.charting.charts.LineChart chart2;
     private android.widget.LinearLayout llcharts;
+    private List<View> mDotList;
+    private int currentPos;
+    private int oldPos;
+    private static final int AUTO = 0x01;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case AUTO:
+                    if (currentPos == mDotList.size() - 1) {
+                    } else {
+                        showNext();
+                        sendAutoMsg();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,9 +92,33 @@ public class DataQueryDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_query_detail);
         initToolBar();
         initView();
-
+        initData();
         initArcgisMap();
+        llattribute.setVisibility(View.VISIBLE);
+        llimgs.setVisibility(View.GONE);
+        relativelayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
+                    llattribute.setVisibility(View.VISIBLE);
+                    llimgs.setVisibility(View.GONE);
+                }
+                if (tab.getPosition() == 1) {
+                    llattribute.setVisibility(View.GONE);
+                    llimgs.setVisibility(View.VISIBLE);
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -104,7 +158,6 @@ public class DataQueryDetailActivity extends AppCompatActivity {
         welcomeflipper = (ViewFlipper) findViewById(R.id.welcome_flipper);
         llattribute = (LinearLayout) findViewById(R.id.ll_attribute);
         tvmore = (TextView) findViewById(R.id.tv_more);
-        tlattribute = (TableLayout) findViewById(R.id.tl_attribute);
         relativelayout = (TabLayout) findViewById(R.id.relative_layout);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mapView = (MapView) findViewById(R.id.mapView);
@@ -143,23 +196,21 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                 new Point(13098547.3108814, 3773861.02646202, SpatialReferences.getWebMercator()));
         //set viewpoint on mapview
 //        mapView.setViewpointGeometryAsync(envelope, 100.0);
-        mapView.setViewpointCenterAsync(new Point(12993828.5821309, 3706520.00454287, SpatialReferences.getWebMercator()),10000);
+        mapView.setViewpointCenterAsync(new Point(12993828.5821309, 3706520.00454287, SpatialReferences.getWebMercator()), 10000);
         mapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
-        final GraphicsOverlay mGraphicsOverlay=new GraphicsOverlay();
+        final GraphicsOverlay mGraphicsOverlay = new GraphicsOverlay();
         BitmapDrawable pinStarBlueDrawable = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.point_collect);
         final PictureMarkerSymbol pinStarBlueSymbol = new PictureMarkerSymbol(pinStarBlueDrawable);
         //Optionally set the size, if not set the image will be auto sized based on its size in pixels,
         //its appearance would then differ across devices with different resolutions.
         pinStarBlueSymbol.setHeight(40);
         pinStarBlueSymbol.setWidth(40);
-        //Optionally set the offset, to align the base of the symbol aligns with the point geometry
-        pinStarBlueSymbol.setOffsetY(
-                11); //The image used for the symbol has a transparent buffer around it, so the offset is not simply height/2
+        pinStarBlueSymbol.setOffsetY(11);
         pinStarBlueSymbol.loadAsync();
         //[DocRef: END]
         pinStarBlueSymbol.addDoneLoadingListener(new Runnable() {
@@ -188,20 +239,68 @@ public class DataQueryDetailActivity extends AppCompatActivity {
 
     }
 
-    private void initData(){
-        mPointMarker= GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id",0));
+    private void initData() {
+        mPointMarker = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id", 0));
+        String string[] = {"名称:   " + mPointMarker.getName(), "编码:   " + mPointMarker.getCode(), "类别:   " + mPointMarker.getCatergory(), "路线名称:   " + mPointMarker.getTtPoint().getPathName(), "路线代码:   "
+                + mPointMarker.getTtPoint().getPathCode(), "路段序列号:   " + mPointMarker.getTtPoint().getSectionNo(), "行政区划:   " + mPointMarker.getTtPoint().getAdminCode()};
 
+        for (String s : string) {
+            TextView tv = new TextView(this);
+            tv.setText(s);
+            tv.setTextSize(15);
+            tv.setTextColor(Color.BLACK);
+            tv.setPadding(40, 20, 40, 20);
+            tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            tv.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            llattribute.addView(tv,llattribute.getChildCount()-1);
+        }
+        for (int i = 0; i < mPointMarker.getPictures().size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            Bitmap bitmap = null;
+            try {
+                File file = new File(mPointMarker.getPictures().get(i).getPath());
+                if (file.exists()) {
+                    bitmap = BitmapFactory.decodeFile(mPointMarker.getPictures().get(i).getPath());
+                    imageView.setImageBitmap(bitmap);
+                }
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            welcomeflipper.addView(imageView);
+        }
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         mapView.pause();
         super.onPause();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mapView.resume();
+    }
+
+
+    private void showNext() {
+        welcomeflipper.setInAnimation(this, R.anim.slide_in_right);
+        welcomeflipper.setOutAnimation(this, R.anim.slide_out_left);
+        welcomeflipper.showNext();
+        setDotsBackgroud();
+    }
+
+    private void sendAutoMsg() {
+        Message msgs = new Message();
+        msgs.what = AUTO;
+        mHandler.sendMessageDelayed(msgs, 2000);
+    }
+
+    private void setDotsBackgroud() {
+        oldPos = currentPos;
+        currentPos = welcomeflipper.getDisplayedChild();
+        mDotList.get(oldPos).setBackgroundResource(R.drawable.dot_normal);
+        mDotList.get(currentPos).setBackgroundResource(R.drawable.dot_focused);
     }
 }

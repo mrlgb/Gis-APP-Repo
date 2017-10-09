@@ -28,8 +28,8 @@
 
     <include layout="@layout/content_data_query_detail" />
 
-    <include
-        android:id="@+id/bottomSheet"
-        layout="@layout/bottom_sheet_content_data_query_detail"/>
+    <!--<include-->
+        <!--android:id="@+id/bottomSheet"-->
+        <!--layout="@layout/bottom_sheet_content_data_query_detail"/>-->
 
 </android.support.design.widget.CoordinatorLayout>

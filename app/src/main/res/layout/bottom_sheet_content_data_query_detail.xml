@@ -3,10 +3,10 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
+                                             android:layout_height="match_parent"
                                              app:behavior_hideable="true"
                                              app:behavior_peekHeight="400dp"
-                                             app:layout_behavior="@string/bottom_sheet_behavior"
+                                             android:background="@color/white"
                                              tools:layout_editor_absoluteX="0dp"
                                              tools:layout_editor_absoluteY="25dp">
 
@@ -32,28 +32,24 @@
             android:layout_height="wrap_content"
             android:text="照片"/>
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="其他"/>
+        <!--<android.support.design.widget.TabItem-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="其他"/>-->
 
     </android.support.design.widget.TabLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_attribute"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relative_layout">
-
-        <TableLayout
-            android:id="@+id/tl_attribute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </TableLayout>
+    <LinearLayout
+        android:id="@+id/ll_attribute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_more"
@@ -66,7 +62,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"/>
     </LinearLayout>
-
+    </ScrollView>
     <LinearLayout
         android:id="@+id/ll_imgs"
         android:layout_width="0dp"
@@ -108,18 +104,6 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:orientation="horizontal">
-
-            <View
-                android:id="@+id/welcom_dot1"
-                style="@style/dot_style"/>
-
-            <View
-                android:id="@+id/welcom_dot2"
-                style="@style/dot_style"/>
-
-            <View
-                android:id="@+id/welcom_dot3"
-                style="@style/dot_style"/>
 
         </LinearLayout>
     </LinearLayout>
