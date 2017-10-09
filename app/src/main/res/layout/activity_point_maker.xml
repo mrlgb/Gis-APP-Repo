@@ -95,8 +95,9 @@
             <Spinner
                 android:id="@+id/point_marker_type"
                 style="@style/info_content_spinner"
-                android:hint="被调标志点的类型"
+                android:layout_height="match_parent"
                 android:entries="@array/spinner_type"
+                android:hint="被调标志点的类型"
                 app:layout_columnWeight="3.5" />
 
             <TextView

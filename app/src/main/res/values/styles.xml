@@ -90,6 +90,8 @@
     </style>
 
     <style name="info_content_edittext">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColorHint">@color/saddlebrown</item>
         <item name="android:textSize">13sp</item>
@@ -97,8 +99,10 @@
     </style>
 
     <style name="info_content_edittext_read">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColorHint">@color/saddlebrown</item>
+        <item name="android:textColorHint">@color/black</item>
         <item name="android:textSize">13sp</item>
         <item name="android:editable">false</item>
         <item name="android:layout_height">wrap_content</item>
@@ -106,19 +110,19 @@
 
     <style name="info_content_spinner">
         <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:gravity">center_vertical|start</item>
-        <item name="android:textColorHint">@color/saddlebrown</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginLeft">48dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:gravity">center</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="info_x">
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:gravity">center_vertical|start</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/red</item>
         <item name="android:text">*</item>
         <item name="android:layout_width">0dp</item>
@@ -131,10 +135,10 @@
 
     <style name="info_splitter_line">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">2dp</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:background">@color/silver</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="android:background">@color/grey</item>
     </style>
 
     <style name="info_camera">

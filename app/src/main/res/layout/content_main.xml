@@ -46,13 +46,13 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <include layout="@layout/part_gpsfix_simple"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="102dp"
+        android:layout_height="44dp"
         android:id="@+id/fix"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginTop="8dp" />
 
 
     <android.support.v7.widget.AppCompatButton
@@ -168,10 +168,10 @@
         android:textColor="@color/black"
         android:text="+"
         android:layout_marginStart="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline4"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         android:layout_marginLeft="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2" />
+        app:layout_constraintLeft_toLeftOf="@+id/guideline4" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnZoomOut"
