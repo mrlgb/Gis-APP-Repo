@@ -1,37 +1,28 @@
 package com.tt.rds.app.db;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.util.Log;
 
 import com.tt.rds.app.app.Common;
-import com.tt.rds.app.app.GPSApplication;
 import com.tt.rds.app.bean.DaoMaster;
 import com.tt.rds.app.bean.DaoSession;
 import com.tt.rds.app.bean.PictureDao;
-import com.tt.rds.app.bean.PointBridge;
 import com.tt.rds.app.bean.PointBridgeDao;
 import com.tt.rds.app.bean.PointCulvertDao;
 import com.tt.rds.app.bean.PointFerryDao;
-import com.tt.rds.app.bean.PointMarker;
 import com.tt.rds.app.bean.PointMarkerDao;
 import com.tt.rds.app.bean.PointSchoolDao;
-import com.tt.rds.app.bean.PointSign;
 import com.tt.rds.app.bean.PointSignDao;
-import com.tt.rds.app.bean.PointStandardVillage;
 import com.tt.rds.app.bean.PointStandardVillageDao;
-import com.tt.rds.app.bean.PointTown;
 import com.tt.rds.app.bean.PointTownDao;
-import com.tt.rds.app.bean.PointTunnel;
 import com.tt.rds.app.bean.PointTunnelDao;
 import com.tt.rds.app.bean.PointTypeDao;
-import com.tt.rds.app.bean.PointVillage;
 import com.tt.rds.app.bean.PointVillageDao;
 import com.tt.rds.app.bean.TtLocate;
 import com.tt.rds.app.bean.TtLocateDao;
+import com.tt.rds.app.bean.TtPathEndDao;
+import com.tt.rds.app.bean.TtPathStartDao;
 import com.tt.rds.app.bean.TtPlaceMark;
 import com.tt.rds.app.bean.TtPlaceMarkDao;
 import com.tt.rds.app.bean.TtPointDao;
@@ -44,12 +35,9 @@ import com.tt.rds.app.common.LocationExtended;
 import com.tt.rds.app.common.Track;
 
 import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.media.MediaFormat.KEY_TRACK_ID;
 
 /**
  * Created by guobinli on 2017/10/5.
@@ -163,6 +151,16 @@ public class DBService {
     //tracks
     public TtTrackDao getTtTrackDao() {
         return daoSession.getTtTrackDao();
+    }
+
+    //
+    public TtPathStartDao getTtPathStartDao() {
+        return daoSession.getTtPathStartDao();
+    }
+
+    //
+    public TtPathEndDao getTtPathEndDao() {
+        return daoSession.getTtPathEndDao();
     }
 
     // ----------------------------------------------------------------------- LOCATIONS AND PLACEMARKS
