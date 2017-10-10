@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -513,7 +512,6 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "备注:   "+mPointMarker. getRemark()};
                 moreAttribute = shortAttribute;
                 mPictureList=mPointMarker.getPictures();
-                Toast.makeText(this, "mPointMarker.getPictures().size():" + mPointMarker.getPictures().size(), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
