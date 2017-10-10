@@ -46,7 +46,7 @@ import pl.tajchert.nammu.PermissionCallback;
 
 
 
-public class MarkerActivity extends BaseSaveActivity {
+public class MarkerActivity extends BaseSaveActivity{
     private static final String TAG = MarkerActivity.class.getSimpleName();
 
     final GPSApplication gpsGPSApplication = GPSApplication.getInstance();
@@ -99,6 +99,8 @@ public class MarkerActivity extends BaseSaveActivity {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(imagesAdapter);
+
+
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {

@@ -213,9 +213,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/galleryRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:layout_height="wrap_content"
                 app:layout_columnSpan="3" />
 
             <View
