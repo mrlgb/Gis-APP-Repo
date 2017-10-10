@@ -1,16 +1,13 @@
 package com.tt.rds.app.bean;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.Date;
-import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Xinxin on 2017/10/3.
@@ -19,9 +16,8 @@ import org.greenrobot.greendao.DaoException;
 public class PointBridge {
 
     @Id(autoincrement = true)
-    private Long PBridgeId;
+    private Long pBridgeId;
     @NotNull
-    @Index(unique = true)
     private String name="";//名称
     @NotNull
     private String code="";//编码
@@ -47,24 +43,19 @@ public class PointBridge {
     private Long ttPointId;//外键关联  -点id
     @ToOne(joinProperty = "ttPointId")
     private TtPoint ttPoint;
-
-    @NotNull
-    @ToMany(referencedJoinProperty ="picId" )//指定与之关联的其他类的id
-    private List<Picture> pictures;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 30477662)
     private transient PointBridgeDao myDao;
-
-    @Generated(hash = 1372014205)
-    public PointBridge(Long PBridgeId, @NotNull String name, @NotNull String code,
+    @Generated(hash = 106538168)
+    public PointBridge(Long pBridgeId, @NotNull String name, @NotNull String code,
             String status, int designLoading, int materialType, int spanType,
             int dangeable, String managerOrg, String length, String width,
             String clearWidth, String height, String spanLength, String spanCombo,
             Date buildTime, String remark, long userId, Long ttPointId) {
-        this.PBridgeId = PBridgeId;
+        this.pBridgeId = pBridgeId;
         this.name = name;
         this.code = code;
         this.status = status;
@@ -84,166 +75,125 @@ public class PointBridge {
         this.userId = userId;
         this.ttPointId = ttPointId;
     }
-
     @Generated(hash = 1535943127)
     public PointBridge() {
     }
-
     public Long getPBridgeId() {
-        return this.PBridgeId;
+        return this.pBridgeId;
     }
-
-    public void setPBridgeId(Long PBridgeId) {
-        this.PBridgeId = PBridgeId;
+    public void setPBridgeId(Long pBridgeId) {
+        this.pBridgeId = pBridgeId;
     }
-
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getCode() {
         return this.code;
     }
-
     public void setCode(String code) {
         this.code = code;
     }
-
     public String getStatus() {
         return this.status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
     public int getDesignLoading() {
         return this.designLoading;
     }
-
     public void setDesignLoading(int designLoading) {
         this.designLoading = designLoading;
     }
-
     public int getMaterialType() {
         return this.materialType;
     }
-
     public void setMaterialType(int materialType) {
         this.materialType = materialType;
     }
-
     public int getSpanType() {
         return this.spanType;
     }
-
     public void setSpanType(int spanType) {
         this.spanType = spanType;
     }
-
     public int getDangeable() {
         return this.dangeable;
     }
-
     public void setDangeable(int dangeable) {
         this.dangeable = dangeable;
     }
-
     public String getManagerOrg() {
         return this.managerOrg;
     }
-
     public void setManagerOrg(String managerOrg) {
         this.managerOrg = managerOrg;
     }
-
     public String getLength() {
         return this.length;
     }
-
     public void setLength(String length) {
         this.length = length;
     }
-
     public String getWidth() {
         return this.width;
     }
-
     public void setWidth(String width) {
         this.width = width;
     }
-
     public String getClearWidth() {
         return this.clearWidth;
     }
-
     public void setClearWidth(String clearWidth) {
         this.clearWidth = clearWidth;
     }
-
     public String getHeight() {
         return this.height;
     }
-
     public void setHeight(String height) {
         this.height = height;
     }
-
     public String getSpanLength() {
         return this.spanLength;
     }
-
     public void setSpanLength(String spanLength) {
         this.spanLength = spanLength;
     }
-
     public String getSpanCombo() {
         return this.spanCombo;
     }
-
     public void setSpanCombo(String spanCombo) {
         this.spanCombo = spanCombo;
     }
-
     public Date getBuildTime() {
         return this.buildTime;
     }
-
     public void setBuildTime(Date buildTime) {
         this.buildTime = buildTime;
     }
-
     public String getRemark() {
         return this.remark;
     }
-
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
     public long getUserId() {
         return this.userId;
     }
-
     public void setUserId(long userId) {
         this.userId = userId;
     }
-
     public Long getTtPointId() {
         return this.ttPointId;
     }
-
     public void setTtPointId(Long ttPointId) {
         this.ttPointId = ttPointId;
     }
-
     @Generated(hash = 2065984785)
     private transient Long ttPoint__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 304307901)
     public TtPoint getTtPoint() {
@@ -262,7 +212,6 @@ public class PointBridge {
         }
         return ttPoint;
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 40396660)
     public void setTtPoint(TtPoint ttPoint) {
@@ -272,36 +221,6 @@ public class PointBridge {
             ttPoint__resolvedKey = ttPointId;
         }
     }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 822068215)
-    public List<Picture> getPictures() {
-        if (pictures == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PictureDao targetDao = daoSession.getPictureDao();
-            List<Picture> picturesNew = targetDao
-                    ._queryPointBridge_Pictures(PBridgeId);
-            synchronized (this) {
-                if (pictures == null) {
-                    pictures = picturesNew;
-                }
-            }
-        }
-        return pictures;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1035739203)
-    public synchronized void resetPictures() {
-        pictures = null;
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -313,7 +232,6 @@ public class PointBridge {
         }
         myDao.delete(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -325,7 +243,6 @@ public class PointBridge {
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -337,13 +254,11 @@ public class PointBridge {
         }
         myDao.update(this);
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 552839362)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getPointBridgeDao() : null;
     }
-
 
 }

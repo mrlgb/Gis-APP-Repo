@@ -2,12 +2,8 @@ package com.tt.rds.app.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
-
-import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
@@ -18,9 +14,8 @@ import org.greenrobot.greendao.DaoException;
 public class PointFerry {
 
     @Id(autoincrement = true)
-    private Long PCulvertId;
+    private Long pCulvertId;
     @NotNull
-    @Index(unique = true)
     private String name="";//名称
     @NotNull
     private String code="";//编码
@@ -34,22 +29,17 @@ public class PointFerry {
     private Long ttPointId;//外键关联  -点id
     @ToOne(joinProperty = "ttPointId")
     private TtPoint ttPoint;
-
-    @NotNull
-    @ToMany(referencedJoinProperty ="picId" )//指定与之关联的其他类的id
-    private List<Picture> pictures;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 1419112857)
     private transient PointFerryDao myDao;
-
-    @Generated(hash = 1010110730)
-    public PointFerry(Long PCulvertId, @NotNull String name, @NotNull String code,
+    @Generated(hash = 1168256799)
+    public PointFerry(Long pCulvertId, @NotNull String name, @NotNull String code,
             String manageOrg, int flexible, int ferryType, String remark,
             long userId, Long ttPointId) {
-        this.PCulvertId = PCulvertId;
+        this.pCulvertId = pCulvertId;
         this.name = name;
         this.code = code;
         this.manageOrg = manageOrg;
@@ -59,86 +49,65 @@ public class PointFerry {
         this.userId = userId;
         this.ttPointId = ttPointId;
     }
-
     @Generated(hash = 1147306525)
     public PointFerry() {
     }
-
     public Long getPCulvertId() {
-        return this.PCulvertId;
+        return this.pCulvertId;
     }
-
-    public void setPCulvertId(Long PCulvertId) {
-        this.PCulvertId = PCulvertId;
+    public void setPCulvertId(Long pCulvertId) {
+        this.pCulvertId = pCulvertId;
     }
-
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getCode() {
         return this.code;
     }
-
     public void setCode(String code) {
         this.code = code;
     }
-
     public String getManageOrg() {
         return this.manageOrg;
     }
-
     public void setManageOrg(String manageOrg) {
         this.manageOrg = manageOrg;
     }
-
     public int getFlexible() {
         return this.flexible;
     }
-
     public void setFlexible(int flexible) {
         this.flexible = flexible;
     }
-
     public int getFerryType() {
         return this.ferryType;
     }
-
     public void setFerryType(int ferryType) {
         this.ferryType = ferryType;
     }
-
     public String getRemark() {
         return this.remark;
     }
-
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
     public long getUserId() {
         return this.userId;
     }
-
     public void setUserId(long userId) {
         this.userId = userId;
     }
-
     public Long getTtPointId() {
         return this.ttPointId;
     }
-
     public void setTtPointId(Long ttPointId) {
         this.ttPointId = ttPointId;
     }
-
     @Generated(hash = 2065984785)
     private transient Long ttPoint__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 304307901)
     public TtPoint getTtPoint() {
@@ -157,7 +126,6 @@ public class PointFerry {
         }
         return ttPoint;
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 40396660)
     public void setTtPoint(TtPoint ttPoint) {
@@ -167,36 +135,6 @@ public class PointFerry {
             ttPoint__resolvedKey = ttPointId;
         }
     }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 2022361193)
-    public List<Picture> getPictures() {
-        if (pictures == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PictureDao targetDao = daoSession.getPictureDao();
-            List<Picture> picturesNew = targetDao
-                    ._queryPointFerry_Pictures(PCulvertId);
-            synchronized (this) {
-                if (pictures == null) {
-                    pictures = picturesNew;
-                }
-            }
-        }
-        return pictures;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1035739203)
-    public synchronized void resetPictures() {
-        pictures = null;
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -208,7 +146,6 @@ public class PointFerry {
         }
         myDao.delete(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -220,7 +157,6 @@ public class PointFerry {
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -232,7 +168,6 @@ public class PointFerry {
         }
         myDao.update(this);
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1094401029)
     public void __setDaoSession(DaoSession daoSession) {

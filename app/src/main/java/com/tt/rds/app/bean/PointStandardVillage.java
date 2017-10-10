@@ -2,12 +2,8 @@ package com.tt.rds.app.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
-
-import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
@@ -18,9 +14,8 @@ import org.greenrobot.greendao.DaoException;
 public class PointStandardVillage {
 
     @Id(autoincrement = true)
-    private Long PStandardVillageId;
+    private Long pStandardVillageId;
     @NotNull
-    @Index(unique = true)
     private String name="";//名称
     @NotNull
     private String code="";//编码
@@ -43,24 +38,19 @@ public class PointStandardVillage {
     private Long ttPointId;//外键关联  -点id
     @ToOne(joinProperty = "ttPointId")
     private TtPoint ttPoint;
-
-    @NotNull
-    @ToMany(referencedJoinProperty ="picId" )//指定与之关联的其他类的id
-    private List<Picture> pictures;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 1023764520)
     private transient PointStandardVillageDao myDao;
-
-    @Generated(hash = 321445609)
-    public PointStandardVillage(Long PStandardVillageId, @NotNull String name,
+    @Generated(hash = 489821087)
+    public PointStandardVillage(Long pStandardVillageId, @NotNull String name,
             @NotNull String code, int population, int villages, int arriveStatus,
             int arriveLocation, int arriveDirection, int arriveLevel,
             String arrivePathName, int arrivePathCode, String remark, long userId,
             Long ttPointId) {
-        this.PStandardVillageId = PStandardVillageId;
+        this.pStandardVillageId = pStandardVillageId;
         this.name = name;
         this.code = code;
         this.population = population;
@@ -75,126 +65,95 @@ public class PointStandardVillage {
         this.userId = userId;
         this.ttPointId = ttPointId;
     }
-
     @Generated(hash = 355826265)
     public PointStandardVillage() {
     }
-
     public Long getPStandardVillageId() {
-        return this.PStandardVillageId;
+        return this.pStandardVillageId;
     }
-
-    public void setPStandardVillageId(Long PStandardVillageId) {
-        this.PStandardVillageId = PStandardVillageId;
+    public void setPStandardVillageId(Long pStandardVillageId) {
+        this.pStandardVillageId = pStandardVillageId;
     }
-
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getCode() {
         return this.code;
     }
-
     public void setCode(String code) {
         this.code = code;
     }
-
     public int getPopulation() {
         return this.population;
     }
-
     public void setPopulation(int population) {
         this.population = population;
     }
-
     public int getVillages() {
         return this.villages;
     }
-
     public void setVillages(int villages) {
         this.villages = villages;
     }
-
     public int getArriveStatus() {
         return this.arriveStatus;
     }
-
     public void setArriveStatus(int arriveStatus) {
         this.arriveStatus = arriveStatus;
     }
-
     public int getArriveLocation() {
         return this.arriveLocation;
     }
-
     public void setArriveLocation(int arriveLocation) {
         this.arriveLocation = arriveLocation;
     }
-
     public int getArriveDirection() {
         return this.arriveDirection;
     }
-
     public void setArriveDirection(int arriveDirection) {
         this.arriveDirection = arriveDirection;
     }
-
     public int getArriveLevel() {
         return this.arriveLevel;
     }
-
     public void setArriveLevel(int arriveLevel) {
         this.arriveLevel = arriveLevel;
     }
-
     public String getArrivePathName() {
         return this.arrivePathName;
     }
-
     public void setArrivePathName(String arrivePathName) {
         this.arrivePathName = arrivePathName;
     }
-
     public int getArrivePathCode() {
         return this.arrivePathCode;
     }
-
     public void setArrivePathCode(int arrivePathCode) {
         this.arrivePathCode = arrivePathCode;
     }
-
     public String getRemark() {
         return this.remark;
     }
-
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
     public long getUserId() {
         return this.userId;
     }
-
     public void setUserId(long userId) {
         this.userId = userId;
     }
-
     public Long getTtPointId() {
         return this.ttPointId;
     }
-
     public void setTtPointId(Long ttPointId) {
         this.ttPointId = ttPointId;
     }
-
     @Generated(hash = 2065984785)
     private transient Long ttPoint__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 304307901)
     public TtPoint getTtPoint() {
@@ -213,7 +172,6 @@ public class PointStandardVillage {
         }
         return ttPoint;
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 40396660)
     public void setTtPoint(TtPoint ttPoint) {
@@ -223,36 +181,6 @@ public class PointStandardVillage {
             ttPoint__resolvedKey = ttPointId;
         }
     }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1537227130)
-    public List<Picture> getPictures() {
-        if (pictures == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PictureDao targetDao = daoSession.getPictureDao();
-            List<Picture> picturesNew = targetDao
-                    ._queryPointStandardVillage_Pictures(PStandardVillageId);
-            synchronized (this) {
-                if (pictures == null) {
-                    pictures = picturesNew;
-                }
-            }
-        }
-        return pictures;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1035739203)
-    public synchronized void resetPictures() {
-        pictures = null;
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -264,7 +192,6 @@ public class PointStandardVillage {
         }
         myDao.delete(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -276,7 +203,6 @@ public class PointStandardVillage {
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -288,7 +214,6 @@ public class PointStandardVillage {
         }
         myDao.update(this);
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 784635955)
     public void __setDaoSession(DaoSession daoSession) {

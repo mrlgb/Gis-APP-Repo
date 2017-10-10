@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -31,8 +30,6 @@ import com.tt.rds.app.bean.PointType;
 import com.tt.rds.app.bean.TtPoint;
 import com.tt.rds.app.bean.TtPointDao;
 import com.tt.rds.app.util.ToastUtil;
-
-import org.greenrobot.greendao.query.Query;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -224,12 +221,15 @@ public class MarkerActivity extends BaseSaveActivity {
             //设置关联点
             TtPoint ttPoint = new TtPoint();
             //id
-            ttPoint.setTtPointId(null);
+            ttPoint.setTtPointId(null);//id
+            ttPoint.setGuid(java.util.UUID.randomUUID().toString()); //guid
             //name
             ttPoint.setName("TEST-TTPoint-10001");
             //point type
-            ttPoint.setPointType(pType);
-            ttPoint.setTtPointId(pType.getPTypeId());
+            ttPoint.setPTypeId(pType.getPTypeId());
+            //CODE
+            ttPoint.setCode("SC04001");
+
             ttPoint.setLat(loc.getLatitude());
             ttPoint.setLon(loc.getLongitude());
             ttPoint.setAlt(loc.getAltitude());
@@ -240,10 +240,10 @@ public class MarkerActivity extends BaseSaveActivity {
                 //照片
                 for (Map.Entry<String, String> entry : photosName.entrySet()) {
                     Picture pic = new Picture();
-                    pic.setPicId(null);
-                    pic.setName(TAG + entry.getKey());
-                    pic.setPath(entry.getValue());
-                    pic.setTtPoint(ttPoint);
+                    pic.setPicId(null);//id
+                    pic.setGuid(java.util.UUID.randomUUID().toString());//guid
+                    pic.setName(TAG + entry.getKey());//name
+                    pic.setPath(entry.getValue());//path
                     //增加pic
                     pictureDao.insertOrReplaceInTx(pic);
                 }
@@ -276,10 +276,11 @@ public class MarkerActivity extends BaseSaveActivity {
             pMakerDao.insert(pMarker);
 
             //查询
-            Query<PointMarker> query = pMakerDao.queryBuilder().where(PointMarkerDao.Properties.Name.eq("TEST-PointMarker-10001")).build();
-            for (PointMarker pointMarker : query.list()) {
-                Log.d(TAG, "onCreate: " + pointMarker);
-            }
+//            Query<PointMarker> query = pMakerDao.queryBuilder().where(PointMarkerDao.Properties.Name.eq("TEST-PointMarker-10001")).build();
+//            for (PointMarker pointMarker : query.list()) {
+//                for(Picture pic :pointMarker.getTtPoint().getPictures())
+//                Log.d(TAG, "onCreate: " + pic.getGuid()+pic.getPath());
+//            }
 
             // 创建Snackbar实例
             Snackbar.make(scrollView, "标志点保存成功！", Snackbar.LENGTH_LONG).show();
@@ -353,7 +354,7 @@ public class MarkerActivity extends BaseSaveActivity {
         mRecyclerView.scrollToPosition(photos.size() - 1);
 
         for (int i = 0; i < returnedPhotos.size(); i++) {
-            ToastUtil.showToast(this, (photos.size() - 1) + "/" + returnedPhotos.get(i).getAbsolutePath());
+//            ToastUtil.showToast(this, (photos.size() - 1) + "/" + returnedPhotos.get(i).getAbsolutePath());
             SimpleDateFormat formatter   =   new   SimpleDateFormat   ("yyyy-MM-dd--HH:mm:ss");
             Date curDate =  new Date(System.currentTimeMillis());
             photosName.put(formatter.format(curDate).toString(), returnedPhotos.get(i).getAbsolutePath());

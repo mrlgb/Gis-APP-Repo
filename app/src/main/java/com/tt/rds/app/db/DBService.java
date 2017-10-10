@@ -21,8 +21,7 @@ import com.tt.rds.app.bean.PointTypeDao;
 import com.tt.rds.app.bean.PointVillageDao;
 import com.tt.rds.app.bean.TtLocate;
 import com.tt.rds.app.bean.TtLocateDao;
-import com.tt.rds.app.bean.TtPathEndDao;
-import com.tt.rds.app.bean.TtPathStartDao;
+import com.tt.rds.app.bean.TtPathDao;
 import com.tt.rds.app.bean.TtPlaceMark;
 import com.tt.rds.app.bean.TtPlaceMarkDao;
 import com.tt.rds.app.bean.TtPointDao;
@@ -154,14 +153,10 @@ public class DBService {
     }
 
     //
-    public TtPathStartDao getTtPathStartDao() {
-        return daoSession.getTtPathStartDao();
+    public TtPathDao getTtPathDao() {
+        return daoSession.getTtPathDao();
     }
 
-    //
-    public TtPathEndDao getTtPathEndDao() {
-        return daoSession.getTtPathEndDao();
-    }
 
     // ----------------------------------------------------------------------- LOCATIONS AND PLACEMARKS
     public TtTrack TtTrack4Track(Track track) {

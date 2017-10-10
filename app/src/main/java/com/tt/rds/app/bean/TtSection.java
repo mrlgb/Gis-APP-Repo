@@ -1,81 +1,68 @@
 package com.tt.rds.app.bean;
 
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by guobinli on 2017/10/5.
  */
 
 @Entity
-public class TtPoint {
+public class TtSection {
     @Id(autoincrement = true)
-    private Long ttPointId;//id
+    private Long ttSectionId;//id
     @Index(unique = true)
     private String guid;//guid
     @NotNull
     private String name;//* 名称
     private String code;//* 编号
+    //---------------------------
+    //路段开始点属性
 
-    private Long pTypeId;//关联 -点类型
+    //---------------------------
+    //路段结束点属性
 
-    private String pathName; //路线名称
-    private Long   pathCode;  //路线代码
-    private String  sectionNo;//路段序列号
+    //---------------------------
     @NotNull
-    private String adminCode;  //行政区划
-    @NotNull
-    private  double lat;  //经度
-    @NotNull
-    private  double lon; //纬度
-    @NotNull
-    private  double alt; //高度
+    @ToMany(referencedJoinProperty ="trackId" )//track ids
+    private List<TtTrack> ttTracks;
 
     @NotNull
-    @ToMany(referencedJoinProperty ="picId" )//pic -id
+    @ToMany(referencedJoinProperty ="picId" )//pic -ids
     private List<Picture> pictures;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
-    @Generated(hash = 1468197283)
-    private transient TtPointDao myDao;
+    @Generated(hash = 178013295)
+    private transient TtSectionDao myDao;
 
-    @Generated(hash = 1128426348)
-    public TtPoint(Long ttPointId, String guid, @NotNull String name, String code,
-            Long pTypeId, String pathName, Long pathCode, String sectionNo,
-            @NotNull String adminCode, double lat, double lon, double alt) {
-        this.ttPointId = ttPointId;
+    @Generated(hash = 1714713065)
+    public TtSection(Long ttSectionId, String guid, @NotNull String name,
+            String code) {
+        this.ttSectionId = ttSectionId;
         this.guid = guid;
         this.name = name;
         this.code = code;
-        this.pTypeId = pTypeId;
-        this.pathName = pathName;
-        this.pathCode = pathCode;
-        this.sectionNo = sectionNo;
-        this.adminCode = adminCode;
-        this.lat = lat;
-        this.lon = lon;
-        this.alt = alt;
     }
 
-    @Generated(hash = 1646122471)
-    public TtPoint() {
+    @Generated(hash = 1407662733)
+    public TtSection() {
     }
 
-    public Long getTtPointId() {
-        return this.ttPointId;
+    public Long getTtSectionId() {
+        return this.ttSectionId;
     }
 
-    public void setTtPointId(Long ttPointId) {
-        this.ttPointId = ttPointId;
+    public void setTtSectionId(Long ttSectionId) {
+        this.ttSectionId = ttSectionId;
     }
 
     public String getGuid() {
@@ -102,75 +89,40 @@ public class TtPoint {
         this.code = code;
     }
 
-    public Long getPTypeId() {
-        return this.pTypeId;
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 531587841)
+    public List<TtTrack> getTtTracks() {
+        if (ttTracks == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            TtTrackDao targetDao = daoSession.getTtTrackDao();
+            List<TtTrack> ttTracksNew = targetDao
+                    ._queryTtSection_TtTracks(ttSectionId);
+            synchronized (this) {
+                if (ttTracks == null) {
+                    ttTracks = ttTracksNew;
+                }
+            }
+        }
+        return ttTracks;
     }
 
-    public void setPTypeId(Long pTypeId) {
-        this.pTypeId = pTypeId;
-    }
-
-    public String getPathName() {
-        return this.pathName;
-    }
-
-    public void setPathName(String pathName) {
-        this.pathName = pathName;
-    }
-
-    public Long getPathCode() {
-        return this.pathCode;
-    }
-
-    public void setPathCode(Long pathCode) {
-        this.pathCode = pathCode;
-    }
-
-    public String getSectionNo() {
-        return this.sectionNo;
-    }
-
-    public void setSectionNo(String sectionNo) {
-        this.sectionNo = sectionNo;
-    }
-
-    public String getAdminCode() {
-        return this.adminCode;
-    }
-
-    public void setAdminCode(String adminCode) {
-        this.adminCode = adminCode;
-    }
-
-    public double getLat() {
-        return this.lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLon() {
-        return this.lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
-    public double getAlt() {
-        return this.alt;
-    }
-
-    public void setAlt(double alt) {
-        this.alt = alt;
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1802443791)
+    public synchronized void resetTtTracks() {
+        ttTracks = null;
     }
 
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 392622972)
+    @Generated(hash = 1986783155)
     public List<Picture> getPictures() {
         if (pictures == null) {
             final DaoSession daoSession = this.daoSession;
@@ -178,7 +130,8 @@ public class TtPoint {
                 throw new DaoException("Entity is detached from DAO context");
             }
             PictureDao targetDao = daoSession.getPictureDao();
-            List<Picture> picturesNew = targetDao._queryTtPoint_Pictures(ttPointId);
+            List<Picture> picturesNew = targetDao
+                    ._queryTtSection_Pictures(ttSectionId);
             synchronized (this) {
                 if (pictures == null) {
                     pictures = picturesNew;
@@ -231,10 +184,11 @@ public class TtPoint {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1630712071)
+    @Generated(hash = 977609646)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getTtPointDao() : null;
+        myDao = daoSession != null ? daoSession.getTtSectionDao() : null;
     }
+
 
 }

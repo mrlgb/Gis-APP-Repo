@@ -1,13 +1,9 @@
 package com.tt.rds.app.bean;
 
-import com.tt.rds.app.common.Track;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Transient;
 
 /**
  * Created by guobinli on 2017/10/5.
@@ -17,6 +13,8 @@ import org.greenrobot.greendao.annotation.Transient;
 public class TtTrack {
     @Id(autoincrement = true)
     private Long trackId;
+    @Index(unique = true)
+    private String guid;//guid
 
     private String track_name;//* 路线名称
     private String location_from;//*
@@ -70,23 +68,25 @@ public class TtTrack {
 
     private int validmap;
 
-    @Generated(hash = 1044864768)
-    public TtTrack(Long trackId, String track_name, String location_from,
-            String location_to, double start_latitude, double start_longitude,
-            double start_altitude, float start_accuracy, float start_speed,
-            long start_time, double end_latitude, double end_longitude,
-            double end_altitude, float end_accuracy, float end_speed, long end_time,
-            long last_fix_time, double last_step_dst_latitude,
-            double last_step_dst_longitude, float last_step_dst_accuracy,
-            double last_step_alittude_altitude, float last_step_alittude_accuracy,
-            double min_latitude, double min_longitude, double max_latitude,
-            double max_longitude, long duration, long duration_moving,
-            float distance, float distance_in_progress, long distance_last_altitude,
+    @Generated(hash = 117718825)
+    public TtTrack(Long trackId, String guid, String track_name,
+            String location_from, String location_to, double start_latitude,
+            double start_longitude, double start_altitude, float start_accuracy,
+            float start_speed, long start_time, double end_latitude,
+            double end_longitude, double end_altitude, float end_accuracy,
+            float end_speed, long end_time, long last_fix_time,
+            double last_step_dst_latitude, double last_step_dst_longitude,
+            float last_step_dst_accuracy, double last_step_alittude_altitude,
+            float last_step_alittude_accuracy, double min_latitude,
+            double min_longitude, double max_latitude, double max_longitude,
+            long duration, long duration_moving, float distance,
+            float distance_in_progress, long distance_last_altitude,
             double altitude_up, double altitude_down, double altitude_in_progress,
             float speed_max, float speed_average, float speed_average_moving,
             long number_of_locations, long number_of_placemarks, int type,
             int validmap) {
         this.trackId = trackId;
+        this.guid = guid;
         this.track_name = track_name;
         this.location_from = location_from;
         this.location_to = location_to;
@@ -139,6 +139,14 @@ public class TtTrack {
 
     public void setTrackId(Long trackId) {
         this.trackId = trackId;
+    }
+
+    public String getGuid() {
+        return this.guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     public String getTrack_name() {

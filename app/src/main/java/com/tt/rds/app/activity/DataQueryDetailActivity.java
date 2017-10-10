@@ -272,14 +272,14 @@ public class DataQueryDetailActivity extends AppCompatActivity {
             tv.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             llattribute.addView(tv, llattribute.getChildCount() - 1);
         }
-        for (int i = 0; i < mPointMarker.getPictures().size(); i++) {
+        for (int i = 0; i < mPointMarker.getTtPoint().getPictures().size(); i++) {
             ImageView imageView = new ImageView(this);
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             Bitmap bitmap = null;
             try {
-                File file = new File(mPointMarker.getPictures().get(i).getPath());
+                File file = new File(mPointMarker.getTtPoint().getPictures().get(i).getPath());
                 if (file.exists()) {
-                    bitmap = BitmapFactory.decodeFile(mPointMarker.getPictures().get(i).getPath());
+                    bitmap = BitmapFactory.decodeFile(mPointMarker.getTtPoint().getPictures().get(i).getPath());
                     imageView.setImageBitmap(bitmap);
                 }
             } catch (Exception e) {

@@ -172,10 +172,10 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
             Bitmap bitmap = null;
             try
             {
-                File file = new File(bean.getPictures().get(0).getPath());
+                File file = new File(bean.getTtPoint().getPictures().get(0).getPath());
                 if(file.exists())
                 {
-                    bitmap = BitmapFactory.decodeFile(bean.getPictures().get(0).getPath());
+                    bitmap = BitmapFactory.decodeFile(bean.getTtPoint().getPictures().get(0).getPath());
                     ivimg.setImageBitmap(bitmap);
                 }
             } catch (Exception e)

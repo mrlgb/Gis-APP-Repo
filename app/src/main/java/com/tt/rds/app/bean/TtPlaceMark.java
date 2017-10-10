@@ -222,5 +222,4 @@ public class TtPlaceMark {
         myDao = daoSession != null ? daoSession.getTtPlaceMarkDao() : null;
     }
 
-
 }
