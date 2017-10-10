@@ -220,7 +220,7 @@ public class MarkerActivity extends BaseSaveActivity {
             PictureDao pictureDao = gpsGPSApplication.getDbService().getPictureDao();
             TtPointDao ttPointDao= gpsGPSApplication.getDbService().getTtPointDao();
 
-            PointType pType = new PointType((long) 1, "TYPE1", 1);
+            PointType pType = new PointType((long) 9, "TYPE1", 1);
             //设置关联点
             TtPoint ttPoint = new TtPoint();
             //id

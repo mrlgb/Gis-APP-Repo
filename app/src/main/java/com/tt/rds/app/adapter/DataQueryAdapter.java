@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.DataQueryDetailActivity;
@@ -164,6 +163,7 @@ public class DataQueryAdapter extends RecyclerView.Adapter<DataQueryAdapter.View
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DataQueryDetailActivity.class);
+                    intent.putExtra("typeId",bean.getTtPointId());
                     intent.putExtra("id", bean.getPMarkerId());
                     context.startActivity(intent);
                 }

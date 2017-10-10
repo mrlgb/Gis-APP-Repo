@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -40,9 +41,20 @@ import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.github.mikephil.charting.charts.LineChart;
 import com.tt.rds.app.R;
 import com.tt.rds.app.app.GPSApplication;
+import com.tt.rds.app.bean.Picture;
+import com.tt.rds.app.bean.PointBridge;
+import com.tt.rds.app.bean.PointCulvert;
+import com.tt.rds.app.bean.PointFerry;
 import com.tt.rds.app.bean.PointMarker;
+import com.tt.rds.app.bean.PointSchool;
+import com.tt.rds.app.bean.PointSign;
+import com.tt.rds.app.bean.PointStandardVillage;
+import com.tt.rds.app.bean.PointTown;
+import com.tt.rds.app.bean.PointTunnel;
+import com.tt.rds.app.bean.PointVillage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +64,24 @@ import java.util.List;
 public class DataQueryDetailActivity extends AppCompatActivity {
     private com.esri.arcgisruntime.mapping.view.MapView mapView;
     private android.widget.ProgressBar progressBar;
-    private PointMarker mPointMarker;
+
+    private PointBridge mPointBridge;//桥
+    private PointCulvert mPointCulvert;//隧道
+    private PointFerry mPointFerry;//渡口
+    private PointTunnel mPointTunnel;//涵洞
+    private PointTown mPointTown;//乡镇
+    private PointStandardVillage mPointStandardVillage;//建制村
+    private PointVillage mPointVillage;//自然村
+    private PointSchool mPointSchool;//学校
+    private PointSign mPointSign;//标识标牌
+    private PointMarker mPointMarker;//标识点
+
+    private String[] shortAttribute;
+    private String[] moreAttribute;
+    private boolean isMore = false;
+    private String title;
+    List<Picture> mPictureList = new ArrayList<>();
+
     private android.support.design.widget.TabLayout relativelayout;
     private android.widget.TextView tvmore;
     private android.widget.LinearLayout llattribute;
@@ -149,7 +178,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mTvTitle= (TextView) findViewById(R.id.tv_title);
+        mTvTitle = (TextView) findViewById(R.id.tv_title);
         llcharts = (LinearLayout) findViewById(R.id.ll_charts);
         chart2 = (LineChart) findViewById(R.id.chart2);
         chart1 = (LineChart) findViewById(R.id.chart1);
@@ -178,20 +207,6 @@ public class DataQueryDetailActivity extends AppCompatActivity {
         map.getOperationalLayers().add(mapImageLayer);
         // set the map to be displayed in this view
         mapView.setMap(map);
-
-//        mapView.setOnTouchListener(new DefaultMapViewOnTouchListener(this, mapView) {
-//            @Override
-//            public boolean  onSingleTapConfirmed(MotionEvent v) {
-//                android.graphics.Point screenPoint=new android.graphics.Point(Math.round(v.getX()), Math.round(v.getY()));
-//                Point clickPoint = mMapView.screenToLocation(screenPoint);
-//                GraphicsOverlay graphicsOverlay_1=new GraphicsOverlay();
-//                SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.RED, 10);
-//                Graphic pointGraphic = new Graphic(clickPoint,pointSymbol);
-//                graphicsOverlay_1.getGraphics().add(pointGraphic);
-//                mMapView.getGraphicsOverlays().add(graphicsOverlay_1);
-//                return true;
-//            }
-//        });
 
         // create an initial viewpoint using an envelope (of two points, bottom left and top right)
         Envelope envelope = new Envelope(new Point(12993828.5821309, 3706520.00454287, SpatialReferences.getWebMercator()),
@@ -242,13 +257,13 @@ public class DataQueryDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mPointMarker = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id", 0));
+//        mPointMarker = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id", 0)
+        initBean(getIntent().getLongExtra("typeId", 0));
+        initString(getIntent().getLongExtra("typeId", 0));
 
-        mTvTitle.setText(mPointMarker.getName());
-        String string[] = {"名称:   " + mPointMarker.getName(), "编码:   " + mPointMarker.getCode(), "类别:   " + mPointMarker.getCatergory(), "路线名称:   " + mPointMarker.getTtPoint().getPathName(), "路线代码:   "
-                + mPointMarker.getTtPoint().getPathCode(), "路段序列号:   " + mPointMarker.getTtPoint().getSectionNo(), "行政区划:   " + mPointMarker.getTtPoint().getAdminCode()};
 
-        for (String s : string) {
+        mTvTitle.setText(title);
+        for (String s : shortAttribute) {
             TextView tv = new TextView(this);
             tv.setText(s);
             tv.setTextSize(15);
@@ -256,7 +271,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
             tv.setPadding(40, 20, 40, 20);
             tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
             tv.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            llattribute.addView(tv,llattribute.getChildCount()-1);
+            llattribute.addView(tv, llattribute.getChildCount() - 1);
         }
         for (int i = 0; i < mPointMarker.getPictures().size(); i++) {
             ImageView imageView = new ImageView(this);
@@ -272,6 +287,234 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                 // TODO: handle exception
             }
             welcomeflipper.addView(imageView);
+        }
+    }
+
+    private void initBean(Long id) {
+        switch (id.intValue()) {
+            case 0:
+                mPointBridge = GPSApplication.getInstance().getDbService().getPointBridgeDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 1:
+                mPointTunnel = GPSApplication.getInstance().getDbService().getPointTunnelDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 2:
+                mPointFerry = GPSApplication.getInstance().getDbService().getPointFerryDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 3:
+                mPointCulvert = GPSApplication.getInstance().getDbService().getPointCulvertDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 4:
+                mPointTown = GPSApplication.getInstance().getDbService().getPointTownDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 5:
+                mPointStandardVillage = GPSApplication.getInstance().getDbService().getPointStandardVillageDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 6:
+                mPointVillage = GPSApplication.getInstance().getDbService().getPointVillageDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 7:
+                mPointSchool = GPSApplication.getInstance().getDbService().getPointSchoolDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 8:
+                mPointSign = GPSApplication.getInstance().getDbService().getPointSignDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+            case 9:
+                mPointMarker = GPSApplication.getInstance().getDbService().getPointMarkerDao().loadByRowId(getIntent().getLongExtra("id", 0));
+                break;
+        }
+    }
+
+    private void initString(Long id) {
+        switch (id.intValue()) {
+            case 0:
+                title=mPointBridge.getName();
+                shortAttribute = new String[]{"桥梁名称:   " + mPointBridge.getName(),
+                        "桥梁编码:   " + mPointBridge.getCode(),
+                        "行政区划:   " + mPointBridge.getTtPoint().getAdminCode(),
+                        "桥梁状态: " + mPointBridge.getStatus(),
+                        "设计载荷:   " + mPointBridge.getDesignLoading(),
+                        "按材料分类:   " + mPointBridge.getMaterialType(),
+                        "按跨径分类:   " + mPointBridge.getSpanType(),
+                        "是否危桥:   " + (mPointBridge.getDangeable() == 1 ? "是" : "否"),
+                        "管养单位:   " + mPointBridge.getManagerOrg(),
+                        "桥梁全长:   " + mPointBridge.getLength(),
+                        "桥梁全宽:   " + mPointBridge.getWidth(),
+                        "桥梁净宽:   " + mPointBridge.getClearWidth(),
+                        "跨径总长:   " + mPointBridge.getSpanLength(),
+                        "跨径总和:   " + mPointBridge.getSpanCombo(),
+                        "建设时间:   " + mPointBridge.getBuildTime(),
+                        "所属路线名称:   " + mPointBridge.getTtPoint().getPathName(),
+                        "所属路线编码:   " + mPointBridge.getTtPoint().getPathCode(),
+                        "路线序列号:   " + mPointBridge.getTtPoint().getSectionNo(),
+                        "备注:   " + mPointBridge.getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointBridge.getPictures();
+                break;
+            case 1:
+                title=mPointTunnel.getName();
+                shortAttribute = new String[]{"隧道名称:   " + mPointTunnel.getName(),
+                        "隧道编码:   " + mPointTunnel.getCode(),
+                        "行政区划:   " + mPointTunnel.getTtPoint().getAdminCode(),
+                        "管养单位:   " + mPointTunnel.getManageOrg(),
+                        "桥梁全长:   " + mPointTunnel.getLength(),
+                        "隧道全宽:   " + mPointTunnel.getWidth(),
+                        "隧道净高:   " + mPointTunnel.getHeigth(),
+                        "建设年份:   " + mPointTunnel.getBuidYear(),
+                        "所属路线编码:   " + mPointTunnel.getTtPoint().getPathCode(),
+                        "备注" + mPointTunnel.getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointTunnel.getPictures();
+                break;
+            case 2:
+                title=mPointFerry.getName();
+                shortAttribute = new String[]{"渡口名称:   " + mPointFerry.getName(),
+                        "渡口编码:   " + mPointFerry.getCode(),
+                        "行政区划:   " + mPointFerry.getTtPoint().getAdminCode(),
+                        "管养单位:   " + mPointFerry.getManageOrg(),
+                        "是否机动渡口:   "+mPointFerry.getFlexible(),
+                        "渡口类型:   "+mPointFerry.getFerryType(),
+                        "所属路线编码:   " + mPointFerry.getTtPoint().getPathCode(),
+                        "备注" + mPointFerry.getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointFerry.getPictures();
+                break;
+            case 3:
+                title=mPointCulvert.getName();
+                shortAttribute = new String[]{"涵洞名称:   " + mPointCulvert.getName(),
+                        "涵洞编码:   " + mPointCulvert.getCode(),
+                        "行政区划:   " + mPointCulvert.getTtPoint().getAdminCode(),
+                        "涵洞中心柱号:   "+mPointCulvert.getCenterMarkNo(),
+                        "涵洞跨径:   " + mPointCulvert.getSpan(),
+                        "涵洞净高:   " + mPointCulvert.getHeight(),
+                        "涵洞类型:   "+mPointCulvert.getBuildType(),
+                        "建造性质:   "+mPointCulvert.getCategory(),
+                        "备注:   " + mPointCulvert.getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointCulvert.getPictures();
+                break;
+            case 4:
+                title=mPointTown.getName();
+                shortAttribute = new String[]{"乡镇名称:   " + mPointTown.getName(),
+                        "乡镇编码:   " + mPointTown.getCode(),
+                        "行政区划:   " + mPointTown.getTtPoint().getAdminCode(),
+                        "乡镇人口:   "+mPointTown.getPopulation() ,
+                        "所属建制村数量:   "+mPointTown.getStandardVillages() ,
+                        "通达现状:   "+mPointTown.getArriveStatus() ,
+                        "备注:   "+mPointTown. getRemark()};
+                moreAttribute = new String[]{"乡镇名称:   " + mPointTown.getName(),
+                        "乡镇编码:   " + mPointTown.getCode(),
+                        "行政区划:   " + mPointTown.getTtPoint().getAdminCode(),
+                        "乡镇人口:   "+mPointTown.getPopulation() ,
+                        "所属建制村数量:   "+mPointTown.getStandardVillages() ,
+                        "通达现状:   "+mPointTown.getArriveStatus() ,
+                        "通达位置:   "+mPointTown.getArriveLocation(),
+                        "通达方向:   "+mPointTown.getArriveDirection() ,
+                        "优先通达路线行政等级:   "+mPointTown.getArriveLevel() ,
+                        "优先通达路线名称:   "+mPointTown.getArrivePathName() ,
+                        "优先通达路线编码:   "+mPointTown.getArrivePathCode() ,
+                        "备注:   "+mPointTown. getRemark()};
+                mPictureList=mPointTown.getPictures();
+                tvmore.setVisibility(View.VISIBLE);
+                tvmore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        llattribute.removeViewsInLayout(0,llattribute.getChildCount()-2);
+                        for (String s : moreAttribute) {
+                            TextView tv = new TextView(DataQueryDetailActivity.this);
+                            tv.setText(s);
+                            tv.setTextSize(15);
+                            tv.setTextColor(Color.BLACK);
+                            tv.setPadding(40, 20, 40, 20);
+                            tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            tv.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                            llattribute.addView(tv, llattribute.getChildCount() - 1);
+                        }
+                    }
+                });
+                break;
+            case 5:
+                title=mPointStandardVillage.getName();
+                shortAttribute = new String[]{"建制村名称:   " + mPointStandardVillage.getName(),
+                        "建制村编码:   " + mPointStandardVillage.getCode(),
+                        "行政区划:   " + mPointStandardVillage.getTtPoint().getAdminCode(),
+                        "乡镇人口:   "+mPointStandardVillage.getPopulation() ,
+                        "所属自然村数量:   "+mPointStandardVillage.getVillages() ,
+                        "通达现状:   "+mPointStandardVillage.getArriveStatus() ,
+                        "备注:   "+mPointStandardVillage. getRemark()};
+                moreAttribute = new String[]{"建制村名称:   " + mPointStandardVillage.getName(),
+                        "建制村编码:   " + mPointStandardVillage.getCode(),
+                        "行政区划:   " + mPointStandardVillage.getTtPoint().getAdminCode(),
+                        "乡镇人口:   "+mPointStandardVillage.getPopulation() ,
+                        "所属自然村数量:   "+mPointStandardVillage.getVillages() ,
+                        "通达现状:   "+mPointStandardVillage.getArriveStatus() ,
+                        "通达位置:   "+mPointStandardVillage.getArriveLocation(),
+                        "通达方向:   "+mPointStandardVillage.getArriveDirection() ,
+                        "优先通达路线行政等级:   "+mPointStandardVillage.getArriveLevel() ,
+                        "优先通达路线名称:   "+mPointStandardVillage.getArrivePathName() ,
+                        "优先通达路线编码:   "+mPointStandardVillage.getArrivePathCode() ,
+                        "备注:   "+mPointStandardVillage. getRemark()};
+                mPictureList=mPointStandardVillage.getPictures();
+                tvmore.setVisibility(View.VISIBLE);
+                tvmore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        llattribute.removeViewsInLayout(0,llattribute.getChildCount()-2);
+                        for (String s : moreAttribute) {
+                            TextView tv = new TextView(DataQueryDetailActivity.this);
+                            tv.setText(s);
+                            tv.setTextSize(15);
+                            tv.setTextColor(Color.BLACK);
+                            tv.setPadding(40, 20, 40, 20);
+                            tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            tv.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                            llattribute.addView(tv, llattribute.getChildCount() - 1);
+                        }
+                    }
+                });
+                break;
+            case 6:
+                title=mPointVillage.getName();
+                shortAttribute = new String[]{"自然村名称:   " + mPointVillage.getName(),
+                        "自然村编码:   " + mPointVillage.getCode(),
+                        "人口数:   "+mPointVillage.getPopulation(),
+                        "行政区划:   " + mPointVillage.getTtPoint().getAdminCode(),
+                        "备注:   "+mPointVillage. getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointVillage.getPictures();
+                break;
+            case 7:
+                title=mPointSchool.getName();
+                shortAttribute = new String[]{"学校名称:   " + mPointSchool.getName(),
+                        "学校编码:   " + mPointSchool.getCode(),
+                        "建成年份:   " + mPointSchool.getBuildYear(),
+                        "学校类别:   " + mPointSchool.getCatergory(),
+                        "行政区划:   " + mPointSchool.getTtPoint().getAdminCode(),
+                        "备注:   "+mPointSchool. getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointSchool.getPictures();
+                break;
+            case 8:
+                title=mPointSign.getName();
+                shortAttribute = new String[]{"标志标牌名称:   " + mPointSign.getName(),
+                        "标志标牌编码:   " + mPointSign.getCode(),
+                        "标志标牌类别:   " + mPointSign.getCatergory(),
+                        "行政区划:   " + mPointSign.getTtPoint().getAdminCode(),
+                        "备注:   "+mPointSign. getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointSign.getPictures();
+                break;
+            case 9:
+                title=mPointMarker.getName();
+                shortAttribute = new String[]{"标识点名称:   " + mPointMarker.getName(),
+                        "标识点编码:   " + mPointMarker.getCode(),
+                        "标识点类别:   " + mPointMarker.getCatergory(),
+                        "行政区划:   " + mPointMarker.getTtPoint().getAdminCode(),
+                        "备注:   "+mPointMarker. getRemark()};
+                moreAttribute = shortAttribute;
+                mPictureList=mPointMarker.getPictures();
+                Toast.makeText(this, "mPointMarker.getPictures().size():" + mPointMarker.getPictures().size(), Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 

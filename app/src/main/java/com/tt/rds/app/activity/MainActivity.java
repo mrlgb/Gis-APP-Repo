@@ -47,6 +47,7 @@ import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
 import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.idescout.sql.SqlScoutServer;
 import com.tt.rds.app.R;
 import com.tt.rds.app.activity.pointcollect.MarkerActivity;
 import com.tt.rds.app.activity.usersetting.AboutActivity;
@@ -220,6 +221,7 @@ public class MainActivity extends AppCompatActivity
 
         initBottomSheet();
 
+        SqlScoutServer.create(this,getPackageName());
     }
 
     private void initView() {
