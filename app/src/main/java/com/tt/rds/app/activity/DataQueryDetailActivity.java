@@ -348,7 +348,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "路线序列号:   " + mPointBridge.getTtPoint().getSectionNo(),
                         "备注:   " + mPointBridge.getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointBridge.getPictures();
+                mPictureList=mPointBridge.getTtPoint().getPictures();
                 break;
             case 1:
                 title=mPointTunnel.getName();
@@ -363,7 +363,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "所属路线编码:   " + mPointTunnel.getTtPoint().getPathCode(),
                         "备注" + mPointTunnel.getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointTunnel.getPictures();
+                mPictureList=mPointTunnel.getTtPoint().getPictures();
                 break;
             case 2:
                 title=mPointFerry.getName();
@@ -376,7 +376,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "所属路线编码:   " + mPointFerry.getTtPoint().getPathCode(),
                         "备注" + mPointFerry.getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointFerry.getPictures();
+                mPictureList=mPointFerry.getTtPoint().getPictures();
                 break;
             case 3:
                 title=mPointCulvert.getName();
@@ -390,7 +390,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "建造性质:   "+mPointCulvert.getCategory(),
                         "备注:   " + mPointCulvert.getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointCulvert.getPictures();
+                mPictureList=mPointCulvert.getTtPoint().getPictures();
                 break;
             case 4:
                 title=mPointTown.getName();
@@ -413,7 +413,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "优先通达路线名称:   "+mPointTown.getArrivePathName() ,
                         "优先通达路线编码:   "+mPointTown.getArrivePathCode() ,
                         "备注:   "+mPointTown. getRemark()};
-                mPictureList=mPointTown.getPictures();
+                mPictureList=mPointTown.getTtPoint().getPictures();
                 tvmore.setVisibility(View.VISIBLE);
                 tvmore.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -453,7 +453,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "优先通达路线名称:   "+mPointStandardVillage.getArrivePathName() ,
                         "优先通达路线编码:   "+mPointStandardVillage.getArrivePathCode() ,
                         "备注:   "+mPointStandardVillage. getRemark()};
-                mPictureList=mPointStandardVillage.getPictures();
+                mPictureList=mPointStandardVillage.getTtPoint().getPictures();
                 tvmore.setVisibility(View.VISIBLE);
                 tvmore.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -480,7 +480,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "行政区划:   " + mPointVillage.getTtPoint().getAdminCode(),
                         "备注:   "+mPointVillage. getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointVillage.getPictures();
+                mPictureList=mPointVillage.getTtPoint().getPictures();
                 break;
             case 7:
                 title=mPointSchool.getName();
@@ -491,7 +491,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "行政区划:   " + mPointSchool.getTtPoint().getAdminCode(),
                         "备注:   "+mPointSchool. getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointSchool.getPictures();
+                mPictureList=mPointSchool.getTtPoint().getPictures();
                 break;
             case 8:
                 title=mPointSign.getName();
@@ -501,7 +501,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "行政区划:   " + mPointSign.getTtPoint().getAdminCode(),
                         "备注:   "+mPointSign. getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointSign.getPictures();
+                mPictureList=mPointSign.getTtPoint().getPictures();
                 break;
             case 9:
                 title=mPointMarker.getName();
@@ -511,7 +511,7 @@ public class DataQueryDetailActivity extends AppCompatActivity {
                         "行政区划:   " + mPointMarker.getTtPoint().getAdminCode(),
                         "备注:   "+mPointMarker. getRemark()};
                 moreAttribute = shortAttribute;
-                mPictureList=mPointMarker.getPictures();
+                mPictureList=mPointMarker.getTtPoint().getPictures();
                 break;
         }
     }
