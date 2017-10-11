@@ -93,14 +93,7 @@ public class MarkerActivity extends BaseSaveActivity{
             photos = (ArrayList<File>) savedInstanceState.getSerializable(PHOTOS_KEY);
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
-        imagesAdapter = new ImagesAdapter(this, photos);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(imagesAdapter);
-
-
+        setupRecycleView();
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -125,6 +118,25 @@ public class MarkerActivity extends BaseSaveActivity{
 
         checkGalleryAppAvailability();
 
+    }
+
+    private void setupRecycleView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
+        imagesAdapter = new ImagesAdapter(this, photos);
+        imagesAdapter.setClickListener(new ImagesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                photos.remove(position);
+                imagesAdapter.notifyDataSetChanged();
+                mRecyclerView.scrollToPosition(photos.size() - 1);
+            }
+
+        });
+
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(imagesAdapter);
     }
 
     private void initView() {

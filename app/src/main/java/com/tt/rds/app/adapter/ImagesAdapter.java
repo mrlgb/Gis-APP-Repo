@@ -83,7 +83,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
         return imagesFiles.size();
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    protected  class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView imageView;
         public ImageButton imageButton;
@@ -92,8 +92,15 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             super(itemView);
             imageView =itemView.findViewById(R.id.image_view);
             imageButton=itemView.findViewById(R.id.ibtn_delete);
+            imageButton.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            if (clickListener != null) {
+                clickListener.onClick(itemView, getAdapterPosition());
+            }
+        }
 
     }
 }
