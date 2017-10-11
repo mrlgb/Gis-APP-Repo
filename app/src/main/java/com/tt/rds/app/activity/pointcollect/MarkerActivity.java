@@ -298,6 +298,7 @@ public class MarkerActivity extends BaseSaveActivity{
 
             // 创建Snackbar实例
             Snackbar.make(scrollView, "标志点保存成功！", Snackbar.LENGTH_LONG).show();
+            this.finish();
 
         }
     }
